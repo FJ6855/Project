@@ -3,8 +3,6 @@ Project
 
 Projekt för TDDI02
 
-=======
-
 Instruktioner för GitHub
 =======
 
