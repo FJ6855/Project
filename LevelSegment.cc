@@ -1,24 +1,45 @@
-#include "LevelSegment.cc";
+#include "LevelSegment.h"
 #include <fstream>
 
 void LevelSegment::loadLevelSegment(const string& fileName)
 {
-	ifstream file(fileName);
+	ifstream file("LevelSegments/" + fileName);
 
 	if (file.is_open())
 	{
 		char c;
 
+		int x = 0;
+		int y = 0;
+
 		while (file >> c;)
 		{
 			if (c == 'X')
 			{
-				Block* b = new Block();
+				Block* b = new Block(x, y, 32, 32);
 
 				_blocks.push_back(b);
 			}
+			else if (c == 'Y')
+			{
+				Obstacle* o = new Obstacle(x, y, 32, 32);
 
-			//TODO: create items and obstacles
+				_obstacles.push_back(o);
+			}
+			else if (c == 'Z')
+			{
+				Item* i = new Item(x, y, 32, 32);
+
+				_items.push_back(i);
+			}
+
+			++x;
+
+			if (c == '\n')
+			{
+				x = 0;
+				++y;
+			}
 		}
 	}
 }

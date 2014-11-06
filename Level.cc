@@ -1,5 +1,4 @@
-#include "Level.h";
-#include "LevelSegment.h";
+#include "Level.h"
 
 void Level::loadLevel()
 {
