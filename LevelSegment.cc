@@ -1,5 +1,6 @@
 #include "LevelSegment.h"
 #include <fstream>
+#include <sstream>
 
 void LevelSegment::loadLevelSegment(const string& fileName)
 {
@@ -7,46 +8,49 @@ void LevelSegment::loadLevelSegment(const string& fileName)
 
 	if (file.is_open())
 	{
-		char c;
-
 		int x = 0;
 		int y = 0;
 
-		while (file >> c;)
-		{
+		std::string line;
+
+		while (getline(file, line)) 
+		  {
+		    std::stringstream ss(line);
+		    char c;
+		   
+		    while (ss >> c)
+		      {
 			if (c == 'X')
-			{
-				Block* b = new Block(x, y, 32, 32);
-
-				_blocks.push_back(b);
-			}
+			  {
+			    //Block* b = new Block(x, y, 32, 32);
+			    
+			    //	_blocks.push_back(b);
+			  }
 			else if (c == 'Y')
-			{
-				Obstacle* o = new Obstacle(x, y, 32, 32);
-
-				_obstacles.push_back(o);
-			}
+			  {
+			    //	Obstacle* o = new Obstacle(x, y, 32, 32);
+			    
+			    ///	_obstacles.push_back(o);
+			  }
 			else if (c == 'Z')
-			{
-				Item* i = new Item(x, y, 32, 32);
-
-				_items.push_back(i);
-			}
-
-			++x;
-
-			if (c == '\n')
-			{
-				x = 0;
-				++y;
-			}
-		}
+			  {
+			    //	Item* i = new Item(x, y, 32, 32);
+			    
+			    //	_items.push_back(i);
+			  }
+			
+			++x;			
+		      }
+		    
+		    x = 0;
+		    ++y;
+		  }
 	}
 }
 
 void LevelSegment::updateLogic()
 {
-	for (Block* b : _blocks)
+  /*for (Block* b : _blocks)
 	{
 		b->updateLogic();
 	}
@@ -59,12 +63,12 @@ void LevelSegment::updateLogic()
 	for (Item* i : _items)
 	{
 		i->updateLogic();
-	}
+		}*/
 }
 
 void LevelSegment::render()
 {
-	for (Block* b : _blocks)
+  /*for (Block* b : _blocks)
 	{
 		_blockRenderer->render(b);
 	}
@@ -77,10 +81,10 @@ void LevelSegment::render()
 	for (Items* b : _blocks)
 	{
 		_itemRenderer->render(i);
-	}
+		}*/
 }
 
-void LevelSegment::handleCollisions(Player* player)
+/*void LevelSegment::handleCollisions(Player* player)
 {
 	//TODO: check collision against blocks, obstacles and items
-}
+}*/

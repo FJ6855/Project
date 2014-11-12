@@ -1,16 +1,19 @@
-#include <vector>;
+#include <vector>
 
-#include "InputHandler.h";
-#include "ResourceManager.h";
-#include "LevelSegment.h";
+#include "InputHandler.h"
+#include "ResourceManager.h"
+#include "LevelSegment.h"
+
+#ifndef LEVEL_H
+#define LEVEL_H
 
 class Level
 {
   public:
-	Level(InputHandler* input, ResourceManager* rm) : _inputHandler{inputHandler}, _rm{rm} 
+	Level(InputHandler* input, ResourceManager* rm) : _input{input}, _rm{rm} 
 	{
-		_player = new Player();
-		_playerRenderer = new PlayerRenderer();
+	  //_player = new Player();
+	  //	_playerRenderer = new PlayerRenderer();
 
 		loadLevel();
 	}
@@ -19,22 +22,24 @@ class Level
 	void updateLogic();
 	void render();
 
-	Player* getPlayer() { return _player; }
+	//Player* getPlayer() { return _player; }
 
   private:
-	InputHandler* _inputHandler;
+	InputHandler* _input;
 	ResourceManager* _rm;
 	
-	vector<LevelSegment> _segments;
-	vector<LevelSegment> _loadedSegments;
+	vector<LevelSegment*> _segments;
+	vector<LevelSegment*> _loadedSegments;
 
 	int activeSegmentIndex;
 	int currentDifficulty;
 	
-	Player* _player;
-	PlayerRenderer* _playerRenderer;
+	//Player* _player;
+	//PlayerRenderer* _playerRenderer;
 
 	void handleCollisions();
 	void loadLevel();
-	void loadSegements();
+	void loadSegments();
 };
+
+#endif

@@ -1,3 +1,10 @@
+#include "ResourceManager.h"
+#include "InputHandler.h"
+#include "Level.h"
+#include "HighScore.h"
+
+#ifndef GAME_H
+#define GAME_H
 
 class Game 
 {
@@ -22,3 +29,5 @@ class Game
   void updateLogic();
   void render();
 };
+
+#endif

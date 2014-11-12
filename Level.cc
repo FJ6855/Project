@@ -2,7 +2,7 @@
 
 void Level::loadLevel()
 {
-	loadSegments();
+  loadSegments();
 
 	//TODO: call playerRenderer->loadContent()
 }
@@ -36,6 +36,6 @@ void Level::loadSegments()
 
 		ls->loadLevelSegment("levelSegment" + std::to_string(i) + ".txt");
 
-		_loadedSegments.pushBack(ls);;
+		_loadedSegments.push_back(ls);;
 	}
 }

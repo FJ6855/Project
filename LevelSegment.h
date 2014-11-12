@@ -1,15 +1,21 @@
+#include <iostream>
 #include <vector>
 
 #include "ResourceManager.h"
 
+using namespace std;
+
+#ifndef LEVEL_SEGMENT_H
+#define LEVEL_SEGMENT_H
+
 class LevelSegment
 {
   public:
-	LevelSegment(ResourceManager rm) : _rm{rm} 
+	LevelSegment(ResourceManager* rm) : _rm{rm} 
 	{
-		_blockRenderer = new BlockRenderer(rm);
-		_obstacleRenderer = new ObstacleRenderer(rm);
-		_itemRenderer = new ItemRenderer(rm);
+	  //_blockRenderer = new BlockRenderer(rm);
+	  //_obstacleRenderer = new ObstacleRenderer(rm);
+	  //	_itemRenderer = new ItemRenderer(rm);
 
 		_x = 0;
 		_y = 0;
@@ -35,13 +41,15 @@ class LevelSegment
 	
 	int _difficultyRating;
 
-	vector<Object*> _blocks;
-	vector<Object*> _obstacles;
-	vector<Object*> _items;
+	//vector<Object*> _blocks;
+	//vector<Object*> _obstacles;
+	//vector<Object*> _items;
 
-	BlockRenderer* _blockRenderer;
-	ObstacleRenderer* _obstacleRenderer;
-	ItemRenderer* _itemRenderer;
+	//BlockRenderer* _blockRenderer;
+	//ObstacleRenderer* _obstacleRenderer;
+	//ItemRenderer* _itemRenderer;
 
-	void handleCollision(Player* player);
+	//void handleCollision(Player* player);
 };
+
+#endif
