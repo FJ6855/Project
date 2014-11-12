@@ -12,10 +12,13 @@ class Object
   void setHeight(int);
   
   virtual void updateLogic() = 0;
+
  protected:
+
   Object() : _width{0}, _height{0}, _x{0}, _y{0} {}
   Object(int width, int height, int x, int y) : _width{width}, _height{height}, _x{x}, _y{y} {}
- private:
+ 
+private:
 
   int _width;
   int _height;
