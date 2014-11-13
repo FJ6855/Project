@@ -11,7 +11,7 @@ class Player : public Object
 
   void damage(float);
   void affectSpeed(float);
-  bool isDead();//kan s‰ttas ihop med den under med ett "dead" state?
+  bool isDead();//kan s√§ttas ihop med den under med ett "dead" state?
   playerState getState();
   int getScore();
   void handleInput(inputHandler);
@@ -29,4 +29,4 @@ class Player : public Object
   int _score;
   float _health;
   playerState _state;
-}
+};
