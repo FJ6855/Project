@@ -1,14 +1,24 @@
-#include "Object.cc";
+#include "Object.cc"
 
-enum blockType{type1};
-
-Block : public Object
+enum BlockType
 {
- public:
- Block(int width, int height, int x, int y, blockType type) : _type{type}, Object(width, height, x, y){}
+  type1
+};
 
- blockType getType();
+#ifndef BLOCK_H
+#define BLOCK_H
 
- private:
-  blockType _type;
-}
+class Block : public Object
+{
+public:
+Block(int width, int height, int x, int y, BlockType type) : _type{type}, Object(width, height, x, y){}
+
+ BlockType getType();
+
+void updateLogic();
+
+private:
+  BlockType _type;
+};
+
+#endif

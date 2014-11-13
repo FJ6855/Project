@@ -1,3 +1,6 @@
+#ifndef OBJECT_H
+#define OBJECT_H
+
 class Object
 {
  public:
@@ -24,4 +27,6 @@ private:
   int _height;
   int _x; 
   int _y;
-}
+};
+
+#endif

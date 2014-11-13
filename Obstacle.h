@@ -2,7 +2,7 @@
 
 enum obstacleType{mine};
 
-Obstacle : public Object
+class Obstacle : public Object
 {
  public:
  Obstacle(int width, int height, int x, int y, objectType type, float damage) : _type{type},_damage{damage}, Object(height,width,x,y){}

@@ -1,4 +1,4 @@
-#include "Object.h";
+#include "Object.h"
 
   int Object::getX()
   {
@@ -22,7 +22,7 @@
   {
     return _width;
   }
-  void Object::setWidth(int width);
+  void Object::setWidth(int width)
   {
     _width = width;
   }
@@ -30,7 +30,7 @@
   {
     return _height;
   }
-  void Object::setHeight(int height);
+  void Object::setHeight(int height)
   {
     _height = height;
   }
