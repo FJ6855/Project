@@ -1,17 +1,17 @@
 #include "Object.cc";
 
-enum obstacleType{mine};
+enum ObstacleType{mine};
 
-Obstacle : public Object
+class Obstacle : public Object
 {
  public:
- Obstacle(int width, int height, int x, int y, objectType type, float damage) : _type{type},_damage{damage}, Object(height,width,x,y){}
+ Obstacle(int width, int height, int x, int y, ObstacleType type, float damage) : _type{type},_damage{damage}, Object(height,width,x,y){}
 
- obstacleType getType();
+ ObstacleType getType();
  float getDamage();
  void updateLogic();
 
  private:
   float _damage;
-  objectType _type;
+  ObstacleType _type;
 }

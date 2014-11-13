@@ -1,4 +1,5 @@
 #include "Level.h"
+#include "LevelSegment.h"
 
 void Level::loadLevel()
 {
@@ -34,8 +35,8 @@ void Level::loadSegments()
 	{
 		LevelSegment* ls = new LevelSegment(_rm);
 
-		ls->loadLevelSegment("levelSegment" + std::to_string(i) + ".txt");
+		//ls->loadLevelSegment("levelSegment" + std::to_string(i) + ".txt");
 
-		_loadedSegments.push_back(ls);;
+		//_loadedSegments.push_back(ls);;
 	}
 }

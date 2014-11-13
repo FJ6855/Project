@@ -4,7 +4,7 @@ blockType Block::getType()
 {
   return _type;
 }
-void updateLogic()
+void Block::updateLogic()
 {
-
+  //update logic
 }

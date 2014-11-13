@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "ResourceManager.h"
+#include "Object.h"
 
 using namespace std;
 
@@ -15,7 +16,7 @@ class LevelSegment
 	{
 	  //_blockRenderer = new BlockRenderer(rm);
 	  //_obstacleRenderer = new ObstacleRenderer(rm);
-	  //	_itemRenderer = new ItemRenderer(rm);
+	  //_itemRenderer = new ItemRenderer(rm);
 
 		_x = 0;
 		_y = 0;
@@ -41,9 +42,9 @@ class LevelSegment
 	
 	int _difficultyRating;
 
-	//vector<Object*> _blocks;
-	//vector<Object*> _obstacles;
-	//vector<Object*> _items;
+	vector<Object*> _blocks;
+	vector<Object*> _obstacles;
+	vector<Object*> _items;
 
 	//BlockRenderer* _blockRenderer;
 	//ObstacleRenderer* _obstacleRenderer;

@@ -1,6 +1,6 @@
 #include "Item.h";
 
-itemType Item::getType()
+ItemType Item::getType()
 {
   return _type;
 }
@@ -8,7 +8,7 @@ float Item::getHealth()
 {
   return _health;
 }
-void updateLogic()
+void Item::updateLogic()
 {
   //update logic
 }

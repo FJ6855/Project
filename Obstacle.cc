@@ -1,6 +1,6 @@
 #include "Obstacle.h";
 
-obstacleType Obstacle::getType()
+ObstacleType Obstacle::getType()
 {
   return _type;
 }
@@ -8,7 +8,7 @@ float Obstacle::getDamage()
 {
   return _damage;
 }
-void updateLogic()
+void Obstacle::updateLogic()
 {
   //update logic
 }

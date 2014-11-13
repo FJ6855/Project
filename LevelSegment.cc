@@ -1,6 +1,8 @@
-#include "LevelSegment.h"
 #include <fstream>
 #include <sstream>
+
+#include "LevelSegment.h"
+#include "Block.h"
 
 void LevelSegment::loadLevelSegment(const string& fileName)
 {
@@ -22,21 +24,21 @@ void LevelSegment::loadLevelSegment(const string& fileName)
 		      {
 			if (c == 'X')
 			  {
-			    //Block* b = new Block(x, y, 32, 32);
+			    Block* b = new Block(x, y, 32, 32, type1);
 			    
-			    //	_blocks.push_back(b);
+			    _blocks.push_back(b);
 			  }
 			else if (c == 'Y')
 			  {
-			    //	Obstacle* o = new Obstacle(x, y, 32, 32);
+			    //Obstacle* o = new Obstacle(x, y, 32, 32);
 			    
-			    ///	_obstacles.push_back(o);
+			    //_obstacles.push_back(o);
 			  }
 			else if (c == 'Z')
 			  {
-			    //	Item* i = new Item(x, y, 32, 32);
+			    //Item* i = new Item(x, y, 32, 32);
 			    
-			    //	_items.push_back(i);
+			    //_items.push_back(i);
 			  }
 			
 			++x;			
