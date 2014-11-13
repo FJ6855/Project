@@ -9,16 +9,16 @@
 class Game 
 {
  public:
- Game(InputHandler* inputHandler, ResourceManager* rm, HighScore* highScore) : _inputHandler{inputHandler}, _rm{rm}, _highScore{highScore} 
+ Game(InputHandler* input, ResourceManager* rm, HighScore* highScore) : _input{input}, _rm{rm}, _highScore{highScore} 
   {
-    _level = new Level(inputHandler, rm);
+    _level = new Level(input, rm);
   }
   
  void run();
  bool isPaused() { return _paused; } 
 
  private:
-  InputHandler* _inputHandler;
+  InputHandler* _input;
   ResourceManager* _rm;
   Level* _level;
   HighScore* _highScore;

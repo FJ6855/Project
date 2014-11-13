@@ -1,6 +1,6 @@
 
 CCC	= g++ -std=c++11
-LFLAGS	= -L/usr/lib/x86_64-linux-gnu -lSDL -lm
+LFLAGS	= -L/usr/lib/x86_64-linux-gnu -lSDL2 -lm
 
 game: Main.cc InputHandler.cc ResourceManager.cc HighScore.cc Game.o Level.o
 	$(CCC) -o game Main.cc InputHandler.cc ResourceManager.cc HighScore.cc Game.o Level.o $(LFLAGS)
