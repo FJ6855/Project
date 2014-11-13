@@ -2,19 +2,21 @@
 
 enum playerState{dead, standing, running, jumping};
 
-Player : public Object
+class Player : public Object
 {
  public:
- Player(int height, int width, int x, int y): Object(height,width,x,y){}
+ Player(int height, int width, int x, int y) 
+   : _state{standing}, _health{100.0}, _speed{5.0/*bra konstant*/}, _airspeed{0}, _gravity{5.0/*bra konstant*/}
+  , _horizontalMovement{0} , _verticalMovement{0}, _xVelocity{0}, _yVelocity{0}, _score{0}, Object(height,width,x,y){}
 
   void damage(float);
   void affectSpeed(float);
   bool isDead();//kan sättas ihop med den under med ett "dead" state?
   playerState getState();
   int getScore();
-
-  handleInput(inputHandler input);
-  updateLogic(int difficulty);
+  void handleInput(inputHandler);
+  void updateLogic();
+  void updateLogic(int);
 
  private:
   float _speed;

@@ -8,3 +8,7 @@ float Obstacle::getDamage()
 {
   return _damage;
 }
+void updateLogic()
+{
+  //update logic
+}

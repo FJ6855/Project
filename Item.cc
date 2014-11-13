@@ -8,3 +8,7 @@ float Item::getHealth()
 {
   return _health;
 }
+void updateLogic()
+{
+  //update logic
+}

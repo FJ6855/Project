@@ -9,6 +9,7 @@ Item : public Object
 
  itemType getType();
  float getHealth();
+ void updateLogic();
 
  private:
   itemType _type;

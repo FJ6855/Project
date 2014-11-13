@@ -9,6 +9,7 @@ Obstacle : public Object
 
  obstacleType getType();
  float getDamage();
+ void updateLogic();
 
  private:
   float _damage;
