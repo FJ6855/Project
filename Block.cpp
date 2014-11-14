@@ -1,6 +1,6 @@
-#include "Block.h";
+#include "Block.h"
 
-blockType Block::getType()
+BlockType Block::getType()
 {
   return _type;
 }

@@ -1,4 +1,7 @@
-#include "Object.cc";
+#ifndef ITEM_H
+#define ITEM_H
+
+#include "Object.h"
 
 enum ItemType{type1};
 
@@ -14,4 +17,6 @@ class Item : public Object
  private:
   ItemType _type;
   float _health;
-}
+};
+
+#endif

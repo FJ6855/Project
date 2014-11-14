@@ -1,4 +1,8 @@
-#include "Object.cc";
+#include "Object.h"
+#include "InputHandler.h"
+
+#ifndef PLAYER_H
+#define PLAYER_H
 
 enum playerState{dead, standing, running, jumping};
 
@@ -14,7 +18,7 @@ class Player : public Object
   bool isDead();//kan sättas ihop med den under med ett "dead" state?
   playerState getState();
   int getScore();
-  void handleInput(inputHandler);
+  void handleInput(InputHandler* inputHandler);
   void updateLogic();
   void updateLogic(int);
 
@@ -30,3 +34,5 @@ class Player : public Object
   float _health;
   playerState _state;
 };
+
+#endif

@@ -1,34 +1,43 @@
+#include "InputHandler.h"
+#include "ResourceManager.h"
+#include "HighScore.h"
+#include "SystemModule.h"
+#include "StartMenu.h"
+#include "MenuRenderer.h"
+#include "HelpMenu.h"
+#include "HighScoreMenu.h"
+#include "HighscoreMenuRenderer.h"
+
 #ifndef MENUSYSTEM_H
 #define MENUSYSTEM_H
 
-enum MenuState
-{
-  PauseMenu
-
-
-};
-
-class MenuSystem
+class MenuSystem : public SystemModule
 {
  public:
- MenuSystem(InputHandler* ih, ResourceManager* rm, HighScore* hs)
-   : _input{ih}, _rm{rm}, _highscore{hs} {}
+	 MenuSystem(InputHandler* ih, ResourceManager* rm, HighScore* hs, SDL_Renderer* renderer);
   ~MenuSystem();
 
-  void handleInput(
+  void run();
+  SystemState getState();
+  void handleInput();
+  void render();
 
  private:
   InputHandler* _input;
   ResourceManager* _rm;
   HighScore* _highscore;
+  SDL_Renderer* _renderer;
 
-  //StartMenu* _startMenu;
-  //HighscoreMenu* _highscoreMenu;
+  void loadContent();
+
+  StartMenu* _startMenu;
+  HighscoreMenu* _highscoreMenu;
   //PauseMenu* _pauseMenu;
-  //writeNameMenu* _writeNameMenu;
+  //WriteNameMenu* _writeNameMenu;
+  HelpMenu* _helpMenu;
 
-  //MenuRenderer* _menuRenderer;
-  //HighscoreMenuRenderer _highscoreMenuRenderer;
+  MenuRenderer* _menuRenderer;
+  HighscoreMenuRenderer* _highscoreMenuRenderer;
 };
 
 

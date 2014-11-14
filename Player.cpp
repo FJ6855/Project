@@ -1,13 +1,13 @@
-#include "Player.h";
+#include "Player.h"
 
-  void damage(float dmg)
+  void Player::damage(float dmg)
   {
     _health-=dmg;
     //if(_health<=0)
       //_state = dead;
   }
 
-  void affectSpeed(float speedFactor)
+  void Player::affectSpeed(float speedFactor)
   {
     if(_state == standing)
       {
@@ -30,22 +30,22 @@
       }
   }
 
-  bool isDead()//kan sättas ihop med den under med "dead" state?
+  bool Player::isDead()//kan sättas ihop med den under med "dead" state?
   {
     return _state==dead;
   }
   
-  playerState getState()
+  playerState Player::getState()
   {
     return _state;
   }
 
-  int getScore()
+  int Player::getScore()
   {
     return _score;
   }
 
-  handleInput(inputHandler input)
+  void Player::handleInput(InputHandler* input)
   {
     //TODO: handle key input
     if (input->getKey(SDL_SCANCODE_RIGHT))
@@ -54,23 +54,23 @@
 	else if (_state == jumping && _xVelocity > 0) _xVelocity = _speed;
 	else if (_state == jumping && _xVelocity < 0)
 	  {
-	    _xVelocity = _airSpeed;
+	    _xVelocity = _airspeed;
 	    // jumpDir = UP;
 	  }
-	else if (_state == jumping && _xVelocity == 0) _xVelocity = _airSpeed;
+	else if (_state == jumping && _xVelocity == 0) _xVelocity = _airspeed;
       }
     if (input->getKey(SDL_SCANCODE_LEFT))
       {
-	if (_state == running || _state == standing) xVel -= speed;
+	if (_state == running || _state == standing) _xVelocity -= _speed;
 	else if (_state == jumping && _xVelocity > 0)
 	  {
-	    _xVelocity = -_airSpeed;
+	    _xVelocity = -_airspeed;
 	    // jumpDir = UP;
 	  }
 	else if (_state == jumping && _xVelocity < 0) _xVelocity = -_speed;
-	else if (_state == jumping && _xVelocity == 0) _xVelocity = -_airSpeed;
+	else if (_state == jumping && _xVelocity == 0) _xVelocity = -_airspeed;
       }
-    if (input->getKeyPressed(SDL_SCANCODE_UP) || input->getKeyPressed(SDL_SCANCODE_SPACE))
+    if (input->getPressed(SDL_SCANCODE_UP) || input->getPressed(SDL_SCANCODE_SPACE))
       {
 	if(_state != jumping)
 	  {
@@ -80,7 +80,7 @@
       }
   }
 
-  updateLogic(int difficulty)
+  void Player::updateLogic(int difficulty)
   {
     //TODO: update logic
   }

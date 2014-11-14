@@ -1,4 +1,4 @@
-#include "Object.cc"
+#include "Object.h"
 
 enum BlockType
 {

@@ -45,9 +45,9 @@ void InputHandler::update()
   while (SDL_PollEvent(&e) != 0)
     {
       if (e.type == SDL_QUIT)
-	_quit = true;
+		_quit = true;
       else
-	handleEvent(e);
+		handleEvent(e);
     }
 }
 

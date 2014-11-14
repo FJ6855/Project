@@ -1,5 +1,4 @@
 #include <SDL2/SDL.h>
-
 #ifndef INPUT_HANDLER_H
 #define INPUT_HANDLER_H
 
