@@ -30,17 +30,29 @@ int main(int argc, char* argv[])
   Game* game = new Game(input, rm, highScore, gRenderer);
   MenuSystem* menuSystem = new MenuSystem(input, rm, highScore, gRenderer);
 
+  int fps{0};
+  int timeStart = SDL_GetTicks();
+
   while (!input->isQuit())
     {
+	    
       input->update();
 
       clearScreen();
 
-	game->run();
-	menuSystem->run();
+	  game->run();
+	  menuSystem->run();
 
       drawGame();
 
+	  //Enkel fpsräknare
+	  fps++;
+	  if (SDL_GetTicks() - timeStart >= 1000)
+	  {
+		  SDL_SetWindowTitle(gWindow, ("SaftEngine | Fps: " + to_string(fps)).c_str());
+		  timeStart = SDL_GetTicks();
+		  fps = 0;
+	  }
     }
   return 0;
 }

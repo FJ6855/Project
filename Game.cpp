@@ -17,21 +17,22 @@ void Game::run()
 
 void Game::handleInput()
 {
-	// TODO: check for game paused, call level->handleInput
 	if(_input->getPressed(SDL_SCANCODE_P))
 	{
 		if(systemState != PAUSE) systemState = PAUSE;
 		else systemState = PLAY;
 	}
+
+	_level->handleInput();
 }
 void Game::updateLogic()
 {
-	// TODO: call level->updateLogic()
+	_level->updateLogic();
 }
 
 void Game::render()
 {
-	// TODO: call level->render()
+	_level->render();
 }
 
 SystemState Game::getState()

@@ -15,6 +15,7 @@ class Level
 	  //_player = new Player();
 	  //	_playerRenderer = new PlayerRenderer();
 
+		_currentDifficulty = 1;
 		loadLevel();
 	}
  
@@ -31,8 +32,8 @@ class Level
 	vector<LevelSegment*> _segments;
 	vector<LevelSegment*> _loadedSegments;
 
-	int activeSegmentIndex;
-	int currentDifficulty;
+	int _activeSegmentIndex;
+	int _currentDifficulty;
 	
 	//Player* _player;
 	//PlayerRenderer* _playerRenderer;

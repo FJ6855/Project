@@ -6,7 +6,7 @@
 
 void LevelSegment::loadLevelSegment(const string& fileName)
 {
-	ifstream file("LevelSegments/" + fileName);
+	ifstream file("./res/LevelSegments/" + fileName + ".txt");
 
 	if (file.is_open())
 	{
@@ -15,38 +15,44 @@ void LevelSegment::loadLevelSegment(const string& fileName)
 
 		std::string line;
 
-		while (getline(file, line)) 
-		  {
-		    std::stringstream ss(line);
-		    char c;
-		   
-		    while (ss >> c)
-		      {
-			if (c == 'X')
-			  {
-			    Block* b = new Block(x, y, 32, 32, type1);
-			    
-			    _blocks.push_back(b);
-			  }
-			else if (c == 'Y')
-			  {
-			    //Obstacle* o = new Obstacle(x, y, 32, 32);
-			    
-			    //_obstacles.push_back(o);
-			  }
-			else if (c == 'Z')
-			  {
-			    //Item* i = new Item(x, y, 32, 32);
-			    
-			    //_items.push_back(i);
-			  }
-			
-			++x;			
-		      }
-		    
-		    x = 0;
-		    ++y;
-		  }
+		while (getline(file, line))
+		{
+			std::stringstream ss(line);
+			char c;
+
+			while (ss >> c)
+			{
+				std::cout << c;
+				if (c == 'X')
+				{
+					//Block* b = new Block(x, y, 32, 32, type1);
+
+					//_blocks.push_back(b);
+				}
+				else if (c == 'Y')
+				{
+					//Obstacle* o = new Obstacle(x, y, 32, 32);
+
+					//_obstacles.push_back(o);
+				}
+				else if (c == 'Z')
+				{
+					//Item* i = new Item(x, y, 32, 32);
+
+					//_items.push_back(i);
+				}
+
+				++x;
+			}
+
+			x = 0;
+			++y;
+			cout << endl;
+		}
+	}
+	else
+	{
+		std::cout << "Could not open file: LevelSegments/" + fileName << endl;
 	}
 }
 

@@ -8,7 +8,7 @@ ButtonRenderer::~ButtonRenderer()
 
 void ButtonRenderer::loadContent()
 {
-	_buttonTextureSelected = _rm->loadTexture("buttonTextureSelected");
+	_buttonTextureSelected = _rm->loadTexture("buttonTextureSelected_test");
 	_buttonTextureDeselected = _rm->loadTexture("buttonTextureDeselected");
 
 	//Load textures into texture vector

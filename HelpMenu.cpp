@@ -14,6 +14,7 @@ HelpMenu::~HelpMenu()
 
 }
 
+
 void HelpMenu::buildMenu()
 {
 	_buttons.push_back(new Button{ "BACK", 896 / 2, 400, 64, 32, STARTMENU });
