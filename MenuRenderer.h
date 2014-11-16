@@ -12,12 +12,21 @@ class MenuRenderer : public Renderer
  MenuRenderer(ResourceManager* rm) : Renderer{rm} 
   {
     _buttonRenderer = new ButtonRenderer(rm);
+	_startMenuBackground = rm->loadTexture("startMenuBackground");
+	_helpMenuBackground = rm->loadTexture("helpMenuBackground");
+	_highscoreMenuBackground = rm->loadTexture("highscoreMenuBackground");
+	_pauseMenuBackground = rm->loadTexture("pauseMenuBackground");
   }
   ~MenuRenderer();
   
   void loadContent() override;
   void render(Menu* menu, SDL_Renderer* renderer);
+
  private:
+  Texture* _startMenuBackground;
+  Texture* _helpMenuBackground;
+  Texture* _highscoreMenuBackground;
+  Texture* _pauseMenuBackground;
 
   ButtonRenderer* _buttonRenderer;
 };

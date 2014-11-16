@@ -1,7 +1,7 @@
-#include "HighscoreMenu.h"
-#include <iostream>
+#include "PauseMenu.h"
 
-HighscoreMenu::HighscoreMenu()
+
+PauseMenu::PauseMenu()
 {
 	buildMenu();
 	_selectedButtonIndex = 0;
@@ -9,17 +9,19 @@ HighscoreMenu::HighscoreMenu()
 }
 
 
-HighscoreMenu::~HighscoreMenu()
+PauseMenu::~PauseMenu()
 {
 
 }
 
-void HighscoreMenu::buildMenu()
+void PauseMenu::buildMenu()
 {
-	_buttons.push_back(new Button{ "BACK", 896 / 2, 400, 64, 32, STARTMENU });
+	_buttons.push_back(new Button{ "RESUME", 896 / 2, 200, 64, 32, PLAY });
+	_buttons.push_back(new Button{ "QUIT", 896 / 2, 300, 64, 32, STARTMENU });
+
 }
 
-void HighscoreMenu::handleInput(InputHandler* input, SystemState& systemState)
+void PauseMenu::handleInput(InputHandler* input, SystemState& systemState)
 {
 	if (input->getPressed(SDL_SCANCODE_UP) && _selectedButtonIndex > 0)
 	{
@@ -36,8 +38,8 @@ void HighscoreMenu::handleInput(InputHandler* input, SystemState& systemState)
 	if (input->getPressed(SDL_SCANCODE_RETURN))
 	{
 		systemState = _buttons.at(_selectedButtonIndex)->getSystemState();
+		_buttons.at(_selectedButtonIndex)->setButtonState(NOTSELECTED);
 		_selectedButtonIndex = 0;
+		_buttons.at(_selectedButtonIndex)->setButtonState(SELECTED);
 	}
-
 }
-

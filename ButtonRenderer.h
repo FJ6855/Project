@@ -19,6 +19,9 @@ class ButtonRenderer : public Renderer
 
  private:
   std::vector<Texture*> _textTextures;
+  Texture* _buttonTextureDeselected;
+  Texture* _buttonTextureSelected;
+
 };
 
 

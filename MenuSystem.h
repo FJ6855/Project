@@ -7,6 +7,7 @@
 #include "HelpMenu.h"
 #include "HighScoreMenu.h"
 #include "HighscoreMenuRenderer.h"
+#include "PauseMenu.h"
 
 #ifndef MENUSYSTEM_H
 #define MENUSYSTEM_H
@@ -32,7 +33,7 @@ class MenuSystem : public SystemModule
 
   StartMenu* _startMenu;
   HighscoreMenu* _highscoreMenu;
-  //PauseMenu* _pauseMenu;
+  PauseMenu* _pauseMenu;
   //WriteNameMenu* _writeNameMenu;
   HelpMenu* _helpMenu;
 

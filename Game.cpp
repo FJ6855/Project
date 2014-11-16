@@ -22,9 +22,6 @@ void Game::handleInput()
 	{
 		if(systemState != PAUSE) systemState = PAUSE;
 		else systemState = PLAY;
-
-		if (systemState == PLAY) std::cout << "State is now PLAY" << endl;
-		if (systemState == PAUSE) std::cout << "State is now PAUSE" << endl;
 	}
 }
 void Game::updateLogic()

@@ -2,7 +2,7 @@
 
 Button::Button(std::string text, int x, int y, int width, int height, SystemState systemState) : _text{ text }, _x{ x }, _y{ y }, _width{ width }, _height{ height }, _systemState{ systemState }
 {
-
+	_buttonState = NOTSELECTED;
 }
 
 Button::~Button()

@@ -92,7 +92,7 @@ bool init()
 	  return false;
   }
 
-  gFont = TTF_OpenFont("res/fonts/Minecrafter_3.TTF", 14);
+  gFont = TTF_OpenFont("res/fonts/alphbeta.TTF", 20);
   if (gFont == NULL)
   {
 	  printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
@@ -100,7 +100,7 @@ bool init()
   }
   
   //Initialize renderer color
-  SDL_SetRenderDrawColor(gRenderer, 0x0, 0x0, 0x0, 0xFF);
+  SDL_SetRenderDrawColor(gRenderer, 0x0, 0x0, 0x0, 0x0);
 
   return true;
 }

@@ -5,6 +5,7 @@ MenuSystem::MenuSystem(InputHandler* ih, ResourceManager* rm, HighScore* hs, SDL
 	_startMenu = new StartMenu();
 	_helpMenu = new HelpMenu();
 	_highscoreMenu = new HighscoreMenu();
+	_pauseMenu = new PauseMenu();
 	_menuRenderer = new MenuRenderer(rm);
 	_menuRenderer->loadContent();
 	_highscoreMenuRenderer = new HighscoreMenuRenderer(rm);
@@ -28,7 +29,7 @@ void MenuSystem::handleInput()
 {
 	if (systemState == STARTMENU) _startMenu->handleInput(_input, systemState);
 	else if (systemState == HIGHSCORE) _highscoreMenu->handleInput(_input, systemState);
-	//else if (systemState == PAUSE) _pauseMenu->handleInput(_input);
+	else if (systemState == PAUSE) _pauseMenu->handleInput(_input, systemState);
 	else if (systemState == HELP) _helpMenu->handleInput(_input, systemState);
 	//else if (systemState == DEAD) _writeNameMEnu->handleInput(_input);
 }
@@ -37,7 +38,7 @@ void MenuSystem::render()
 {
 	if (systemState == STARTMENU) _menuRenderer->render(_startMenu, _renderer);
 	else if (systemState == HIGHSCORE) _highscoreMenuRenderer->render(_highscoreMenu, _renderer);
-	//else if (systemState == PAUSE) _menuRenderer->render(_pauseMenu);
+	else if (systemState == PAUSE) _menuRenderer->render(_pauseMenu, _renderer);
 	else if (systemState == HELP) _menuRenderer->render(_helpMenu, _renderer);
 	//else if (systemState == DEAD) _menuRenderer->render(_writeNameMenu);
 }
