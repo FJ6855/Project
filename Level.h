@@ -21,7 +21,7 @@ class Level
  
 	void handleInput();
 	void updateLogic();
-	void render();
+	void render(SDL_Renderer* renderer);
 
 	//Player* getPlayer() { return _player; }
 
@@ -29,8 +29,8 @@ class Level
 	InputHandler* _input;
 	ResourceManager* _rm;
 	
-	vector<LevelSegment*> _segments;
-	vector<LevelSegment*> _loadedSegments;
+	std::vector<LevelSegment*> _segments;
+	std::vector<LevelSegment*> _loadedSegments;
 
 	int _activeSegmentIndex;
 	int _currentDifficulty;

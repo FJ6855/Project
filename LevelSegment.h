@@ -3,8 +3,7 @@
 
 #include "ResourceManager.h"
 #include "Object.h"
-
-using namespace std;
+#include "BlockRenderer.h"
 
 #ifndef LEVEL_SEGMENT_H
 #define LEVEL_SEGMENT_H
@@ -14,7 +13,7 @@ class LevelSegment
   public:
 	LevelSegment(ResourceManager* rm) : _rm{rm} 
 	{
-	  //_blockRenderer = new BlockRenderer(rm);
+	  _blockRenderer = new BlockRenderer(rm);
 	  //_obstacleRenderer = new ObstacleRenderer(rm);
 	  //_itemRenderer = new ItemRenderer(rm);
 
@@ -25,11 +24,11 @@ class LevelSegment
 		_height = 5;		
 	}
 
-	void loadLevelSegment(const string& fileName);
+	void loadLevelSegment(const std::string& fileName);
 
 	void updateLogic();
 
-	void render();
+	void render(SDL_Renderer* renderer);
 
   private:
 	ResourceManager* _rm;
@@ -42,11 +41,11 @@ class LevelSegment
 	
 	int _difficultyRating;
 
-	vector<Object*> _blocks;
-	vector<Object*> _obstacles;
-	vector<Object*> _items;
+	std::vector<Block*> _blocks;
+	//vector<Object*> _obstacles;
+	//vector<Object*> _items;
 
-	//BlockRenderer* _blockRenderer;
+	BlockRenderer* _blockRenderer;
 	//ObstacleRenderer* _obstacleRenderer;
 	//ItemRenderer* _itemRenderer;
 

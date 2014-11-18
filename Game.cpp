@@ -32,7 +32,7 @@ void Game::updateLogic()
 
 void Game::render()
 {
-	_level->render();
+	_level->render(_renderer);
 }
 
 SystemState Game::getState()
