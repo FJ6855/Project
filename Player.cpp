@@ -30,7 +30,7 @@
       }
   }
 
-  bool Player::isDead()//kan sättas ihop med den under med "dead" state?
+  bool Player::isDead()//kan sÃ¤ttas ihop med den under med "dead" state?
   {
     return _state==dead;
   }
@@ -48,6 +48,7 @@
   void Player::handleInput(InputHandler* input)
   {
     //TODO: handle key input
+    /*
     if (input->getKey(SDL_SCANCODE_RIGHT))
       {
 	if (_state == running || _state == standing) _xVelocity += _speed;
@@ -74,10 +75,10 @@
       {
 	if(_state != jumping)
 	  {
-	    _yVelocity = 10; /*bra konstant*/
+	    _yVelocity = 10; ///bra konstant
 	    _state = jumping;
 	  }	
-      }
+      }*/
   }
 
   void Player::updateLogic(int difficulty)
