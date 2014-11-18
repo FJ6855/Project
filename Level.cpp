@@ -11,9 +11,11 @@ void Level::updateLogic()
 	//TODO: call player->updateLogic(), handleCollisions()
 }
 
-void Level::render()
+void Level::render(SDL_Renderer* renderer)
 {
-	//TODO: call all segements->render(), playerRenderer->render()
+  for (LevelSegment* ls : _segments)
+    ls->render(renderer);
+	//TODO: playerRenderer->render()
 }
 
 void Level::handleCollisions()
@@ -30,11 +32,14 @@ void Level::loadLevel()
 
 void Level::loadSegments()
 {
-	//TODO: load all segments into loadedSegments
-	//for (int i{0}; i < 10; ++i)
-	//{
-		LevelSegment* ls = new LevelSegment(_rm);
-		ls->loadLevelSegment("levelSegment" + std::to_string(0));
-		_loadedSegments.push_back(ls);
-	//}
+  //TODO: load all segments into loadedSegments
+  //for (int i{0}; i < 3; ++i)
+    //{
+      LevelSegment* ls = new LevelSegment(_rm);
+      ls->loadLevelSegment("levelSegment" + std::to_string(0));
+      _loadedSegments.push_back(ls);
+      //}
+  
+  // Add the first three loaded segments
+  _segments.push_back(_loadedSegments.at(0));
 }
