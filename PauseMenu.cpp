@@ -23,19 +23,19 @@ void PauseMenu::buildMenu()
 
 void PauseMenu::handleInput(InputHandler* input, SystemState& systemState)
 {
-	if (input->getPressed(SDL_SCANCODE_UP) && _selectedButtonIndex > 0)
+	if ((input->getPressed(SDL_SCANCODE_UP) || input->getPressed(SDL_SCANCODE_W)) && _selectedButtonIndex > 0)
 	{
 		_buttons.at(_selectedButtonIndex)->setButtonState(NOTSELECTED);
 		_selectedButtonIndex--;
 		_buttons.at(_selectedButtonIndex)->setButtonState(SELECTED);
 	}
-	if (input->getPressed(SDL_SCANCODE_DOWN) && _selectedButtonIndex < _buttons.size() - 1)
+	if ((input->getPressed(SDL_SCANCODE_DOWN) || input->getPressed(SDL_SCANCODE_S)) && _selectedButtonIndex < _buttons.size() - 1)
 	{
 		_buttons.at(_selectedButtonIndex)->setButtonState(NOTSELECTED);
 		_selectedButtonIndex++;
 		_buttons.at(_selectedButtonIndex)->setButtonState(SELECTED);
 	}
-	if (input->getPressed(SDL_SCANCODE_RETURN))
+	if (input->getPressed(SDL_SCANCODE_RETURN) || input->getPressed(SDL_SCANCODE_SPACE))
 	{
 		systemState = _buttons.at(_selectedButtonIndex)->getSystemState();
 		_buttons.at(_selectedButtonIndex)->setButtonState(NOTSELECTED);

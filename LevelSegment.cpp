@@ -4,9 +4,9 @@
 #include "LevelSegment.h"
 #include "Block.h"
 
-void LevelSegment::loadLevelSegment(const string& fileName)
+void LevelSegment::loadLevelSegment(const std::string& fileName)
 {
-	ifstream file("./res/LevelSegments/" + fileName + ".txt");
+  std::ifstream file("./res/LevelSegments/" + fileName + ".txt");
 
 	if (file.is_open())
 	{
@@ -22,12 +22,11 @@ void LevelSegment::loadLevelSegment(const string& fileName)
 
 			while (ss >> c)
 			{
-				std::cout << c;
 				if (c == 'X')
 				{
-					//Block* b = new Block(x, y, 32, 32, type1);
+					Block* b = new Block(x, y, 32, 32, type1);
 
-					//_blocks.push_back(b);
+					_blocks.push_back(b);
 				}
 				else if (c == 'Y')
 				{
@@ -47,12 +46,11 @@ void LevelSegment::loadLevelSegment(const string& fileName)
 
 			x = 0;
 			++y;
-			cout << endl;
 		}
 	}
 	else
 	{
-		std::cout << "Could not open file: LevelSegments/" + fileName << endl;
+	  std::cout << "Could not open file: LevelSegments/" + fileName << std::endl;
 	}
 }
 
@@ -74,13 +72,13 @@ void LevelSegment::updateLogic()
 		}*/
 }
 
-void LevelSegment::render()
+void LevelSegment::render(SDL_Renderer* renderer)
 {
-  /*for (Block* b : _blocks)
+  for (Block* b : _blocks)
 	{
-		_blockRenderer->render(b);
+	  _blockRenderer->render(b, _x, renderer);
 	}
-
+  /*
 	for (Obstacle* o : _obstacles)
 	{
 		_obstacleRenderer->render(o);
@@ -96,3 +94,23 @@ void LevelSegment::render()
 {
 	//TODO: check collision against blocks, obstacles and items
 }*/
+
+void LevelSegment::setX(int x)
+{
+	_x = x;
+}
+
+void LevelSegment::setY(int y)
+{
+	_y = y;
+}
+
+int LevelSegment::getX()
+{
+	return _x;
+}
+
+int LevelSegment::getY()
+{
+	return _y;
+}

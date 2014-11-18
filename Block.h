@@ -1,17 +1,17 @@
 #include "Object.h"
 
+#ifndef BLOCK_H
+#define BLOCK_H
+
 enum BlockType
 {
   type1
 };
 
-#ifndef BLOCK_H
-#define BLOCK_H
-
 class Block : public Object
 {
  public:
- Block(int width, int height, int x, int y, BlockType type) : _type{type}, Object(width, height, x, y) {}
+ Block(int x, int y, int width, int height, BlockType type) : _type{type}, Object(x, y, width, height) {}
 
  BlockType getType();
  void updateLogic();

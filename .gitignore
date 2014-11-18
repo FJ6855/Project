@@ -1,0 +1,4 @@
+# Ignore tmp files
+*~
+# Ignore compiled files from makefile
+*.o

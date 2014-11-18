@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 	  fps++;
 	  if (SDL_GetTicks() - timeStart >= 1000)
 	  {
-		  SDL_SetWindowTitle(gWindow, ("SaftEngine | Fps: " + to_string(fps)).c_str());
+		 // std::cout << "Fps: " << fps << std::endl;
 		  timeStart = SDL_GetTicks();
 		  fps = 0;
 	  }

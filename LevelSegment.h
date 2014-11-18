@@ -3,8 +3,7 @@
 
 #include "ResourceManager.h"
 #include "Object.h"
-
-using namespace std;
+#include "BlockRenderer.h"
 
 #ifndef LEVEL_SEGMENT_H
 #define LEVEL_SEGMENT_H
@@ -14,39 +13,39 @@ class LevelSegment
   public:
 	LevelSegment(ResourceManager* rm) : _rm{rm} 
 	{
-	  //_blockRenderer = new BlockRenderer(rm);
+	  _blockRenderer = new BlockRenderer(rm);
+	  _difficultyRating = 1;
 	  //_obstacleRenderer = new ObstacleRenderer(rm);
 	  //_itemRenderer = new ItemRenderer(rm);
 
-		_x = 0;
-		_y = 0;
-
-		_width = 16;
-		_height = 5;		
+	  _x = 0;
+	  _y = 0;
 	}
 
-	void loadLevelSegment(const string& fileName);
+	void loadLevelSegment(const std::string& fileName);
 
 	void updateLogic();
 
-	void render();
+	void render(SDL_Renderer* renderer);
+
+	void setX(int x);
+	void setY(int y);
+	int getX();
+	int getY();
 
   private:
 	ResourceManager* _rm;
 	
-	int _x;
-	int _y;
-	
-	int _width;
-	int _height;
-	
 	int _difficultyRating;
 
-	vector<Object*> _blocks;
-	vector<Object*> _obstacles;
-	vector<Object*> _items;
+	int _x;
+	int _y;
 
-	//BlockRenderer* _blockRenderer;
+	std::vector<Block*> _blocks;
+	//vector<Object*> _obstacles;
+	//vector<Object*> _items;
+
+	BlockRenderer* _blockRenderer;
 	//ObstacleRenderer* _obstacleRenderer;
 	//ItemRenderer* _itemRenderer;
 
