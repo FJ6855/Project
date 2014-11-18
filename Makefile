@@ -72,6 +72,9 @@ Block.o : Block.cpp Block.h
 
 BlockRenderer.o : BlockRenderer.cpp BlockRenderer.h
 	$(CCC) -c BlockRenderer.cpp $(LFLAGS)
+	
+Player.o : Player.cpp Player.h
+	$(CCC) -c Player.cpp $(LFLAGS)
 
 clean:
 	@ \rm -rf *.o *.gch core
