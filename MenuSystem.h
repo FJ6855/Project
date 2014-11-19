@@ -5,7 +5,7 @@
 #include "StartMenu.h"
 #include "MenuRenderer.h"
 #include "HelpMenu.h"
-#include "HighScoreMenu.h"
+#include "HighscoreMenu.h"
 #include "HighscoreMenuRenderer.h"
 #include "PauseMenu.h"
 

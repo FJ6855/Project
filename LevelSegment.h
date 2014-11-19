@@ -4,6 +4,7 @@
 #include "ResourceManager.h"
 #include "Object.h"
 #include "BlockRenderer.h"
+#include "Player.h"
 
 #ifndef LEVEL_SEGMENT_H
 #define LEVEL_SEGMENT_H
@@ -23,7 +24,7 @@ class LevelSegment
 	}
 
 	void loadLevelSegment(const std::string& fileName);
-
+	void handleCollision(Player* player, int segmentIndex);
 	void updateLogic();
 
 	void render(SDL_Renderer* renderer);
@@ -48,8 +49,6 @@ class LevelSegment
 	BlockRenderer* _blockRenderer;
 	//ObstacleRenderer* _obstacleRenderer;
 	//ItemRenderer* _itemRenderer;
-
-	//void handleCollision(Player* player);
 };
 
 #endif

@@ -15,31 +15,41 @@ class Player : public Object
 {
  public:
  Player(int x, int y, int width, int height) 
-   : _state{standing}, _health{100.0}, _speed{5.0}, _airspeed{0}, _gravity{5.0}
-  , _horizontalMovement{0} , _verticalMovement{0}, _xVelocity{0}, _yVelocity{0}, _score{0}, Object(x, y, width, height){}
+   : Object(x, y, width, height)
+    {
+      _speed = 8;
+      _gravity = 5;
+	  _xVel = 0;
+	  _yVel = 0;
+	  _jump = false;
+    }
 
   void handleInput(InputHandler* inputHandler);
   void updateLogic();
-  void updateLogic(int);
 
-  void damage(float);
-  void affectSpeed(float);
-  bool isDead();
+  float getXvel();
+  float getYvel();
+  int getSpeed();
 
-  playerState getState();
-  int getScore();
+  void setXvel(int xVel);
+  void setYvel(int yVel);
 
  private:
   float _speed;
-  float _airspeed;
   float _gravity;
+  float _xVel;
+  float _yVel;
+  bool _jump;
+
+
+  /*
+  float _airspeed;
   int _horizontalMovement;
   int _verticalMovement;
-  int _xVelocity;
-  int _yVelocity;
   int _score;
   float _health;
   playerState _state;
+  */
 };
 
 #endif

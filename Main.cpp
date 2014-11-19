@@ -104,7 +104,7 @@ bool init()
 	  return false;
   }
 
-  gFont = TTF_OpenFont("res/fonts/alphbeta.TTF", 20);
+  gFont = TTF_OpenFont("./res/fonts/alphbeta.ttf", 20);
   if (gFont == NULL)
   {
 	  printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());

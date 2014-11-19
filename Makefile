@@ -4,8 +4,8 @@ LFLAGS	= -L/usr/lib/x86_64-linux-gnu -lSDL2 -lSDL2_image -lSDL2_ttf -lm
 
 
 
-game: 	Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlockRenderer.o
-	$(CCC) -o game Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlockRenderer.o $(LFLAGS)
+game: 	Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlockRenderer.o Player.o PlayerRenderer.o 
+	$(CCC) -o game Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlockRenderer.o Player.o PlayerRenderer.o $(LFLAGS)
 
 Main.o : Main.cpp
 	$(CCC) -c Main.cpp $(LFLAGS)
@@ -43,6 +43,9 @@ Level.o :  Level.cpp Level.h
 LevelSegment.o :  LevelSegment.cpp LevelSegment.h
 	$(CCC) -c LevelSegment.cpp $(LFLAGS)
 
+Player.o : Player.cpp Player.h
+	$(CCC) -c Player.cpp $(LFLAGS)
+
 HighscoreMenuRenderer.o :  HighscoreMenuRenderer.cpp HighscoreMenuRenderer.h
 	$(CCC) -c HighscoreMenuRenderer.cpp $(LFLAGS)
 
@@ -72,9 +75,9 @@ Block.o : Block.cpp Block.h
 
 BlockRenderer.o : BlockRenderer.cpp BlockRenderer.h
 	$(CCC) -c BlockRenderer.cpp $(LFLAGS)
-	
-Player.o : Player.cpp Player.h
-	$(CCC) -c Player.cpp $(LFLAGS)
+
+PlayerRenderer.o : PlayerRenderer.cpp PlayerRenderer.h
+	$(CCC) -c PlayerRenderer.cpp $(LFLAGS)
 
 clean:
 	@ \rm -rf *.o *.gch core

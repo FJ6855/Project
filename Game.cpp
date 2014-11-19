@@ -28,6 +28,7 @@ void Game::handleInput()
 void Game::updateLogic()
 {
 	_level->updateLogic();
+	_level->handleCollision();
 }
 
 void Game::render()

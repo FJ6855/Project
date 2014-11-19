@@ -1,6 +1,8 @@
 #include "Level.h"
 #include "LevelSegment.h"
 
+#include <iostream>
+
 void Level::loadLevel()
 {
 	loadSegments();
@@ -33,7 +35,6 @@ void Level::handleInput()
 void Level::updateLogic()
 {
 	_player->updateLogic();
-	//_player->handleCollisions();
 
 	if (_player->getX() >= 897)
 	{
@@ -42,10 +43,7 @@ void Level::updateLogic()
 		_segments.at(1) = _segments.at(2);
 		int random = _rnd() % _loadedSegments.size();
 		_segments.at(2) = _loadedSegments.at(random);
-		_activeSegmentIndex = 0;
-	}
-
-	std::cout << _player->getX() << std::endl;
+	} 
 }
 
 void Level::render(SDL_Renderer* renderer)
@@ -56,10 +54,22 @@ void Level::render(SDL_Renderer* renderer)
 		_segments.at(i)->render(renderer);
 	}
  
-	//TODO: playerRenderer->render()
+    _playerRenderer->render(_player, renderer);
 }
 
-void Level::handleCollisions()
+void Level::handleCollision()
 {
-	//TODO: check collisions against segments and player
+  int x = _player->getX();
+
+  if(x < 0)
+    {
+      _segments.at(0)->handleCollision(_player, 0);
+	  _segments.at(1)->handleCollision(_player, 1);
+    }
+  if(x >= 0)
+    {
+      _segments.at(1)->handleCollision(_player, 1);
+	  _segments.at(2)->handleCollision(_player, 2);
+    }
+
 }

@@ -12,10 +12,10 @@ class MenuRenderer : public Renderer
  MenuRenderer(ResourceManager* rm) : Renderer{rm} 
   {
     _buttonRenderer = new ButtonRenderer(rm);
-	_startMenuBackground = rm->loadTexture("startMenuBackground");
-	_helpMenuBackground = rm->loadTexture("helpMenuBackground");
-	_highscoreMenuBackground = rm->loadTexture("highscoreMenuBackground");
-	_pauseMenuBackground = rm->loadTexture("pauseMenuBackground");
+    _startMenuBackground = rm->loadTexture("startMenuBackground");
+    _helpMenuBackground = rm->loadTexture("helpMenuBackground");
+    _highscoreMenuBackground = rm->loadTexture("highscoreMenuBackground");
+    _pauseMenuBackground = rm->loadTexture("pauseMenuBackground");
   }
   ~MenuRenderer();
   
@@ -34,3 +34,22 @@ class MenuRenderer : public Renderer
 
 
 #endif
+/*
+class PlayerRenderer : public Renderer
+{
+public:
+PlayerRenderer(ResourceManager* rm) : Renderer{rm} 
+{
+_playerTexture = rm->loadTexture("blockk");
+}
+~PlayerRenderer();
+
+void loadContent() override;
+void render(Player* player, SDL_Renderer* renderer);
+
+private:
+Texture* _playerTexture;
+};
+
+
+#endif*/
