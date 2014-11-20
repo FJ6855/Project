@@ -11,7 +11,7 @@
 	  else if ((input->getKey(SDL_SCANCODE_A) || input->getKey(SDL_SCANCODE_LEFT)) && _x - 10 > -896)
 	    _xVel = -_speed;
 	      
-	  if ((input->getPressed(SDL_SCANCODE_W) || input->getPressed(SDL_SCANCODE_SPACE)) && _playerState == running)
+	  if ((input->getKey(SDL_SCANCODE_W) || input->getKey(SDL_SCANCODE_SPACE)) && _playerState == running)
 	    {
 	      _yVel = -8;
 	    }
