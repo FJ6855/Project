@@ -86,6 +86,7 @@ void LevelSegment::render(SDL_Renderer* renderer)
 		_obstacleRenderer->render(o);
 	}
 
+
 	for (Items* b : _blocks)
 	{
 		_itemRenderer->render(i);
@@ -96,29 +97,39 @@ void LevelSegment::handleCollision(Player* player, int segmentIndex)
 {
 	int blockX;
 	int blockY;
+	int playerY;
 
-	float preX = player->getX() - player->getXvel();
-	float preY = player->getY() - player->getYvel();
+	if(player->getYvel() >= 0 && player->getYvel() < 1)
+	  {
+	    playerY = player->getY() + 1;
+	  }
+	else 
+	  playerY = player->getY();
+
+	int preX = player->getX() - player->getXvel();
+	int preY = player->getY() - player->getYvel();
 
 	int offset = -896 + 896 * segmentIndex - 448 + 16;
+
 	for (Block* block : _blocks)
 	{
 		blockX = block->getX() * block->getWidth() + offset;
 		blockY = block->getY() * block->getWidth();
 		
 
-		if (player->getYvel() > 0) //Player falling down
-		{
-			//Check if players bottom corners are inside a box
-			if (player->getY() + player->getHeight() - 1 >= blockY && player->getY() + player->getHeight() - 1 <= blockY + block->getHeight() - 1)
-			{
-				if ((preX + player->getWidth() - 1 >= blockX && preX + player->getWidth() - 1 <= blockX + block->getWidth() - 1) || (preX >= blockX && preX <= blockX + block->getWidth() - 1))
-				{
-					player->setYvel(0);
-					player->setY(blockY - player->getHeight());
-				}
-			}
-		}
+		if (player->getYvel() >= 0) //Player falling down
+		  {		   
+		    //Check if players bottom corners are inside a box
+		    if (playerY + player->getHeight() - 1 >= blockY && playerY + player->getHeight() - 1 <= blockY + block->getHeight() - 1)
+		      {
+			if ((preX + player->getWidth() - 1 >= blockX && preX + player->getWidth() - 1 <= blockX + block->getWidth() - 1) || (preX >= blockX && preX <= blockX + block->getWidth() - 1))
+			  {
+			    player->setState(PlayerState::running);
+			    player->setYvel(0);
+			    player->setY(blockY - player->getHeight());
+			  }
+		      }
+		  }
 		else if (player->getYvel() < 0) //Player jumping up
 		{
 			//Check if players top corners are inside a box

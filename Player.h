@@ -4,7 +4,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-enum playerState {
+enum PlayerState {
 	dead, 
 	standing, 
 	running, 
@@ -19,9 +19,9 @@ class Player : public Object
     {
       _speed = 8;
       _gravity = 5;
-	  _xVel = 0;
-	  _yVel = 0;
-	  _jump = false;
+      _xVel = 0;
+      _yVel = 0;
+      _playerState = jumping;
     }
 
   void handleInput(InputHandler* inputHandler);
@@ -31,17 +31,19 @@ class Player : public Object
   float getYvel();
   int getSpeed();
 
-  void setXvel(int xVel);
+  void setXvel(int xVel);;
   void setYvel(int yVel);
+
+  void setState(PlayerState state);
+  PlayerState getState();
 
  private:
   float _speed;
   float _gravity;
   float _xVel;
   float _yVel;
-  bool _jump;
 
-
+  PlayerState _playerState;
   /*
   float _airspeed;
   int _horizontalMovement;

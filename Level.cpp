@@ -61,15 +61,36 @@ void Level::handleCollision()
 {
   int x = _player->getX();
 
+  _player->setState(PlayerState::jumping);
+  
   if(x < 0)
     {
       _segments.at(0)->handleCollision(_player, 0);
-	  _segments.at(1)->handleCollision(_player, 1);
+      _segments.at(1)->handleCollision(_player, 1);
     }
   if(x >= 0)
     {
       _segments.at(1)->handleCollision(_player, 1);
-	  _segments.at(2)->handleCollision(_player, 2);
+      _segments.at(2)->handleCollision(_player, 2);
     }
+}
 
+void Level::reset()
+{
+  _player->setX(0);
+  _player->setY(256);
+  _player->setState(PlayerState::standing);
+  
+  int random = _rnd() % (_loadedSegments.size() - 1);
+  
+  _segments.at(0) = _loadedSegments.at(random);
+  _segments.at(1) = _loadedSegments.at(random);
+  _segments.at(2) = _loadedSegments.at(random);
+
+  _activeSegmentIndex = 0;
+}
+
+PlayerState Level::getPlayerState()
+{
+  return _player->getState();
 }

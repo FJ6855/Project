@@ -28,6 +28,13 @@ void Game::handleInput()
 void Game::updateLogic()
 {
 	_level->updateLogic();
+
+	if(_level->getPlayerState() == PlayerState::dead) 
+	  {
+	    systemState = STARTMENU;
+	    _level->reset();
+	  }
+
 	_level->handleCollision();
 }
 

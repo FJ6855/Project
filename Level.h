@@ -27,6 +27,8 @@ class Level
 	void render(SDL_Renderer* renderer);
 	void handleCollision();
 	//Player* getPlayer() { return _player; }
+	PlayerState getPlayerState();
+	void reset();
 
   private:
 	void loadLevel();
