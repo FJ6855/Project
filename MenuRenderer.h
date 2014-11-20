@@ -31,25 +31,4 @@ class MenuRenderer : public Renderer
   ButtonRenderer* _buttonRenderer;
 };
 
-
-
 #endif
-/*
-class PlayerRenderer : public Renderer
-{
-public:
-PlayerRenderer(ResourceManager* rm) : Renderer{rm} 
-{
-_playerTexture = rm->loadTexture("blockk");
-}
-~PlayerRenderer();
-
-void loadContent() override;
-void render(Player* player, SDL_Renderer* renderer);
-
-private:
-Texture* _playerTexture;
-};
-
-
-#endif*/

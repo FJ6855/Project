@@ -6,6 +6,8 @@
 #include "LevelSegment.h"
 #include "Player.h"
 #include "PlayerRenderer.h"
+#include "Background.h"
+#include "BackgroundRenderer.h"
 
 #ifndef LEVEL_H
 #define LEVEL_H
@@ -17,6 +19,8 @@ class Level
 	{
 		_player = new Player(-896, 256, 32, 32);
 		_playerRenderer = new PlayerRenderer(rm);
+		_backgroundRenderer = new BackgroundRenderer(rm);
+		_background = new Background();
 		_currentDifficulty = 1;
 		_activeSegmentIndex = 0;
 		loadLevel();
@@ -47,6 +51,9 @@ class Level
 
 	Player* _player;
 	PlayerRenderer* _playerRenderer;
+
+	Background* _background;
+	BackgroundRenderer* _backgroundRenderer;
 };
 
 #endif

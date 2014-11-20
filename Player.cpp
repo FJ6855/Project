@@ -13,14 +13,16 @@
 	      
 	  if ((input->getKey(SDL_SCANCODE_W) || input->getKey(SDL_SCANCODE_SPACE)) && _playerState == running)
 	    {
-	      _yVel = -8;
+	      _yVel = -10;
 	    }
-
   }
 
   void Player::updateLogic()
   {
-          _yVel += 0.2;
+	  if (_xVel < 0) _playerDirection = left;
+	  else if (_xVel > 0) _playerDirection = right;
+
+      _yVel += 0.4;
 	  _x += _xVel;
 	  _y += _yVel;
 
@@ -64,4 +66,12 @@ PlayerState Player::getState()
   return _playerState;
 }
 
+PlayerDirection Player::getDirection()
+{
+	return _playerDirection;
+}
 
+void Player::setState(PlayerDirection direction)
+{
+	_playerDirection = direction;
+}

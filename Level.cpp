@@ -48,6 +48,11 @@ void Level::updateLogic()
 
 void Level::render(SDL_Renderer* renderer)
 {
+	if (_background->getX() <= -896) _background->setX(0);
+
+	_background->setX(_background->getX() + -_player->getXvel() / _player->getSpeed());
+	_backgroundRenderer->render(_background, renderer);
+
 	for (int i{}; i < 3; ++i)
 	{
 		_segments.at(i)->setX(-896 + 896*i - _player->getX());
@@ -61,7 +66,7 @@ void Level::handleCollision()
 {
   int x = _player->getX();
 
-  _player->setState(PlayerState::jumping);
+  _player->setState(PlayerState::inAir);
   
   if(x < 0)
     {
@@ -79,7 +84,9 @@ void Level::reset()
 {
   _player->setX(0);
   _player->setY(256);
-  _player->setState(PlayerState::standing);
+  _player->setState(PlayerState::inAir);
+  _player->setXvel(0);
+  _player->setYvel(0);
   
   int random = _rnd() % (_loadedSegments.size() - 1);
   

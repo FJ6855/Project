@@ -5,10 +5,14 @@
 #define PLAYER_H
 
 enum PlayerState {
-	dead, 
-	standing, 
+	dead,
 	running, 
-	jumping
+	inAir
+};
+
+enum PlayerDirection {
+	right,
+	left
 };
 
 class Player : public Object
@@ -21,7 +25,8 @@ class Player : public Object
       _gravity = 5;
       _xVel = 0;
       _yVel = 0;
-      _playerState = jumping;
+	  _playerState = inAir;
+	  _playerDirection = right;
     }
 
   void handleInput(InputHandler* inputHandler);
@@ -37,12 +42,16 @@ class Player : public Object
   void setState(PlayerState state);
   PlayerState getState();
 
+  void setState(PlayerDirection direction);
+  PlayerDirection getDirection();
+
  private:
   float _speed;
   float _gravity;
   float _xVel;
   float _yVel;
 
+  PlayerDirection _playerDirection;
   PlayerState _playerState;
   /*
   float _airspeed;

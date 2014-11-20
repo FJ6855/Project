@@ -11,14 +11,27 @@ class PlayerRenderer : public Renderer
  PlayerRenderer(ResourceManager* rm) : Renderer{rm}
   {
 	 loadContent();
+	 _playerFrame = 0;
   }
   ~PlayerRenderer();
 
   void loadContent() override;
   void render(Player* player, SDL_Renderer* renderer);
  private:
-  Texture* _playerTexture;
+	Texture* _playerTextureRunningRight1;
+	Texture* _playerTextureRunningRight2;
+	Texture* _playerTextureRunningRight3;
 
+	Texture* _playerTextureRunningLeft1;
+	Texture* _playerTextureRunningLeft2;
+	Texture* _playerTextureRunningLeft3;
+
+	Texture* _playerTextureInAirRight;
+	Texture* _playerTextureInAirLeft;
+
+	Texture* _playerTexture;
+
+	int _playerFrame;
 };
 
 #endif
