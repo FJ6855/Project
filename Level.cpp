@@ -44,6 +44,11 @@ void Level::updateLogic()
 		int random = _rnd() % _loadedSegments.size();
 		_segments.at(2) = _loadedSegments.at(random);
 	} 
+
+	if (_player->getState() == PlayerState::dead)
+	{
+		reset();
+	}
 }
 
 void Level::render(SDL_Renderer* renderer)
