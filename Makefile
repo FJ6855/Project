@@ -4,8 +4,8 @@ LFLAGS	= -L/usr/lib/x86_64-linux-gnu -lSDL2 -lSDL2_image -lSDL2_ttf -lm
 
 
 
-game: 	Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlockRenderer.o Player.o PlayerRenderer.o 
-	$(CCC) -o game Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlockRenderer.o Player.o PlayerRenderer.o $(LFLAGS)
+game: 	Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlockRenderer.o Item.o ItemRenderer.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o
+	$(CCC) -o game Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlockRenderer.o Item.o ItemRenderer.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o $(LFLAGS)
 
 Main.o : Main.cpp
 	$(CCC) -c Main.cpp $(LFLAGS)
@@ -76,9 +76,20 @@ Block.o : Block.cpp Block.h
 BlockRenderer.o : BlockRenderer.cpp BlockRenderer.h
 	$(CCC) -c BlockRenderer.cpp $(LFLAGS)
 
+Item.o : Item.cpp Item.h
+	$(CCC) -c Item.cpp $(LFLAGS)
+
+ItemRenderer.o : ItemRenderer.cpp ItemRenderer.h
+	$(CCC) -c ItemRenderer.cpp $(LFLAGS)
+
 PlayerRenderer.o : PlayerRenderer.cpp PlayerRenderer.h
 	$(CCC) -c PlayerRenderer.cpp $(LFLAGS)
 
+Background.o : Background.cpp Background.h
+	$(CCC) -c Background.cpp $(LFLAGS)
+
+BackgroundRenderer.o : BackgroundRenderer.cpp BackgroundRenderer.h
+	$(CCC) -c BackgroundRenderer.cpp $(LFLAGS)
 clean:
 	@ \rm -rf *.o *.gch core
 

@@ -73,7 +73,7 @@ void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
 
 	//Render health bar
 	//delete _healthBarTexture; //free the old texture
-	_healthBarTexture = _rm->loadTexture(player->getHealth(), 16, 255, 0, 0);
+	//_healthBarTexture = _rm->loadTexture(player->getHealth(), 16, 255, 0, 0);
 
 	_healthBarTextTexture->render(renderer, 350 , 25, _healthBarTextTexture->getWidth(), _healthBarTextTexture->getHeight());
 	_healthBarTexture->render(renderer, 420 , 25, player->getHealth(), 16);

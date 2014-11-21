@@ -35,7 +35,7 @@ class PlayerRenderer : public Renderer
 	Texture* _healthBarTexture;
 	Texture* _healthBarTextTexture;
 
-	Texture* _scoreTexture;
+	Texture* _scoreTexture = nullptr;
 	Texture* _scoreTextTexture;
 	
 	int _playerFrame;

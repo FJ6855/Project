@@ -21,10 +21,10 @@ void Level::loadSegments()
 	}
 
 	int random = _rnd() % (_loadedSegments.size() - 1);
-
-	_segments.push_back(_loadedSegments.at(random));
-	_segments.push_back(_loadedSegments.at(random));
-	_segments.push_back(_loadedSegments.at(random));
+	
+	_segments.push_back(new LevelSegment(*(_loadedSegments.at(random))));
+	_segments.push_back(new LevelSegment(*(_loadedSegments.at(random))));
+	_segments.push_back(new LevelSegment(*(_loadedSegments.at(random))));
 }
 
 void Level::handleInput()
@@ -42,7 +42,7 @@ void Level::updateLogic()
 		_segments.at(0) = _segments.at(1);
 		_segments.at(1) = _segments.at(2);
 		int random = _rnd() % _loadedSegments.size();
-		_segments.at(2) = _loadedSegments.at(random);
+		_segments.at(2) = new LevelSegment(*(_loadedSegments.at(random)));
 	} 
 
 	if (_player->getState() == PlayerState::dead)
@@ -94,10 +94,10 @@ void Level::reset()
   _player->setYvel(0);
   
   int random = _rnd() % (_loadedSegments.size() - 1);
-  
-  _segments.at(0) = _loadedSegments.at(random);
-  _segments.at(1) = _loadedSegments.at(random);
-  _segments.at(2) = _loadedSegments.at(random);
+
+  _segments.push_back(new LevelSegment(*(_loadedSegments.at(random))));
+  _segments.push_back(new LevelSegment(*(_loadedSegments.at(random))));
+  _segments.push_back(new LevelSegment(*(_loadedSegments.at(random))));
 
   _activeSegmentIndex = 0;
 }

@@ -4,6 +4,7 @@
 #include "ResourceManager.h"
 #include "Object.h"
 #include "BlockRenderer.h"
+#include "ItemRenderer.h"
 #include "Player.h"
 
 #ifndef LEVEL_SEGMENT_H
@@ -17,11 +18,23 @@ class LevelSegment
 	  _blockRenderer = new BlockRenderer(rm);
 	  _difficultyRating = 1;
 	  //_obstacleRenderer = new ObstacleRenderer(rm);
-	  //_itemRenderer = new ItemRenderer(rm);
+	  _itemRenderer = new ItemRenderer(rm);
 
 	  _x = 0;
 	  _y = 0;
 	}
+
+	LevelSegment(const LevelSegment& ls)
+	  {
+	    _rm = ls._rm;
+	    _difficultyRating = ls._difficultyRating;
+	    _x = ls._x;
+	    _y = ls._y;
+	    _blocks = ls._blocks;
+	    _items = ls._items;
+	    _blockRenderer = ls._blockRenderer;
+	    _itemRenderer = ls._itemRenderer;
+	  }
 
 	void loadLevelSegment(const std::string& fileName);
 	void handleCollision(Player* player, int segmentIndex);
@@ -44,11 +57,14 @@ class LevelSegment
 
 	std::vector<Block*> _blocks;
 	//vector<Object*> _obstacles;
-	//vector<Object*> _items;
+	std::vector<Item*> _items;
 
 	BlockRenderer* _blockRenderer;
 	//ObstacleRenderer* _obstacleRenderer;
-	//ItemRenderer* _itemRenderer;
+	ItemRenderer* _itemRenderer;
+
+	template <typename T>
+	void handleCollisionAgainstObjects(Player* player, std::vector<T*>& objects, int segmentIndex);
 };
 
 #endif

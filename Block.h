@@ -5,7 +5,7 @@
 
 enum BlockType
 {
-  type1
+  BlockType1
 };
 
 class Block : public Object

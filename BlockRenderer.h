@@ -21,6 +21,5 @@ class BlockRenderer : public Renderer
  private:
 };
 
-
-
 #endif
+

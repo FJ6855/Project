@@ -1,14 +1,17 @@
+#include "Object.h"
+
 #ifndef ITEM_H
 #define ITEM_H
 
-#include "Object.h"
-
-enum ItemType{type1};
+enum ItemType
+{
+  ItemType1
+};
 
 class Item : public Object
 {
  public:
- Item(int width, int height, int x, int y, ItemType type, float health) : _type{type}, _health{health}, Object(width, height, x, y){}
+ Item(int x, int y, int width, int height, ItemType type, float health) : _type{type}, _health{health}, Object(x, y, width, height){}
 
  ItemType getType();
  float getHealth();
