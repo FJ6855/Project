@@ -30,6 +30,7 @@ class Player : public Object
       _playerDirection = right;
       _health = 100;
       _score = 0;
+	  _scoreOffset = 0;
 	  _healthLossFactor = 0.1f;
 	  _jumpBoost = true;
 	  _jumpBoostGravity = _gravity;
@@ -66,6 +67,7 @@ class Player : public Object
   float _yVel;
   float _health;
   int _score;
+  float _scoreOffset;
   int _currentDifficulty;
   float _healthLossFactor;
 

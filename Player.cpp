@@ -28,13 +28,29 @@
   void Player::updateLogic()
   {
 
-	  std::cout << _jumpBoost << std::endl;
+	  //std::cout << _jumpBoost << std::endl;
 	  //Update direction
 	  if (_xVel < 0) _playerDirection = left;
 	  else _playerDirection = right;
 
 	  //Update score
-	  _score += _xVel;
+	  if (_xVel > 0 && _playerDirection == PlayerDirection::right)
+	  {
+		  _scoreOffset += _xVel;
+		  std::cout << _scoreOffset << std::endl;
+
+		  if (_scoreOffset > 0) 
+		  {
+			  _scoreOffset = 0;
+			  _score += _xVel;
+		  }
+	  }
+	  else if (_xVel < 0 && _playerDirection == PlayerDirection::left)
+	  {
+		  _scoreOffset += _xVel;
+		  std::cout << _scoreOffset << std::endl;
+	  }
+	  
 	  if(_score < 0) _score = 0;
 
 	  //Gravity
