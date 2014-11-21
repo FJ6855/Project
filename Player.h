@@ -25,8 +25,10 @@ class Player : public Object
       _gravity = 5;
       _xVel = 0;
       _yVel = 0;
-	  _playerState = inAir;
-	  _playerDirection = right;
+      _playerState = inAir;
+       _playerDirection = right;
+       _health = 100;
+       _score = 0;
     }
 
   void handleInput(InputHandler* inputHandler);
@@ -45,22 +47,21 @@ class Player : public Object
   void setState(PlayerDirection direction);
   PlayerDirection getDirection();
 
+  int getHealth();
+  void setHealth(int health);
+  int getScore();
+  void setScore(int score);
+
  private:
   float _speed;
   float _gravity;
   float _xVel;
   float _yVel;
-
+  int _health;
+  int _score;
+  
   PlayerDirection _playerDirection;
   PlayerState _playerState;
-  /*
-  float _airspeed;
-  int _horizontalMovement;
-  int _verticalMovement;
-  int _score;
-  float _health;
-  playerState _state;
-  */
 };
 
 #endif

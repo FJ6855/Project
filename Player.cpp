@@ -22,9 +22,16 @@
 	  if (_xVel < 0) _playerDirection = left;
 	  else if (_xVel > 0) _playerDirection = right;
 
-      _yVel += 0.4;
+	  _score += _xVel;
+	  if(_score < 0) _score = 0;
+
+	  if (_xVel < 0) _playerDirection = left;
+	  else if (_xVel > 0) _playerDirection = right;
+
+	  _yVel += 0.4;
 	  _x += _xVel;
 	  _y += _yVel;
+	  
 
 	  if (_y > 600) 
 	    _playerState = dead;
@@ -74,4 +81,23 @@ PlayerDirection Player::getDirection()
 void Player::setState(PlayerDirection direction)
 {
 	_playerDirection = direction;
+}
+
+int Player::getHealth()
+{
+  return _health;
+}
+void Player::setHealth(int health)
+{
+  _health = health;
+}
+
+int Player::getScore()
+{
+  return _score;
+}
+
+void Player::setScore(int score)
+{
+  _score = score;
 }

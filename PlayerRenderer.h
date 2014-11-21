@@ -17,6 +17,7 @@ class PlayerRenderer : public Renderer
 
   void loadContent() override;
   void render(Player* player, SDL_Renderer* renderer);
+
  private:
 	Texture* _playerTextureRunningRight1;
 	Texture* _playerTextureRunningRight2;
@@ -31,6 +32,12 @@ class PlayerRenderer : public Renderer
 
 	Texture* _playerTexture;
 
+	Texture* _healthBarTexture;
+	Texture* _healthBarTextTexture;
+
+	Texture* _scoreTexture;
+	Texture* _scoreTextTexture;
+	
 	int _playerFrame;
 };
 

@@ -2,7 +2,7 @@
 
 Texture::~Texture()
 {
-
+  SDL_DestroyTexture(_texture);
 }
 
 int Texture::getWidth()
