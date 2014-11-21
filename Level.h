@@ -22,6 +22,7 @@ class Level
 		_backgroundRenderer = new BackgroundRenderer(rm);
 		_background = new Background();
 		_currentDifficulty = 1;
+		_player->setDifficulty(_currentDifficulty);
 		_activeSegmentIndex = 0;
 		loadLevel();
 	}

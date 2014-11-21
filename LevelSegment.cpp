@@ -1,10 +1,13 @@
+#include "LevelSegment.h"
 #include <fstream>
 #include <sstream>
 #include <algorithm>
-
-#include "LevelSegment.h"
-
 #include <iostream>
+
+LevelSegment::~LevelSegment()
+{
+
+}
 
 void LevelSegment::loadLevelSegment(const std::string& fileName)
 {
@@ -95,8 +98,8 @@ void LevelSegment::render(SDL_Renderer* renderer)
 
 void LevelSegment::handleCollision(Player* player, int segmentIndex)
 {
-  handleCollisionAgainstObjects(player, _blocks, segmentIndex);
-  handleCollisionAgainstObjects(player, _items, segmentIndex);
+  handleCollisionAgainstObjects<Block>(player, _blocks, segmentIndex);
+  handleCollisionAgainstObjects<Item>(player, _items, segmentIndex);
 	/*for (Block* block : _blocks)
 	{
 		blockX = block->getX() * block->getWidth() + offset;
@@ -177,96 +180,103 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 
   int objectX;
   int objectY;
-	
-  int objectCounter = 0;
 
-  for (T* object : objects)
-    {
-      objectX = object->getX() * object->getWidth() + offset;
-      objectY = object->getY() * object->getWidth();
+  for (int i{}; i < objects.size(); ++i)
+  {
+	  objectX = objects.at(i)->getX() * objects.at(i)->getWidth() + offset;
+	  objectY = objects.at(i)->getY() * objects.at(i)->getWidth();
 
-      if (player->getYvel() >= 0) //Player falling down
-	{		   
-	  //Check if players bottom corners are inside a box
-	  if (playerY + player->getHeight() - 1 >= objectY && playerY + player->getHeight() - 1 <= objectY + object->getHeight() - 1)
-	    {
-	      if ((preX + player->getWidth() - 1 >= objectX && preX + player->getWidth() - 1 <= objectX + object->getWidth() - 1) || (preX >= objectX && preX <= objectX + object->getWidth() - 1))
-		{
-		  if (dynamic_cast<Block*>(object))
-		    {
-		      player->setState(PlayerState::running);
-		      player->setYvel(0);
-		      player->setY(objectY - player->getHeight());
-			  
-		    }
-		  else if (dynamic_cast<Item*>(object))
-		    {
-		      objects.erase(objects.begin() + objectCounter);
-		    }
-		}
-	    }
-	}
-      else if (player->getYvel() < 0) //Player jumping up
-	{
-	  //Check if players top corners are inside a box
-	  if (player->getY() >= objectY && player->getY() <= objectY + object->getHeight() - 1)
-	    {
-	      if ((preX + player->getWidth() - 1 >= objectX && preX + player->getWidth() - 1 <= objectX + object->getWidth() - 1) || (preX >= objectX && preX <= objectX + object->getWidth() - 1))
-		{
-		   if (dynamic_cast<Block*>(object))
-		    {
-		      player->setYvel(0);
-		      player->setY(objectY + object->getHeight());
-		    }
-		   else if (dynamic_cast<Item*>(object))
-		    {		      
-		      objects.erase(objects.begin() + objectCounter);
-		    }
-		}
-	    }
-	}
+	  if (player->getYvel() >= 0) //Player falling down
+	  {
+		  //Check if players bottom corners are inside a box
+		  if (playerY + player->getHeight() - 1 >= objectY && playerY + player->getHeight() - 1 <= objectY + objects.at(i)->getHeight() - 1)
+		  {
+			  if ((preX + player->getWidth() - 1 >= objectX && preX + player->getWidth() - 1 <= objectX + objects.at(i)->getWidth() - 1) || (preX >= objectX && preX <= objectX + objects.at(i)->getWidth() - 1))
+			  {
+				  if (dynamic_cast<Block*>(objects.at(i)))
+				  {
+					  player->setState(PlayerState::running);
+					  player->setYvel(0);
+					  player->setY(objectY - player->getHeight());
+					  continue;
+				  }
+				  else if (dynamic_cast<Item*>(objects.at(i)))
+				  {
+					  player->setHealth(player->getHealth() + 10); //Give player hp is the item was hpBox
+					  objects.erase(objects.begin() + i);
+					  continue;
+				  }
+			  }
+		  }
+	  }
+	  else if (player->getYvel() < 0) //Player jumping up
+	  {
+		  //Check if players top corners are inside a box
+		  if (player->getY() >= objectY && player->getY() <= objectY + objects.at(i)->getHeight() - 1)
+		  {
+			  if ((preX + player->getWidth() - 1 >= objectX && preX + player->getWidth() - 1 <= objectX + objects.at(i)->getWidth() - 1) || (preX >= objectX && preX <= objectX + objects.at(i)->getWidth() - 1))
+			  {
+				  if (dynamic_cast<Block*>(objects.at(i)))
+				  {
+					  player->setYvel(0);
+					  player->setY(objectY + objects.at(i)->getHeight());
+					  continue;
+				  }
+				  else if (dynamic_cast<Item*>(objects.at(i)))
+				  {
+					  player->setHealth(player->getHealth() + 10); //Give player hp is the item was hpBox
+					  objects.erase(objects.begin() + i);
+					  continue;
+				  }
+			  }
+		  }
+	  }
 
-      if (player->getXvel() > 0) //Player running right
-	{
-	  //Check if players right corners are inside a box
-	  if (player->getX() + player->getWidth() - 1 >= objectX && player->getX() + player->getWidth() - 1 <= objectX + object->getWidth() - 1)
-	    {
-	      if ((preY + player->getHeight() - 1 >= objectY && preY + player->getHeight() - 1 <= objectY + object->getHeight() - 1) || (preY >= objectY && preY <= objectY + object->getHeight() -2))
-		{
-		  if (dynamic_cast<Block*>(object))
-		    {
-		      player->setXvel(0);
-		      player->setX(objectX - player->getWidth());
-		    }
-		   else if (dynamic_cast<Item*>(object))
-		    {
-		      objects.erase(objects.begin() + objectCounter);		      
-		    }
-		}
-	    }
-	}
-      else if (player->getXvel() < 0) //Player running left
-	{
-	  //Check if players left corners are inside a box
-	  if (player->getX() >= objectX && player->getX() <= objectX + object->getWidth() - 1)
-	    {
-	      if ((preY + player->getHeight() - 1 >= objectY && preY + player->getHeight() - 1 <= objectY + object->getHeight() - 1) || (preY >= objectY && preY <= objectY + object->getHeight() - 2))
-		{
-		  if (dynamic_cast<Block*>(object))
-		    {		      
-		      player->setXvel(0);
-		      player->setX(objectX + object->getWidth());
-		    }
-		   else if (dynamic_cast<Item*>(object))
-		    {
-		      objects.erase(objects.begin() + objectCounter);		      
-		    }
-		}
-	    }
-	}
-
-      ++objectCounter;
-    }
+	  if (player->getXvel() > 0) //Player running right
+	  {
+		  //Check if players right corners are inside a box
+		  if (player->getX() + player->getWidth() - 1 >= objectX && player->getX() + player->getWidth() - 1 <= objectX + objects.at(i)->getWidth() - 1)
+		  {
+			  if ((preY + player->getHeight() - 1 >= objectY && preY + player->getHeight() - 1 <= objectY + objects.at(i)->getHeight() - 1) || (preY >= objectY && preY <= objectY + objects.at(i)->getHeight() - 2))
+			  {
+				  if (dynamic_cast<Block*>(objects.at(i)))
+				  {
+					  player->setXvel(0);
+					  player->setX(objectX - player->getWidth());
+					  continue;
+				  }
+				  else if (dynamic_cast<Item*>(objects.at(i)))
+				  {
+					  player->setHealth(player->getHealth() + 10); //Give player hp is the item was hpBox
+					  objects.erase(objects.begin() + i);
+					  continue;
+				  }
+			  }
+		  }
+	  }
+	  else if (player->getXvel() < 0) //Player running left
+	  {
+		  //Check if players left corners are inside a box
+		  if (player->getX() >= objectX && player->getX() <= objectX + objects.at(i)->getWidth() - 1)
+		  {
+			  if ((preY + player->getHeight() - 1 >= objectY && preY + player->getHeight() - 1 <= objectY + objects.at(i)->getHeight() - 1) || (preY >= objectY && preY <= objectY + objects.at(i)->getHeight() - 2))
+			  {
+				  if (dynamic_cast<Block*>(objects.at(i)))
+				  {
+					  player->setXvel(0);
+					  player->setX(objectX + objects.at(i)->getWidth());
+					  continue;
+				  }
+				  else if (dynamic_cast<Item*>(objects.at(i)))
+				  {
+					  player->setHealth(player->getHealth() + 10); //Give player hp is the item was hpBox
+					  objects.erase(objects.begin() + i);
+					  continue;
+				  }
+			  }
+		  }
+	  }
+  }
 }
 
 void LevelSegment::setX(int x)

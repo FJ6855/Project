@@ -16,25 +16,28 @@ class LevelSegment
 	LevelSegment(ResourceManager* rm) : _rm{rm} 
 	{
 	  _blockRenderer = new BlockRenderer(rm);
-	  _difficultyRating = 1;
-	  //_obstacleRenderer = new ObstacleRenderer(rm);
 	  _itemRenderer = new ItemRenderer(rm);
+	  //_obstacleRenderer = new ObstacleRenderer(rm);
+
+	  _difficultyRating = 1;
 
 	  _x = 0;
 	  _y = 0;
 	}
 
 	LevelSegment(const LevelSegment& ls)
-	  {
-	    _rm = ls._rm;
-	    _difficultyRating = ls._difficultyRating;
-	    _x = ls._x;
-	    _y = ls._y;
-	    _blocks = ls._blocks;
-	    _items = ls._items;
-	    _blockRenderer = ls._blockRenderer;
-	    _itemRenderer = ls._itemRenderer;
-	  }
+	{
+		_rm = ls._rm;
+		_difficultyRating = ls._difficultyRating;
+		_x = ls._x;
+		_y = ls._y;
+		_blocks = ls._blocks;
+		_items = ls._items;
+		_blockRenderer = ls._blockRenderer;
+		_itemRenderer = ls._itemRenderer;
+	}
+
+	~LevelSegment();
 
 	void loadLevelSegment(const std::string& fileName);
 	void handleCollision(Player* player, int segmentIndex);
@@ -48,20 +51,19 @@ class LevelSegment
 	int getY();
 
   private:
-	ResourceManager* _rm;
-	
 	int _difficultyRating;
-
 	int _x;
 	int _y;
 
 	std::vector<Block*> _blocks;
-	//vector<Object*> _obstacles;
 	std::vector<Item*> _items;
+	//vector<Object*> _obstacles;
 
 	BlockRenderer* _blockRenderer;
-	//ObstacleRenderer* _obstacleRenderer;
 	ItemRenderer* _itemRenderer;
+	//ObstacleRenderer* _obstacleRenderer;
+
+	ResourceManager* _rm;
 
 	template <typename T>
 	void handleCollisionAgainstObjects(Player* player, std::vector<T*>& objects, int segmentIndex);

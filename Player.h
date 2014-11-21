@@ -6,7 +6,8 @@
 
 enum PlayerState {
 	dead,
-	running, 
+	running,
+	jumping,
 	inAir
 };
 
@@ -22,13 +23,17 @@ class Player : public Object
    : Object(x, y, width, height)
     {
       _speed = 8;
-      _gravity = 5;
+      _gravity = 0.45;
       _xVel = 0;
       _yVel = 0;
       _playerState = inAir;
-       _playerDirection = right;
-       _health = 100;
-       _score = 0;
+      _playerDirection = right;
+      _health = 100;
+      _score = 0;
+	  _healthLossFactor = 0.1f;
+	  _jumpBoost = true;
+	  _jumpBoostGravity = _gravity;
+
     }
 
   void handleInput(InputHandler* inputHandler);
@@ -47,18 +52,26 @@ class Player : public Object
   void setState(PlayerDirection direction);
   PlayerDirection getDirection();
 
-  int getHealth();
+  float getHealth();
   void setHealth(int health);
   int getScore();
   void setScore(int score);
+
+  void setDifficulty(int difficulty);
 
  private:
   float _speed;
   float _gravity;
   float _xVel;
   float _yVel;
-  int _health;
+  float _health;
   int _score;
+  int _currentDifficulty;
+  float _healthLossFactor;
+
+  //jump control
+  bool _jumpBoost;
+  float _jumpBoostGravity;
   
   PlayerDirection _playerDirection;
   PlayerState _playerState;

@@ -11,31 +11,55 @@
 	  else if ((input->getKey(SDL_SCANCODE_A) || input->getKey(SDL_SCANCODE_LEFT)) && _x - 10 > -896)
 	    _xVel = -_speed;
 	      
-	  if ((input->getKey(SDL_SCANCODE_W) || input->getKey(SDL_SCANCODE_SPACE)) && _playerState == running)
+	  if ((input->getKey(SDL_SCANCODE_W) || input->getKey(SDL_SCANCODE_SPACE) || input->getKey(SDL_SCANCODE_UP)) && _playerState == running)
 	    {
-	      _yVel = -10;
+	      _yVel = -8;
+		  _playerState = jumping;
+		  _jumpBoost = true;
+		  _jumpBoostGravity = _gravity;
 	    }
+
+	  if (_playerState == jumping && !(input->getKey(SDL_SCANCODE_UP) || input->getKey(SDL_SCANCODE_W) || input->getKey(SDL_SCANCODE_SPACE)))
+	  {
+		  _jumpBoost = false;
+	  }
   }
 
   void Player::updateLogic()
   {
-	  if (_xVel < 0) _playerDirection = left;
-	  else if (_xVel > 0) _playerDirection = right;
 
+	  std::cout << _jumpBoost << std::endl;
+	  //Update direction
+	  if (_xVel < 0) _playerDirection = left;
+	  else _playerDirection = right;
+
+	  //Update score
 	  _score += _xVel;
 	  if(_score < 0) _score = 0;
 
-	  if (_xVel < 0) _playerDirection = left;
-	  else if (_xVel > 0) _playerDirection = right;
+	  //Gravity
+	  if (_playerState == jumping && _jumpBoost)
+	  {
+		  if (_jumpBoostGravity > 0.15)
+			  _jumpBoostGravity -= 0.01;
+		  else
+			  _jumpBoost = false;
 
-	  _yVel += 0.4;
+		  _yVel += _jumpBoostGravity;
+	  }
+	  else
+		  _yVel += _gravity;
+
+	  //Move player
 	  _x += _xVel;
 	  _y += _yVel;
 	  
+	  //Lose life by time
+	  _health -= _currentDifficulty * _healthLossFactor;
 
-	  if (_y > 600) 
+	  //Check if player is dead
+	  if (_y > 600 || _health <= 0)
 	    _playerState = dead;
-
   }
 
   float Player::getXvel()
@@ -83,7 +107,7 @@ void Player::setState(PlayerDirection direction)
 	_playerDirection = direction;
 }
 
-int Player::getHealth()
+float Player::getHealth()
 {
   return _health;
 }
@@ -100,4 +124,9 @@ int Player::getScore()
 void Player::setScore(int score)
 {
   _score = score;
+}
+
+void Player::setDifficulty(int difficulty)
+{
+	_currentDifficulty = difficulty;
 }

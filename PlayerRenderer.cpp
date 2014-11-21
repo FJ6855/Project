@@ -20,7 +20,7 @@ void PlayerRenderer::loadContent()
   _playerTextureInAirLeft = _rm->loadTexture("playerTextureJumpingLeft");
 
    _healthBarTextTexture = _rm->loadTexture("Health: ", SDL_Color{255, 255, 255});
-   _healthBarTexture = _rm->loadTexture(100, 16, 255, 0, 0);
+   _healthBarTexture = _rm->loadTexture(1, 16, 255, 0, 0);
 
    _scoreTextTexture = _rm->loadTexture("Score: ", SDL_Color{255, 255, 255});
 
@@ -28,10 +28,10 @@ void PlayerRenderer::loadContent()
 
 void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
 {
-        //Render player
+	//Render player
 	if (_playerFrame >= 40) _playerFrame = 0;
 
-	if (player->getState() == inAir)
+	if (player->getState() == inAir || player->getState() == jumping)
 	{
 		if (player->getDirection() == left)
 			_playerTexture = _playerTextureInAirLeft;
@@ -72,14 +72,15 @@ void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
 	_playerTexture->render(renderer, 448 - (player->getWidth() / 2), player->getY(), player->getWidth(), player->getHeight());
 
 	//Render health bar
-	//delete _healthBarTexture; //free the old texture
-	//_healthBarTexture = _rm->loadTexture(player->getHealth(), 16, 255, 0, 0);
+	_healthBarTextTexture->render(renderer, 350, 25, _healthBarTextTexture->getWidth(), _healthBarTextTexture->getHeight());
 
-	_healthBarTextTexture->render(renderer, 350 , 25, _healthBarTextTexture->getWidth(), _healthBarTextTexture->getHeight());
-	_healthBarTexture->render(renderer, 420 , 25, player->getHealth(), 16);
+	if (player->getHealth() > 0)
+	{
+		_healthBarTexture->render(renderer, 420, 25, player->getHealth(), 16);
+	}
 
 	//Render score
-	//delete _scoreTexture; //free the old texture
+	delete _scoreTexture; //free the old texture
 	_scoreTexture = _rm->loadTexture(std::to_string(player->getScore()), SDL_Color{0, 255, 0});
        
 	_scoreTextTexture->render(renderer, 350, 45, _scoreTextTexture->getWidth(),  _scoreTextTexture->getHeight());

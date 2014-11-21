@@ -22,7 +22,7 @@ void Level::loadSegments()
 
 	int random = _rnd() % (_loadedSegments.size() - 1);
 	
-	_segments.push_back(new LevelSegment(*(_loadedSegments.at(random))));
+	_segments.push_back(new LevelSegment(*(_loadedSegments.at(0))));
 	_segments.push_back(new LevelSegment(*(_loadedSegments.at(random))));
 	_segments.push_back(new LevelSegment(*(_loadedSegments.at(random))));
 }
@@ -39,6 +39,7 @@ void Level::updateLogic()
 	if (_player->getX() >= 897)
 	{
 		_player->setX(_player->getX() - 897);
+		delete _segments.at(0); //Free the memory
 		_segments.at(0) = _segments.at(1);
 		_segments.at(1) = _segments.at(2);
 		int random = _rnd() % _loadedSegments.size();
@@ -49,6 +50,8 @@ void Level::updateLogic()
 	{
 		reset();
 	}
+
+	//TODO change difficulty and do _player->setDifficulty(x);
 }
 
 void Level::render(SDL_Renderer* renderer)
@@ -71,7 +74,10 @@ void Level::handleCollision()
 {
   int x = _player->getX();
 
-  _player->setState(PlayerState::inAir);
+  if (_player->getState() != PlayerState::jumping)
+  {
+	  _player->setState(PlayerState::inAir);
+  }
   
   if(x < 0)
     {
@@ -87,17 +93,23 @@ void Level::handleCollision()
 
 void Level::reset()
 {
-  _player->setX(0);
+  _player->setX(-896);
   _player->setY(256);
   _player->setState(PlayerState::inAir);
   _player->setXvel(0);
   _player->setYvel(0);
-  
+  _player->setScore(0);
+  _player->setHealth(100);
+
   int random = _rnd() % (_loadedSegments.size() - 1);
 
-  _segments.push_back(new LevelSegment(*(_loadedSegments.at(random))));
-  _segments.push_back(new LevelSegment(*(_loadedSegments.at(random))));
-  _segments.push_back(new LevelSegment(*(_loadedSegments.at(random))));
+  delete _segments.at(0); //Free the memory
+  delete _segments.at(1); //Free the memory
+  delete _segments.at(2); //Free the memory
+
+  _segments.at(0) = new LevelSegment(*(_loadedSegments.at(0)));
+  _segments.at(1) = new LevelSegment(*(_loadedSegments.at(random)));
+  _segments.at(2) = new LevelSegment(*(_loadedSegments.at(random)));
 
   _activeSegmentIndex = 0;
 }
