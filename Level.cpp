@@ -24,6 +24,9 @@ void Level::loadSegments()
 	
 	_segments.push_back(new LevelSegment(*(_loadedSegments.at(0))));
 	_segments.push_back(new LevelSegment(*(_loadedSegments.at(random))));
+
+	random = _rnd() % (_loadedSegments.size() - 1);
+
 	_segments.push_back(new LevelSegment(*(_loadedSegments.at(random))));
 }
 
@@ -94,10 +97,11 @@ void Level::handleCollision()
 void Level::reset()
 {
   _player->setX(-896);
-  _player->setY(256);
+  _player->setY(200);
   _player->setState(PlayerState::inAir);
   _player->setXvel(0);
   _player->setYvel(0);
+  if(_player->getHighscore() < _player->getScore())_player->setHighscore(_player->getScore());
   _player->setScore(0);
   _player->setHealth(100);
 
@@ -109,6 +113,9 @@ void Level::reset()
 
   _segments.at(0) = new LevelSegment(*(_loadedSegments.at(0)));
   _segments.at(1) = new LevelSegment(*(_loadedSegments.at(random)));
+
+  random = _rnd() % (_loadedSegments.size() - 1);
+
   _segments.at(2) = new LevelSegment(*(_loadedSegments.at(random)));
 
   _activeSegmentIndex = 0;

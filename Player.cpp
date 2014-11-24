@@ -31,13 +31,12 @@
 	  //std::cout << _jumpBoost << std::endl;
 	  //Update direction
 	  if (_xVel < 0) _playerDirection = left;
-	  else _playerDirection = right;
+	  else if (_xVel > 0)_playerDirection = right;
 
 	  //Update score
 	  if (_xVel > 0 && _playerDirection == PlayerDirection::right)
 	  {
 		  _scoreOffset += _xVel;
-		  std::cout << _scoreOffset << std::endl;
 
 		  if (_scoreOffset > 0) 
 		  {
@@ -48,7 +47,6 @@
 	  else if (_xVel < 0 && _playerDirection == PlayerDirection::left)
 	  {
 		  _scoreOffset += _xVel;
-		  std::cout << _scoreOffset << std::endl;
 	  }
 	  
 	  if(_score < 0) _score = 0;
@@ -57,7 +55,7 @@
 	  if (_playerState == jumping && _jumpBoost)
 	  {
 		  if (_jumpBoostGravity > 0.15)
-			  _jumpBoostGravity -= 0.01;
+			  _jumpBoostGravity -= 0.01f;
 		  else
 			  _jumpBoost = false;
 
@@ -145,4 +143,14 @@ void Player::setScore(int score)
 void Player::setDifficulty(int difficulty)
 {
 	_currentDifficulty = difficulty;
+}
+
+void Player::setHighscore(int highscore)
+{
+	_highscore = highscore;
+}
+
+int Player::getHighscore()
+{
+	return _highscore;
 }

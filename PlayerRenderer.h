@@ -37,6 +37,9 @@ class PlayerRenderer : public Renderer
 
 	Texture* _scoreTexture = nullptr;
 	Texture* _scoreTextTexture;
+
+	Texture* _lastScoreTexture = nullptr;
+	Texture* _lastScoreTextTexture;
 	
 	int _playerFrame;
 };

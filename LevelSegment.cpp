@@ -110,6 +110,7 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
   int preY = player->getY() - player->getYvel();
 
   int playerY;
+  int playerX;
 
   if(player->getYvel() >= 0 && player->getYvel() < 1)
     {
@@ -119,6 +120,17 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
     {
       playerY = player->getY();
     }
+
+  if (player->getXvel() >= 0 && player->getXvel() < 1)
+  {
+	  playerX = player->getX() + 1;
+  }
+  else if (player->getXvel() <= 0 && player->getXvel() > -1)
+  {
+	  playerX = player->getX() - 1;
+  }
+  else
+	  playerX = player->getX();
 
   int offset = -896 + 896 * segmentIndex - 448 + 16;
 
@@ -195,7 +207,7 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 	  if (player->getXvel() > 0) //Player running right
 	  {
 		  //Check if players right corners are inside a box
-		  if (player->getX() + player->getWidth() - 1 >= objectX && player->getX() + player->getWidth() - 1 <= objectX + objects.at(i)->getWidth() - 1)
+		  if (playerX + player->getWidth() - 1 >= objectX && playerX + player->getWidth() - 1 <= objectX + objects.at(i)->getWidth() - 1)
 		  {
 			  if ((preY + player->getHeight() - 1 >= objectY && preY + player->getHeight() - 1 <= objectY + objects.at(i)->getHeight() - 1) || (preY >= objectY && preY <= objectY + objects.at(i)->getHeight() - 2))
 			  {
@@ -223,7 +235,7 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 	  else if (player->getXvel() < 0) //Player running left
 	  {
 		  //Check if players left corners are inside a box
-		  if (player->getX() >= objectX && player->getX() <= objectX + objects.at(i)->getWidth() - 1)
+		  if (playerX >= objectX && playerX <= objectX + objects.at(i)->getWidth() - 1)
 		  {
 			  if ((preY + player->getHeight() - 1 >= objectY && preY + player->getHeight() - 1 <= objectY + objects.at(i)->getHeight() - 1) || (preY >= objectY && preY <= objectY + objects.at(i)->getHeight() - 2))
 			  {

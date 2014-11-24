@@ -17,7 +17,7 @@ class Level
   public:
 	Level(InputHandler* input, ResourceManager* rm) : _input{input}, _rm{rm} 
 	{
-		_player = new Player(-896, 256, 32, 32);
+		_player = new Player(-896, 200, 32, 32);
 		_playerRenderer = new PlayerRenderer(rm);
 		_backgroundRenderer = new BackgroundRenderer(rm);
 		_background = new Background();

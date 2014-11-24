@@ -23,13 +23,14 @@ class Player : public Object
    : Object(x, y, width, height)
     {
       _speed = 8;
-      _gravity = 0.45;
+      _gravity = 0.45f;
       _xVel = 0;
       _yVel = 0;
       _playerState = inAir;
       _playerDirection = right;
       _health = 100;
       _score = 0;
+	  _highscore = 0;
 	  _scoreOffset = 0;
 	  _healthLossFactor = 0.1f;
 	  _jumpBoost = true;
@@ -57,6 +58,8 @@ class Player : public Object
   void setHealth(int health);
   int getScore();
   void setScore(int score);
+  void setHighscore(int highscore);
+  int getHighscore();
 
   void setDifficulty(int difficulty);
 
@@ -67,6 +70,7 @@ class Player : public Object
   float _yVel;
   float _health;
   int _score;
+  int _highscore;
   float _scoreOffset;
   int _currentDifficulty;
   float _healthLossFactor;
