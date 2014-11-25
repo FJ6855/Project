@@ -3,6 +3,7 @@
 #include "HelpMenu.h"
 #include "HighscoreMenu.h"
 #include "PauseMenu.h"
+#include "WriteNameMenu.h"
 
 MenuRenderer::~MenuRenderer()
 {
@@ -33,6 +34,10 @@ void MenuRenderer::render(Menu* menu, SDL_Renderer* renderer)
 	else if (dynamic_cast<PauseMenu*>(menu))
 	{
 		_pauseMenuBackground->render(renderer, 0, 0, 896, 512);
+	}
+	else if (dynamic_cast<WriteNameMenu*>(menu))
+	{
+		_writeNameMenuBackground->render(renderer, 0, 0, 896, 512);
 	}
 
   std::vector<Button*> v = menu->getButtons();

@@ -16,6 +16,7 @@ class MenuRenderer : public Renderer
     _helpMenuBackground = rm->loadTexture("helpMenuBackground");
     _highscoreMenuBackground = rm->loadTexture("highscoreMenuBackground");
     _pauseMenuBackground = rm->loadTexture("pauseMenuBackground");
+    _writeNameMenuBackground = rm->loadTexture("pauseMenuBackground"); //behövs en egen kanske
   }
   ~MenuRenderer();
   
@@ -27,6 +28,7 @@ class MenuRenderer : public Renderer
   Texture* _helpMenuBackground;
   Texture* _highscoreMenuBackground;
   Texture* _pauseMenuBackground;
+  Texture* _writeNameMenuBackground;
 
   ButtonRenderer* _buttonRenderer;
 };

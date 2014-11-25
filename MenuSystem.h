@@ -8,6 +8,7 @@
 #include "HighscoreMenu.h"
 #include "HighscoreMenuRenderer.h"
 #include "PauseMenu.h"
+#include "WriteNameMenu.h"
 
 #ifndef MENUSYSTEM_H
 #define MENUSYSTEM_H
@@ -34,7 +35,7 @@ class MenuSystem : public SystemModule
   StartMenu* _startMenu;
   HighscoreMenu* _highscoreMenu;
   PauseMenu* _pauseMenu;
-  //WriteNameMenu* _writeNameMenu;
+  WriteNameMenu* _writeNameMenu;
   HelpMenu* _helpMenu;
 
   MenuRenderer* _menuRenderer;

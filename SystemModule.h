@@ -5,6 +5,7 @@ enum SystemState
 {
 	PLAY,
 	PAUSE,
+	WRITENAMEMENU,
 	DEAD,
 	STARTMENU,
 	HIGHSCORE,

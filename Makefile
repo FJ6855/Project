@@ -4,8 +4,8 @@ LFLAGS	= -L/usr/lib/x86_64-linux-gnu -lSDL2 -lSDL2_image -lSDL2_ttf -lm
 
 
 
-game: 	Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlockRenderer.o Item.o ItemRenderer.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o
-	$(CCC) -o game Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlockRenderer.o Item.o ItemRenderer.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o $(LFLAGS)
+game: 	Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlockRenderer.o Item.o ItemRenderer.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o ObstacleRenderer.o Obstacle.o Score.o HighScore.o WriteNameMenu.o
+	$(CCC) -o game Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlockRenderer.o Item.o ItemRenderer.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o ObstacleRenderer.o Obstacle.o HighScore.o Score.o WriteNameMenu.o $(LFLAGS)
 
 Main.o : Main.cpp
 	$(CCC) -c Main.cpp $(LFLAGS)
@@ -90,6 +90,22 @@ Background.o : Background.cpp Background.h
 
 BackgroundRenderer.o : BackgroundRenderer.cpp BackgroundRenderer.h
 	$(CCC) -c BackgroundRenderer.cpp $(LFLAGS)
+
+Obstacle.o : Obstacle.cpp Obstacle.h
+	$(CCC) -c Obstacle.cpp $(LFLAGS)
+
+ObstacleRenderer.o : ObstacleRenderer.cpp ObstacleRenderer.h
+	$(CCC) -c ObstacleRenderer.cpp $(LFLAGS)
+
+HighScore.o : HighScore.cpp HighScore.h
+	$(CCC) -c HighScore.cpp $(LFLAGS)
+
+Score.o : Score.cpp Score.h
+	$(CCC) -c Score.cpp $(LFLAGS)
+
+WriteNameMenu.o : WriteNameMenu.cpp WriteNameMenu.h
+	$(CCC) -c WriteNameMenu.cpp $(LFLAGS)
+
 clean:
 	@ \rm -rf *.o *.gch core
 
