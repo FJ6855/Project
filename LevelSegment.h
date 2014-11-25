@@ -3,6 +3,7 @@
 
 #include "ResourceManager.h"
 #include "Object.h"
+#include "BlinkingBlock.h"
 #include "BlockRenderer.h"
 #include "ObstacleRenderer.h"
 #include "ItemRenderer.h"

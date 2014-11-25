@@ -37,6 +37,11 @@ void Level::handleInput()
 
 void Level::updateLogic()
 {
+  for (LevelSegment* ls : _segments)
+    {
+      ls->updateLogic();
+    }
+
 	_player->updateLogic();
 
 	if (_player->getX() >= 897)

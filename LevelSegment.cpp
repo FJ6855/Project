@@ -12,61 +12,67 @@ LevelSegment::~LevelSegment()
 
 void LevelSegment::loadLevelSegment(const std::string& fileName)
 {
-	std::ifstream file("./res/LevelSegments/" + fileName + ".txt");
+  std::ifstream file("./res/LevelSegments/" + fileName + ".txt");
 
-	if (file.is_open())
+  if (file.is_open())
+    {
+      int x = 0;
+      int y = 0;
+
+      std::string line;
+
+      while (getline(file, line))
 	{
-		int x = 0;
-		int y = 0;
+	  std::stringstream ss(line);
+	  char c;
 
-		std::string line;
-
-		while (getline(file, line))
+	  while (ss >> c)
+	    {
+	      if (c == 'X')
 		{
-			std::stringstream ss(line);
-			char c;
+		  Block* b = new Block(x, y, 32, 32, BlockType::BlockType1);
 
-			while (ss >> c)
-			{
-				if (c == 'X')
-				{
-					Block* b = new Block(x, y, 32, 32, BlockType::BlockType1);
-
-					_blocks.push_back(b);
-				}
-				else if (c == 'Y')
-				{
-					Obstacle* o = new Obstacle(x, y, 32, 32, ObstacleType::ObstacleType1, 10);
-
-					_obstacles.push_back(o);
-				}
-				else if (c == 'Z')
-				{
-					Item* i = new Item(x, y, 32, 32, ItemType::ItemType1, 10);
-
-					_items.push_back(i);
-				}
-
-				++x;
-			}
-
-			x = 0;
-			++y;
+		  _blocks.push_back(b);
 		}
+	      else if (c == 'B')
+		{
+		  Block* b = new BlinkingBlock(x, y, 32, 32, BlockType::BlockType1, 100);
+
+		  _blocks.push_back(b);
+		}
+	      else if (c == 'Y')
+		{
+		  Obstacle* o = new Obstacle(x, y, 32, 32, ObstacleType::ObstacleType1, 10);
+
+		  _obstacles.push_back(o);
+		}
+	      else if (c == 'Z')
+		{
+		  Item* i = new Item(x, y, 32, 32, ItemType::ItemType1, 10);
+
+		  _items.push_back(i);
+		}
+
+	      ++x;
+	    }
+
+	  x = 0;
+	  ++y;
 	}
-	else
-	{
-		std::cout << "Could not open file: LevelSegments/" + fileName << std::endl;
-	}
+    }
+  else
+    {
+      std::cout << "Could not open file: LevelSegments/" + fileName << std::endl;
+    }
 }
 
 void LevelSegment::updateLogic()
 {
-  /*for (Block* b : _blocks)
-	{
-		b->updateLogic();
-	}
-
+  for (Block* b : _blocks)
+    {
+      b->updateLogic();
+    }
+  /*
 	for (Obstacle* o : _obstacles)
 	{
 		o->updateLogic();
@@ -81,15 +87,27 @@ void LevelSegment::updateLogic()
 void LevelSegment::render(SDL_Renderer* renderer)
 {
   for (Block* b : _blocks)
+    {
+      BlinkingBlock* blinkingBlock = dynamic_cast<BlinkingBlock*>(b);
+      
+      if (blinkingBlock != nullptr)
+	{
+	  if (blinkingBlock->isVisible())
+	    {
+	      _blockRenderer->render(blinkingBlock, _x, renderer);
+	    }
+	}
+      else
 	{
 	  _blockRenderer->render(b, _x, renderer);
 	}
+    }
   
   for (Obstacle* o : _obstacles)
-	{
-		_obstacleRenderer->render(o, _x, renderer);
-	}
-
+    {
+      _obstacleRenderer->render(o, _x, renderer);
+    }
+  
   for (Item* i : _items)
     {
       _itemRenderer->render(i, _x, renderer);
@@ -143,8 +161,14 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 	  objectY = objects.at(i)->getY() * objects.at(i)->getWidth();
 
 	  Block* block = dynamic_cast<Block*>(objects.at(i));
+	  BlinkingBlock* blinkingBlock = dynamic_cast<BlinkingBlock*>(objects.at(i));
 	  Obstacle* obstacle = dynamic_cast<Obstacle*>(objects.at(i));
 	  Item* item = dynamic_cast<Item*>(objects.at(i));
+
+	  if (blinkingBlock != nullptr && !blinkingBlock->isVisible())
+	    {
+	      continue;
+	    }
 
 	  if (player->getYvel() >= 0) //Player falling down
 	  {

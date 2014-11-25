@@ -4,8 +4,8 @@ LFLAGS	= -L/usr/lib/x86_64-linux-gnu -lSDL2 -lSDL2_image -lSDL2_ttf -lm
 
 
 
-game: 	Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlockRenderer.o Item.o ItemRenderer.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o
-	$(CCC) -o game Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlockRenderer.o Item.o ItemRenderer.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o $(LFLAGS)
+game: 	Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlinkingBlock.o BlockRenderer.o Obstacle.o ObstacleRenderer.o Item.o ItemRenderer.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o
+	$(CCC) -o game Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlinkingBlock.o BlockRenderer.o Obstacle.o ObstacleRenderer.o Item.o ItemRenderer.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o $(LFLAGS)
 
 Main.o : Main.cpp
 	$(CCC) -c Main.cpp $(LFLAGS)
@@ -73,8 +73,17 @@ Object.o : Object.cpp Object.h
 Block.o : Block.cpp Block.h
 	$(CCC) -c Block.cpp $(LFLAGS)
 
+BlinkingBlock.o : BlinkingBlock.cpp BlinkingBlock.h
+	$(CCC) -c BlinkingBlock.cpp $(LFLAGS)
+
 BlockRenderer.o : BlockRenderer.cpp BlockRenderer.h
 	$(CCC) -c BlockRenderer.cpp $(LFLAGS)
+
+Obstacle.o : Obstacle.cpp Obstacle.h
+	$(CCC) -c Obstacle.cpp $(LFLAGS)
+
+ObstacleRenderer.o : ObstacleRenderer.cpp ObstacleRenderer.h
+	$(CCC) -c ObstacleRenderer.cpp $(LFLAGS)
 
 Item.o : Item.cpp Item.h
 	$(CCC) -c Item.cpp $(LFLAGS)

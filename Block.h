@@ -11,11 +11,12 @@ enum BlockType
 class Block : public Object
 {
  public:
- Block(int x, int y, int width, int height, BlockType type) : _type{type}, Object(x, y, width, height) {}
-
- BlockType getType();
- void updateLogic();
-
+ Block(int x, int y, int width, int height, BlockType type) : Object(x, y, width, height), _type{type} 
+  {}
+  
+  BlockType getType();
+  void updateLogic();
+  
  private:
   BlockType _type;
 };
