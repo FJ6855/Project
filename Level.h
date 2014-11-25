@@ -31,7 +31,7 @@ class Level
 	void updateLogic();
 	void render(SDL_Renderer* renderer);
 	void handleCollision();
-	//Player* getPlayer() { return _player; }
+	Player* getPlayer() { return _player; }
 	PlayerState getPlayerState();
 	void reset();
 

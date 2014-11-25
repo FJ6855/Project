@@ -54,10 +54,12 @@ void Level::updateLogic()
 		_segments.at(2) = new LevelSegment(*(_loadedSegments.at(random)));
 	} 
 
+
+	/*
 	if (_player->getState() == PlayerState::dead)
 	{
 		reset();
-	}
+	}*/
 
 	//TODO change difficulty and do _player->setDifficulty(x);
 }
