@@ -4,6 +4,10 @@
 #include "ResourceManager.h"
 #include "Object.h"
 #include "BlinkingBlock.h"
+#include "MovingBlock.h"
+#include "SpeedBlock.h"
+#include "Obstacle.h"
+#include "Item.h"
 #include "BlockRenderer.h"
 #include "ObstacleRenderer.h"
 #include "ItemRenderer.h"
@@ -33,9 +37,34 @@ class LevelSegment
 		_difficultyRating = ls._difficultyRating;
 		_x = ls._x;
 		_y = ls._y;
-		_blocks = ls._blocks;
-		_obstacles = ls._obstacles;
-		_items = ls._items;
+
+		for (Block* b : ls._blocks)
+		  {
+		    MovingBlock* movingBlock = dynamic_cast<MovingBlock*>(b);
+		    SpeedBlock* speedBlock = dynamic_cast<SpeedBlock*>(b);
+		    BlinkingBlock* blinkingBlock = dynamic_cast<BlinkingBlock*>(b);
+		    
+
+		    if (movingBlock != nullptr)
+		      _blocks.push_back(new MovingBlock(*(movingBlock)));
+		    else if (speedBlock != nullptr)
+		      _blocks.push_back(new SpeedBlock(*(speedBlock)));
+		    else if (blinkingBlock != nullptr)
+		      _blocks.push_back(new BlinkingBlock(*(blinkingBlock)));
+		    else
+		      _blocks.push_back(new Block(*(b)));
+		  }
+
+		for (Obstacle* o : ls._obstacles)
+		  {
+		      _obstacles.push_back(new Obstacle(*(o)));
+		  }
+
+		for (Item* i : ls._items)
+		  {
+		      _items.push_back(new Item(*(i)));
+		  }
+
 		_blockRenderer = ls._blockRenderer;
 		_obstacleRenderer = ls._obstacleRenderer;
 		_itemRenderer = ls._itemRenderer;
@@ -58,6 +87,8 @@ class LevelSegment
 	int _difficultyRating;
 	int _x;
 	int _y;
+	int _updates;
+	int _time;
 
 	std::vector<Block*> _blocks;
 	std::vector<Item*> _items;

@@ -18,7 +18,7 @@ class Block : public Object
   {}
   
   BlockType getType();
-  void updateLogic();
+  void updateLogic() override;
   
  private:
   BlockType _type;

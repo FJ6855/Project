@@ -36,8 +36,8 @@ void Game::updateLogic()
 	      {
 		_highScore->setCurrentScore(_level->getPlayer()->getScore());
 		systemState = WRITENAMEMENU;
-		std::cout << _highScore->getScore() << std::endl;
 	      }
+
 	    _level->reset();
 	  }
 

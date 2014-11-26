@@ -45,7 +45,7 @@ void LevelSegment::loadLevelSegment(const std::string& fileName)
 		}
 	      else if (c == 'S')
 		{
-		  Block* sb = new SpeedBlock(x, y, 32, 32, BlockType::SpeedBlock1, 3);
+		  Block* sb = new SpeedBlock(x, y, 32, 32, BlockType::SpeedBlock1, 10);
 
 		  _blocks.push_back(sb);
 		}
