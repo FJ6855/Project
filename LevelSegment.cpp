@@ -4,6 +4,8 @@
 #include <iostream>
 
 #include "LevelSegment.h"
+#include "BlinkingBlock.h"
+#include "SpeedBlock.h"
 
 LevelSegment::~LevelSegment()
 {
@@ -36,9 +38,15 @@ void LevelSegment::loadLevelSegment(const std::string& fileName)
 		}
 	      else if (c == 'B')
 		{
-		  Block* b = new BlinkingBlock(x, y, 32, 32, BlockType::BlockType1, 100);
+		  Block* b = new BlinkingBlock(x, y, 32, 32, BlockType::BlinkingBlock1, 100);
 
 		  _blocks.push_back(b);
+		}
+	      else if (c == 'S')
+		{
+		  Block* sb = new SpeedBlock(x, y, 32, 32, BlockType::SpeedBlock1, 3);
+
+		  _blocks.push_back(sb);
 		}
 	      else if (c == 'Y')
 		{
@@ -88,19 +96,7 @@ void LevelSegment::render(SDL_Renderer* renderer)
 {
   for (Block* b : _blocks)
     {
-      BlinkingBlock* blinkingBlock = dynamic_cast<BlinkingBlock*>(b);
-      
-      if (blinkingBlock != nullptr)
-	{
-	  if (blinkingBlock->isVisible())
-	    {
-	      _blockRenderer->render(blinkingBlock, _x, renderer);
-	    }
-	}
-      else
-	{
-	  _blockRenderer->render(b, _x, renderer);
-	}
+      _blockRenderer->render(b, _x, renderer);
     }
   
   for (Obstacle* o : _obstacles)
@@ -182,6 +178,14 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 					  player->setState(PlayerState::running);
 					  player->setYvel(0);
 					  player->setY(objectY - player->getHeight());
+					  					  
+					  SpeedBlock* speedBlock = dynamic_cast<SpeedBlock*>(objects.at(i));
+					  
+					  if (speedBlock != nullptr)
+					    player->setSpeed(speedBlock->getSpeedFactor());
+					  else
+					    player->resetSpeed();
+
 					  continue;
 				  }
 				  else if (obstacle != nullptr)
@@ -201,6 +205,9 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 	  }
 	  else if (player->getYvel() < 0) //Player jumping up
 	  {
+	    
+	    player->resetSpeed();
+
 		  //Check if players top corners are inside a box
 		  if (player->getY() >= objectY && player->getY() <= objectY + objects.at(i)->getHeight() - 1)
 		  {

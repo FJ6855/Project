@@ -23,6 +23,7 @@ class Player : public Object
    : Object(x, y, width, height)
     {
       _speed = 8;
+      _defaultSpeed = _speed;
       _gravity = 0.45f;
       _xVel = 0;
       _yVel = 0;
@@ -30,11 +31,11 @@ class Player : public Object
       _playerDirection = right;
       _health = 100;
       _score = 0;
-	  _highscore = 0;
-	  _scoreOffset = 0;
-	  _healthLossFactor = 0.1f;
-	  _jumpBoost = true;
-	  _jumpBoostGravity = _gravity;
+      _highscore = 0;
+      _scoreOffset = 0;
+      _healthLossFactor = 0.1f;
+      _jumpBoost = true;
+      _jumpBoostGravity = _gravity;
 
     }
 
@@ -43,9 +44,11 @@ class Player : public Object
 
   float getXvel();
   float getYvel();
-  int getSpeed();
+  float getSpeed();
+  void setSpeed(float speed);
+  void resetSpeed();
 
-  void setXvel(int xVel);;
+  void setXvel(int xVel);
   void setYvel(int yVel);
 
   void setState(PlayerState state);
@@ -65,6 +68,7 @@ class Player : public Object
 
  private:
   float _speed;
+  float _defaultSpeed;
   float _gravity;
   float _xVel;
   float _yVel;

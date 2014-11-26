@@ -2,8 +2,8 @@
 CCC	= g++ -std=c++11
 LFLAGS	= -L/usr/lib/x86_64-linux-gnu -lSDL2 -lSDL2_image -lSDL2_ttf -lm
 
-game: 	Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlinkingBlock.o BlockRenderer.o Obstacle.o ObstacleRenderer.o Item.o ItemRenderer.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o Score.o HighScore.o WriteNameMenu.o
-	$(CCC) -o game Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlinkingBlock.o BlockRenderer.o Obstacle.o ObstacleRenderer.o Item.o ItemRenderer.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o HighScore.o Score.o WriteNameMenu.o $(LFLAGS)
+game: 	Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlinkingBlock.o SpeedBlock.o BlockRenderer.o Obstacle.o ObstacleRenderer.o Item.o ItemRenderer.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o Score.o HighScore.o WriteNameMenu.o
+	$(CCC) -o game Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlinkingBlock.o SpeedBlock.o BlockRenderer.o Obstacle.o ObstacleRenderer.o Item.o ItemRenderer.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o HighScore.o Score.o WriteNameMenu.o $(LFLAGS)
 
 Main.o : Main.cpp
 	$(CCC) -c Main.cpp $(LFLAGS)
@@ -73,6 +73,9 @@ Block.o : Block.cpp Block.h
 
 BlinkingBlock.o : BlinkingBlock.cpp BlinkingBlock.h
 	$(CCC) -c BlinkingBlock.cpp $(LFLAGS)
+
+SpeedBlock.o : SpeedBlock.cpp SpeedBlock.h
+	$(CCC) -c SpeedBlock.cpp $(LFLAGS)
 
 BlockRenderer.o : BlockRenderer.cpp BlockRenderer.h
 	$(CCC) -c BlockRenderer.cpp $(LFLAGS)

@@ -5,7 +5,9 @@
 
 enum BlockType
 {
-  BlockType1
+  BlockType1,
+  BlinkingBlock1,
+  SpeedBlock1
 };
 
 class Block : public Object

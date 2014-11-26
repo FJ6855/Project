@@ -86,10 +86,20 @@
 	  return _yVel;
   }
 
-  int Player::getSpeed()
+  float Player::getSpeed()
   {
 	  return _speed;
   }
+
+void Player::setSpeed(float speed)
+{
+  _speed = speed;
+}
+
+void Player::resetSpeed()
+{
+  _speed = _defaultSpeed;
+}
 
   void Player::setXvel(int xVel)
   {
