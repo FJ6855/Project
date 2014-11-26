@@ -7,6 +7,7 @@ enum BlockType
 {
   BlockType1,
   BlinkingBlock1,
+  BlinkingBlockInvisible1,
   SpeedBlock1
 };
 

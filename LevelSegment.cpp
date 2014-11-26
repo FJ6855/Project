@@ -6,6 +6,7 @@
 #include "LevelSegment.h"
 #include "BlinkingBlock.h"
 #include "SpeedBlock.h"
+#include "MovingBlock.h"
 
 LevelSegment::~LevelSegment()
 {
@@ -47,6 +48,12 @@ void LevelSegment::loadLevelSegment(const std::string& fileName)
 		  Block* sb = new SpeedBlock(x, y, 32, 32, BlockType::SpeedBlock1, 3);
 
 		  _blocks.push_back(sb);
+		}
+	      else if (c == 'M')
+		{
+		  Block* mb = new MovingBlock(x, y, 32, 32, BlockType::BlockType1, 2, 5);
+
+		  _blocks.push_back(mb);
 		}
 	      else if (c == 'Y')
 		{
@@ -144,7 +151,9 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 	  playerX = player->getX() - 1;
   }
   else
-	  playerX = player->getX();
+    {
+      playerX = player->getX();
+    }
 
   int offset = -896 + 896 * segmentIndex - 448 + 16;
 
@@ -153,9 +162,15 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 
   for (int i{}; i < objects.size(); ++i)
   {
-	  objectX = objects.at(i)->getX() * objects.at(i)->getWidth() + offset;
-	  objectY = objects.at(i)->getY() * objects.at(i)->getWidth();
-
+    MovingBlock* movingBlock = dynamic_cast<MovingBlock*>(objects.at(i));
+    
+    objectX = objects.at(i)->getX() * objects.at(i)->getWidth() + offset;
+    
+    if (movingBlock != nullptr)
+	objectX += movingBlock->getMovingX();
+	
+	objectY = objects.at(i)->getY() * objects.at(i)->getWidth();
+      
 	  Block* block = dynamic_cast<Block*>(objects.at(i));
 	  BlinkingBlock* blinkingBlock = dynamic_cast<BlinkingBlock*>(objects.at(i));
 	  Obstacle* obstacle = dynamic_cast<Obstacle*>(objects.at(i));
