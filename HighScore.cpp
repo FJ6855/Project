@@ -51,11 +51,13 @@ void HighScore::loadScores(ResourceManager* rm)
 
       while (file >> score)
 	{
-	  file >> std::ws;
-	  getline(file,name);
-	  _scores.push_back(Score{x,name,score});
+	  getline(file, name);
+	  name.erase(begin(name));
+	  _scores.push_back(Score{x, name, score});
 	  x++;
 	}
+      _scores.erase(begin(_scores)+10,end(_scores));
+      std::sort(begin(_scores),end(_scores));
       file.close();
     }
   else
