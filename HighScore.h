@@ -8,25 +8,26 @@
 class HighScore
 {
  public:
-  HighScore()
-    {
-      _currentScore = 0;
-      _currentName = "";
-    }
+  HighScore(ResourceManager*);
+
+  ~HighScore();
 
   void newHighScoreSet();
-  void compare(int score);
-  int  getScore();
+  bool compare(int);
   void loadScores(ResourceManager* rm);
   void saveScores(ResourceManager* rm);
   void setCurrentScore(int score);
   void setCurrentName(std::string name);
+  std::vector<Score> getScores();
 
  private:
   std::vector<Score> _scores;
-  bool _newHighScoreSet;
+  ResourceManager* _rm;
   int _currentScore;
   std::string _currentName;
+
 };
+
+bool operator<(const Score &s1, const Score &s2);
 
 #endif

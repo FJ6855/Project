@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 
   InputHandler* input = new InputHandler();
   ResourceManager* rm = new ResourceManager(gRenderer, gFont);
-  HighScore* highScore = new HighScore();
+  HighScore* highScore = new HighScore(rm);
   Game* game = new Game(input, rm, highScore, gRenderer);
   MenuSystem* menuSystem = new MenuSystem(input, rm, highScore, gRenderer);
 
@@ -54,6 +54,7 @@ int main(int argc, char* argv[])
 		  fps = 0;
 	  }
     }
+  highScore->saveScores(rm);
   return 0;
 }
 

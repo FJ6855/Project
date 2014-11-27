@@ -31,12 +31,10 @@ void Game::updateLogic()
 
 	if(_level->getPlayerState() == PlayerState::dead) 
 	  {
-	    //systemState = STARTMENU;
-	    if(_level->getPlayer()->getScore() > _highScore->getScore())
+	      if(_highScore->compare(_level->getPlayer()->getScore()))
 	      {
-		_highScore->setCurrentScore(_level->getPlayer()->getScore());
 		systemState = WRITENAMEMENU;
-		std::cout << _highScore->getScore() << std::endl;
+		_highScore->setCurrentScore(_level->getPlayer()->getScore());
 	      }
 	    _level->reset();
 	  }

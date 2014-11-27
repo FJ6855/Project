@@ -18,10 +18,12 @@ void ButtonRenderer::loadContent()
 	_textTextures.push_back(_rm->loadTexture("QUIT", SDL_Color{255, 255, 255, 255}));
 	_textTextures.push_back(_rm->loadTexture("BACK", SDL_Color{ 255, 255, 255, 255 }));
 	_textTextures.push_back(_rm->loadTexture("RESUME", SDL_Color{ 255, 255, 255, 255 }));
+	_textTextures.push_back(_rm->loadTexture("ACCEPT", SDL_Color{ 255, 255, 255, 255 }));
+	_textTextures.push_back(_rm->loadTexture("CANCEL", SDL_Color{ 255, 255, 255, 255 }));
 }
 
 void ButtonRenderer::render(Button* button, SDL_Renderer* renderer)
-{
+{ 
 	if (button->getButtonState() == SELECTED) _buttonTextureSelected->render(renderer, button->getX() - 150 / 2, button->getY(), 150, 50);
 	if (button->getButtonState() == NOTSELECTED) _buttonTextureDeselected->render(renderer, button->getX() - 150 / 2, button->getY(), 150, 50);
 
@@ -37,4 +39,8 @@ void ButtonRenderer::render(Button* button, SDL_Renderer* renderer)
 		_textTextures.at(4)->render(renderer, button->getX() - 30, button->getY() + 10, button->getWidth(), button->getHeight());
 	else if (button->getText() == "RESUME")
 		_textTextures.at(5)->render(renderer, button->getX() - 48, button->getY() + 10, button->getWidth() + 35, button->getHeight());
+	else if (button->getText() == "ACCEPT")
+		_textTextures.at(6)->render(renderer, button->getX() - 48, button->getY() + 10, button->getWidth() + 35, button->getHeight());
+	else if (button->getText() == "CANCEL")
+		_textTextures.at(7)->render(renderer, button->getX() - 48, button->getY() + 10, button->getWidth() + 35, button->getHeight());
 }

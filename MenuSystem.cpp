@@ -4,9 +4,9 @@ MenuSystem::MenuSystem(InputHandler* ih, ResourceManager* rm, HighScore* hs, SDL
 {
 	_startMenu = new StartMenu();
 	_helpMenu = new HelpMenu();
-	_highscoreMenu = new HighscoreMenu();
+	_highscoreMenu = new HighscoreMenu(_highscore);
 	_pauseMenu = new PauseMenu();
-	_writeNameMenu = new WriteNameMenu();
+	_writeNameMenu = new WriteNameMenu(_highscore);
 	_menuRenderer = new MenuRenderer(rm);
 	_menuRenderer->loadContent();
 	_highscoreMenuRenderer = new HighscoreMenuRenderer(rm);

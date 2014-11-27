@@ -1,13 +1,13 @@
 #include "HighscoreMenu.h"
 #include <iostream>
 
-HighscoreMenu::HighscoreMenu()
+HighscoreMenu::HighscoreMenu(HighScore* hs)
 {
+        _highscore = hs;
 	buildMenu();
 	_selectedButtonIndex = 0;
 	_buttons.at(_selectedButtonIndex)->setButtonState(SELECTED);
 }
-
 
 HighscoreMenu::~HighscoreMenu()
 {
@@ -21,22 +21,13 @@ void HighscoreMenu::buildMenu()
 
 void HighscoreMenu::handleInput(InputHandler* input, SystemState& systemState)
 {
-	if ((input->getPressed(SDL_SCANCODE_UP) || input->getPressed(SDL_SCANCODE_W)) && _selectedButtonIndex > 0)
-	{
-		_buttons.at(_selectedButtonIndex)->setButtonState(NOTSELECTED);
-		_selectedButtonIndex--;
-		_buttons.at(_selectedButtonIndex)->setButtonState(SELECTED);
-	}
-	if ((input->getPressed(SDL_SCANCODE_DOWN) || input->getPressed(SDL_SCANCODE_S)) && _selectedButtonIndex < _buttons.size() - 1)
-	{
-		_buttons.at(_selectedButtonIndex)->setButtonState(NOTSELECTED);
-		_selectedButtonIndex++;
-		_buttons.at(_selectedButtonIndex)->setButtonState(SELECTED);
-	}
 	if (input->getPressed(SDL_SCANCODE_RETURN) || input->getPressed(SDL_SCANCODE_SPACE))
 	{
 		systemState = _buttons.at(_selectedButtonIndex)->getSystemState();
 		_selectedButtonIndex = 0;
 	}
-
+}
+std::vector<Score> HighscoreMenu::getScores()
+{
+  return _highscore->getScores();
 }
