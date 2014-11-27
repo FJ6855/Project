@@ -2,3 +2,6 @@
 *~
 # Ignore compiled files from makefile
 *.o
+# Ignore stupid emacs files
+\#*\#
+.\#*

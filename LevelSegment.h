@@ -83,6 +83,8 @@ class LevelSegment
 	int getX();
 	int getY();
 
+	int getDifficultyRating();
+
   private:
 	int _difficultyRating;
 	int _x;

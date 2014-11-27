@@ -20,7 +20,7 @@ void LevelSegment::loadLevelSegment(const std::string& fileName)
   if (file.is_open())
     {
       int x = 0;
-      int y = 0;
+      int y = -1;
 
       std::string line;
 
@@ -28,6 +28,9 @@ void LevelSegment::loadLevelSegment(const std::string& fileName)
 	{
 	  std::stringstream ss(line);
 	  char c;
+	  
+	  if (y == -1)
+	    ss >> _difficultyRating;
 
 	  while (ss >> c)
 	    {
@@ -327,4 +330,9 @@ int LevelSegment::getX()
 int LevelSegment::getY()
 {
 	return _y;
+}
+
+int LevelSegment::getDifficultyRating()
+{
+  return _difficultyRating;
 }

@@ -36,7 +36,8 @@ class Player : public Object
       _healthLossFactor = 0.1f;
       _jumpBoost = true;
       _jumpBoostGravity = _gravity;
-
+      
+      _godMode = false;
     }
 
   void handleInput(InputHandler* inputHandler);
@@ -78,6 +79,9 @@ class Player : public Object
   float _scoreOffset;
   int _currentDifficulty;
   float _healthLossFactor;
+
+  // testing
+  bool _godMode;
 
   //jump control
   bool _jumpBoost;

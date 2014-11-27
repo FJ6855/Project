@@ -1,33 +1,28 @@
 #include "Level.h"
 #include "LevelSegment.h"
 
+#include <algorithm>
 #include <iostream>
 
 void Level::loadLevel()
 {
-	loadSegments();
-
-	//TODO: call playerRenderer->loadContent()
+  loadSegments();
 }
 
 void Level::loadSegments()
 {
-	//TODO: load all segments into loadedSegments
-	for (int i{ 0 }; i < 5; ++i)
+	for (int i{0}; i < _maxDifficulty * 5 + 1; ++i)
 	{
 		LevelSegment* ls = new LevelSegment(_rm);
 		ls->loadLevelSegment("levelSegment" + std::to_string(i));
 		_loadedSegments.push_back(ls);
 	}
 
-	int random = _rnd() % (_loadedSegments.size() - 1);
-	
+	std::sort(_loadedSegments.begin(), _loadedSegments.end(), [](LevelSegment* ls, LevelSegment* ls2) { return ls->getDifficultyRating() < ls2->getDifficultyRating(); });
+
 	_segments.push_back(new LevelSegment(*(_loadedSegments.at(0))));
-	_segments.push_back(new LevelSegment(*(_loadedSegments.at(random))));
-
-	random = _rnd() % (_loadedSegments.size() - 1);
-
-	_segments.push_back(new LevelSegment(*(_loadedSegments.at(random))));
+	_segments.push_back(new LevelSegment(*(_loadedSegments.at(Level::getRandom()))));
+	_segments.push_back(new LevelSegment(*(_loadedSegments.at(Level::getRandom()))));
 }
 
 void Level::handleInput()
@@ -47,21 +42,18 @@ void Level::updateLogic()
 	if (_player->getX() >= 897)
 	{
 		_player->setX(_player->getX() - 897);
+
 		delete _segments.at(0); //Free the memory
+		
 		_segments.at(0) = _segments.at(1);
 		_segments.at(1) = _segments.at(2);
-		int random = _rnd() % _loadedSegments.size();
-		_segments.at(2) = new LevelSegment(*(_loadedSegments.at(random)));
+	       
+		_segments.at(2) = new LevelSegment(*(_loadedSegments.at(Level::getRandom())));
 	} 
-
-
-	/*
-	if (_player->getState() == PlayerState::dead)
-	{
-		reset();
-	}*/
-
-	//TODO change difficulty and do _player->setDifficulty(x);
+	
+	// cap difficulty at maximum difficulty rating
+	if (_player->getScore() < 5000 * _maxDifficulty)
+	  _currentDifficulty = _player->getScore() / 5000 + 1;
 }
 
 void Level::render(SDL_Renderer* renderer)
@@ -108,22 +100,22 @@ void Level::reset()
   _player->setState(PlayerState::inAir);
   _player->setXvel(0);
   _player->setYvel(0);
-  if(_player->getHighscore() < _player->getScore())_player->setHighscore(_player->getScore());
+
+  if(_player->getHighscore() < _player->getScore())
+    _player->setHighscore(_player->getScore());
+  
   _player->setScore(0);
   _player->setHealth(100);
 
-  int random = _rnd() % (_loadedSegments.size() - 1);
+  _currentDifficulty = 1;
 
   delete _segments.at(0); //Free the memory
   delete _segments.at(1); //Free the memory
   delete _segments.at(2); //Free the memory
 
   _segments.at(0) = new LevelSegment(*(_loadedSegments.at(0)));
-  _segments.at(1) = new LevelSegment(*(_loadedSegments.at(random)));
-
-  random = _rnd() % (_loadedSegments.size() - 1);
-
-  _segments.at(2) = new LevelSegment(*(_loadedSegments.at(random)));
+  _segments.at(1) = new LevelSegment(*(_loadedSegments.at(Level::getRandom())));
+  _segments.at(2) = new LevelSegment(*(_loadedSegments.at(Level::getRandom())));
 
   _activeSegmentIndex = 0;
 }
@@ -131,4 +123,21 @@ void Level::reset()
 PlayerState Level::getPlayerState()
 {
   return _player->getState();
+}
+
+int Level::getRandom()
+{
+  // Randomize index in interval of current difficulyty 
+  // index: 1-6 is difficulty = 1, index: 7-11 is difficulty = 2 and so on...
+  // index 0 is always the same start level segment (levelSegment0.txt)
+  int random = _rnd() % 5 + (_currentDifficulty - 1) * 5 + 1;
+
+  // Randomize a new number and check if player should get an easier 
+  // level segment from the previous difficulty
+  int random2 = _rnd() % 10;
+
+  if (random2 == 8 && _currentDifficulty > 1)
+    random = random - 5;
+
+  return random;
 }
