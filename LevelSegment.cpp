@@ -4,6 +4,9 @@
 #include <iostream>
 
 #include "LevelSegment.h"
+#include "BlinkingBlock.h"
+#include "SpeedBlock.h"
+#include "MovingBlock.h"
 
 LevelSegment::~LevelSegment()
 {
@@ -17,7 +20,7 @@ void LevelSegment::loadLevelSegment(const std::string& fileName)
   if (file.is_open())
     {
       int x = 0;
-      int y = 0;
+      int y = -1;
 
       std::string line;
 
@@ -25,6 +28,9 @@ void LevelSegment::loadLevelSegment(const std::string& fileName)
 	{
 	  std::stringstream ss(line);
 	  char c;
+	  
+	  if (y == -1)
+	    ss >> _difficultyRating;
 
 	  while (ss >> c)
 	    {
@@ -36,9 +42,21 @@ void LevelSegment::loadLevelSegment(const std::string& fileName)
 		}
 	      else if (c == 'B')
 		{
-		  Block* b = new BlinkingBlock(x, y, 32, 32, BlockType::BlockType1, 100);
+		  Block* b = new BlinkingBlock(x, y, 32, 32, BlockType::BlinkingBlock1, 100);
 
 		  _blocks.push_back(b);
+		}
+	      else if (c == 'S')
+		{
+		  Block* sb = new SpeedBlock(x, y, 32, 32, BlockType::SpeedBlock1, 10);
+
+		  _blocks.push_back(sb);
+		}
+	      else if (c == 'M')
+		{
+		  Block* mb = new MovingBlock(x, y, 32, 32, BlockType::BlockType1, 2, 5);
+
+		  _blocks.push_back(mb);
 		}
 	      else if (c == 'Y')
 		{
@@ -88,19 +106,7 @@ void LevelSegment::render(SDL_Renderer* renderer)
 {
   for (Block* b : _blocks)
     {
-      BlinkingBlock* blinkingBlock = dynamic_cast<BlinkingBlock*>(b);
-      
-      if (blinkingBlock != nullptr)
-	{
-	  if (blinkingBlock->isVisible())
-	    {
-	      _blockRenderer->render(blinkingBlock, _x, renderer);
-	    }
-	}
-      else
-	{
-	  _blockRenderer->render(b, _x, renderer);
-	}
+      _blockRenderer->render(b, _x, renderer);
     }
   
   for (Obstacle* o : _obstacles)
@@ -148,7 +154,9 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 	  playerX = player->getX() - 1;
   }
   else
-	  playerX = player->getX();
+    {
+      playerX = player->getX();
+    }
 
   int offset = -896 + 896 * segmentIndex - 448 + 16;
 
@@ -157,9 +165,15 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 
   for (int i{}; i < objects.size(); ++i)
   {
-	  objectX = objects.at(i)->getX() * objects.at(i)->getWidth() + offset;
-	  objectY = objects.at(i)->getY() * objects.at(i)->getWidth();
-
+    MovingBlock* movingBlock = dynamic_cast<MovingBlock*>(objects.at(i));
+    
+    objectX = objects.at(i)->getX() * objects.at(i)->getWidth() + offset;
+    
+    if (movingBlock != nullptr)
+	objectX += movingBlock->getMovingX();
+	
+	objectY = objects.at(i)->getY() * objects.at(i)->getWidth();
+      
 	  Block* block = dynamic_cast<Block*>(objects.at(i));
 	  BlinkingBlock* blinkingBlock = dynamic_cast<BlinkingBlock*>(objects.at(i));
 	  Obstacle* obstacle = dynamic_cast<Obstacle*>(objects.at(i));
@@ -182,6 +196,14 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 					  player->setState(PlayerState::running);
 					  player->setYvel(0);
 					  player->setY(objectY - player->getHeight());
+					  					  
+					  SpeedBlock* speedBlock = dynamic_cast<SpeedBlock*>(objects.at(i));
+					  
+					  if (speedBlock != nullptr)
+					    player->setSpeed(speedBlock->getSpeedFactor());
+					  else
+					    player->resetSpeed();
+
 					  continue;
 				  }
 				  else if (obstacle != nullptr)
@@ -201,6 +223,9 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 	  }
 	  else if (player->getYvel() < 0) //Player jumping up
 	  {
+	    
+	    player->resetSpeed();
+
 		  //Check if players top corners are inside a box
 		  if (player->getY() >= objectY && player->getY() <= objectY + objects.at(i)->getHeight() - 1)
 		  {
@@ -305,4 +330,9 @@ int LevelSegment::getX()
 int LevelSegment::getY()
 {
 	return _y;
+}
+
+int LevelSegment::getDifficultyRating()
+{
+  return _difficultyRating;
 }

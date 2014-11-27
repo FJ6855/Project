@@ -5,7 +5,10 @@
 
 enum BlockType
 {
-  BlockType1
+  BlockType1,
+  BlinkingBlock1,
+  BlinkingBlockInvisible1,
+  SpeedBlock1
 };
 
 class Block : public Object
@@ -15,7 +18,7 @@ class Block : public Object
   {}
   
   BlockType getType();
-  void updateLogic();
+  void updateLogic() override;
   
  private:
   BlockType _type;

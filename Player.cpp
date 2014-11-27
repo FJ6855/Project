@@ -23,6 +23,13 @@
 	  {
 		  _jumpBoost = false;
 	  }
+
+	  if (input->getPressed(SDL_SCANCODE_G))
+	    {
+	      _godMode = !_godMode;
+	      
+	      std::cout << "God mode: " << _godMode << std::endl;
+	    }
   }
 
   void Player::updateLogic()
@@ -55,9 +62,9 @@
 	  if (_playerState == jumping && _jumpBoost)
 	  {
 		  if (_jumpBoostGravity > 0.15)
-			  _jumpBoostGravity -= 0.01f;
+		    _jumpBoostGravity -= 0.01f;
 		  else
-			  _jumpBoost = false;
+		    _jumpBoost = false;
 
 		  _yVel += _jumpBoostGravity;
 	  }
@@ -69,11 +76,17 @@
 	  _y += _yVel;
 	  
 	  //Lose life by time
-	  _health -= _currentDifficulty * _healthLossFactor;
+	  if (_godMode == false)
+	    _health -= _currentDifficulty * _healthLossFactor;
 
 	  //Check if player is dead
 	  if (_y > 600 || _health <= 0)
-	    _playerState = dead;
+	    {
+	      if (_godMode == false)
+		_playerState = dead;
+	      else
+		_y = 0;
+	    }
   }
 
   float Player::getXvel()
@@ -86,10 +99,20 @@
 	  return _yVel;
   }
 
-  int Player::getSpeed()
+  float Player::getSpeed()
   {
 	  return _speed;
   }
+
+void Player::setSpeed(float speed)
+{
+  _speed = speed;
+}
+
+void Player::resetSpeed()
+{
+  _speed = _defaultSpeed;
+}
 
   void Player::setXvel(int xVel)
   {

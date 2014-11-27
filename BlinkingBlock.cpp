@@ -1,5 +1,5 @@
 #include "BlinkingBlock.h"
-#include <iostream>
+
 void BlinkingBlock::updateLogic()
 {
   _timer += 1;

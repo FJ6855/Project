@@ -12,7 +12,7 @@ class BlinkingBlock : public Block
       _visible = true;
     }
  
-  void updateLogic();
+  void updateLogic() override;
   bool isVisible();
 
  private:

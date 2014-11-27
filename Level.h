@@ -22,6 +22,7 @@ class Level
 		_backgroundRenderer = new BackgroundRenderer(rm);
 		_background = new Background();
 		_currentDifficulty = 1;
+		_maxDifficulty = 2; // should be 10 when we added enough level segments
 		_player->setDifficulty(_currentDifficulty);
 		_activeSegmentIndex = 0;
 		loadLevel();
@@ -38,6 +39,7 @@ class Level
   private:
 	void loadLevel();
 	void loadSegments();
+	int getRandom();
 
 	InputHandler* _input;
 	ResourceManager* _rm;
@@ -49,6 +51,7 @@ class Level
 
 	int _activeSegmentIndex;
 	int _currentDifficulty;
+	int _maxDifficulty;
 
 	Player* _player;
 	PlayerRenderer* _playerRenderer;
