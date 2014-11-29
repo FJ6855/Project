@@ -139,7 +139,7 @@ PlayerDirection Player::getDirection()
 	return _playerDirection;
 }
 
-void Player::setState(PlayerDirection direction)
+void Player::setDirection(PlayerDirection direction)
 {
 	_playerDirection = direction;
 }

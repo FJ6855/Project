@@ -101,6 +101,7 @@ void Level::reset()
   _player->setState(PlayerState::inAir);
   _player->setXvel(0);
   _player->setYvel(0);
+  _player->setDirection(PlayerDirection::right);
 
   if(_player->getHighscore() < _player->getScore())
     _player->setHighscore(_player->getScore());

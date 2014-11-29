@@ -37,6 +37,8 @@ void MenuRenderer::render(Menu* menu, SDL_Renderer* renderer)
 	{
 		_menuBackground->render(renderer, 0, 0, 896, 512);
 		_newHighscoreText->render(renderer, 896 / 2 - _newHighscoreText->getWidth() / 2, 0, _newHighscoreText->getWidth(), _newHighscoreText->getHeight());
+
+		_writeNameInscruction->render(renderer, 896 / 2 - _writeNameInscruction->getWidth() / 2, 170, _writeNameInscruction->getWidth(), _writeNameInscruction->getHeight());
 		WriteNameMenu* writeNameMenu = dynamic_cast<WriteNameMenu*>(menu);
 	        if(writeNameMenu->getName().size() > 0) 
 		  {

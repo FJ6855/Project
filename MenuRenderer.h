@@ -20,6 +20,8 @@ class MenuRenderer : public Renderer
 	_startMenuText = rm->loadTexture("startMenuText");
 	_newHighscoreText = rm->loadTexture("newHighscoreText");
 	_helpMenuText = rm->loadTexture("helpMenuText");
+
+	_writeNameInscruction = _rm->loadTexture("Please type your name ", SDL_Color{ 255, 255, 255 });
   }
   ~MenuRenderer();
   
@@ -40,6 +42,7 @@ class MenuRenderer : public Renderer
 
   //For writeNameMenu
   Texture* _nameText;
+  Texture* _writeNameInscruction;
 };
 
 #endif

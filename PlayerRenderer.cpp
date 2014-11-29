@@ -36,7 +36,7 @@ void PlayerRenderer::loadContent()
 void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
 {
 	//Render player
-	if (_playerFrame >= 18) _playerFrame = 0;
+	if (_playerFrame >= 12) _playerFrame = 0;
 
 	if (player->getState() == inAir || player->getState() == jumping)
 	{
@@ -58,17 +58,17 @@ void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
 
 		if (player->getDirection() == left)
 		{
-			if (_playerFrame >= 0 && _playerFrame <= 2)
+			if (_playerFrame >= 0 && _playerFrame <= 1)
 				_playerTexture = _playerTextureRunningLeft0;
-			else if (_playerFrame >= 3 && _playerFrame <= 5)
+			else if (_playerFrame >= 2 && _playerFrame <= 3)
 				_playerTexture = _playerTextureRunningLeft1;
-			else if (_playerFrame >= 6 && _playerFrame <= 8)
+			else if (_playerFrame >= 4 && _playerFrame <= 5)
 				_playerTexture = _playerTextureRunningLeft2;
-			else if (_playerFrame >= 9 && _playerFrame <= 11)
+			else if (_playerFrame >= 6 && _playerFrame <= 7)
 				_playerTexture = _playerTextureRunningLeft3;
-			else if (_playerFrame >= 12 && _playerFrame <= 14)
+			else if (_playerFrame >= 8 && _playerFrame <= 9)
 				_playerTexture = _playerTextureRunningLeft4;
-			else if (_playerFrame >= 15 && _playerFrame <= 17)
+			else if (_playerFrame >= 10 && _playerFrame <= 11)
 				_playerTexture = _playerTextureRunningLeft5;
 
 		}
