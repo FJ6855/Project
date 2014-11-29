@@ -13,6 +13,7 @@ class Game : public SystemModule
 	 Game(InputHandler* input, ResourceManager* rm, HighScore* highScore, SDL_Renderer* renderer) : SystemModule{}, _input{ input }, _rm{ rm }, _highScore{ highScore }, _renderer{ renderer }
   {
     _level = new Level(input, rm);
+	_levelHasBeenReset = true;
   }
   
  void run();
@@ -27,6 +28,8 @@ class Game : public SystemModule
   void handleInput();
   void updateLogic();
   void render();
+
+  bool _levelHasBeenReset;
 };
 
 #endif

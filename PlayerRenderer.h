@@ -19,13 +19,19 @@ class PlayerRenderer : public Renderer
   void render(Player* player, SDL_Renderer* renderer);
 
  private:
+	Texture* _playerTextureRunningRight0;
 	Texture* _playerTextureRunningRight1;
 	Texture* _playerTextureRunningRight2;
 	Texture* _playerTextureRunningRight3;
+	Texture* _playerTextureRunningRight4;
+	Texture* _playerTextureRunningRight5;
 
+	Texture* _playerTextureRunningLeft0;
 	Texture* _playerTextureRunningLeft1;
 	Texture* _playerTextureRunningLeft2;
 	Texture* _playerTextureRunningLeft3;
+	Texture* _playerTextureRunningLeft4;
+	Texture* _playerTextureRunningLeft5;
 
 	Texture* _playerTextureInAirRight;
 	Texture* _playerTextureInAirLeft;
