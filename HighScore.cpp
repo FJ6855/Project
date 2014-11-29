@@ -17,9 +17,9 @@ void HighScore::newHighScoreSet()
   std::sort(begin(_scores), end(_scores));
 
   for(int i = 0; i < _scores.size(); ++i)
-      {
-	_scores[i].setPos(i+1);
-      }
+  {
+		_scores[i].setPos(i+1);
+   }
 
   if(_scores.size() > 10) _scores.erase(begin(_scores) + 10, end(_scores));
 }
@@ -42,28 +42,33 @@ bool HighScore::compare(int score)
 void HighScore::loadScores(ResourceManager* rm)
 {
   //loadscores from res/HighScore.txt  
-  std::ifstream file("./res/HighScore.txt");
+	std::ifstream file("./res/HighScore.txt");
 
-  if (file.is_open())
-    {
-      std::string name;
-      int x{1}, score;
-
-      while (file >> score)
+	if (file.is_open())
 	{
-	  getline(file, name);
-	  name.erase(begin(name));
-	  _scores.push_back(Score{x, name, score});
-	  x++;
+		std::string name;
+		int x{1}, score;
+
+		while (file >> score)
+		{
+			getline(file, name);
+			name.erase(begin(name));
+			_scores.push_back(Score{x, name, score});
+			x++;
+		}
+
+		while (_scores.size() > 10)
+		{
+			_scores.pop_back();
+		}
+
+		std::sort(begin(_scores),end(_scores));
+		file.close();
 	}
-      _scores.erase(begin(_scores)+10,end(_scores));
-      std::sort(begin(_scores),end(_scores));
-      file.close();
-    }
-  else
-    {
-      std::cout << "Could not open file HighScore.txt" << std::endl;
-    }
+	else
+	{
+		std::cout << "Could not open file HighScore.txt" << std::endl;
+	}
 
 }
 
