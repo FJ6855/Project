@@ -11,14 +11,15 @@ class HighscoreMenuRenderer : public MenuRenderer
 {
  public:
 	HighscoreMenuRenderer(ResourceManager* rm) : MenuRenderer{ rm }
-        {
+    {
 	  for(int i{} ; i < 10; ++i)
-	    {
+	  {
 	      _scoreTextures.push_back(nullptr);
-	    }
-	  _highscoreMenuBackground = rm->loadTexture("highscoreMenuBackground");
+	  }
+		_highscoreMenuText = rm->loadTexture("highscoreMenuText");
+		_menuBackground = rm->loadTexture("menuBackground");
+      }
 
-        }
 	~HighscoreMenuRenderer();
 
 
@@ -26,7 +27,9 @@ class HighscoreMenuRenderer : public MenuRenderer
 
  private:
 	std::vector<Texture*> _scoreTextures;
-	Texture* _highscoreMenuBackground;
+
+	Texture* _highscoreMenuText;
+	Texture* _menuBackground;
 };
 
 #endif

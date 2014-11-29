@@ -275,6 +275,7 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 				  else if (item != nullptr)
 				  {
 					  player->setHealth(player->getHealth() + item->getHealth()); //Give player hp is the item was hpBox
+					  if (player->getHealth() > 100) player->setHealth(100);
 					  objects.erase(objects.begin() + i);
 					  continue;
 				  }

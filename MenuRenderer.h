@@ -12,10 +12,14 @@ class MenuRenderer : public Renderer
  MenuRenderer(ResourceManager* rm) : Renderer{rm} 
   {
     _buttonRenderer = new ButtonRenderer(rm);
-    _startMenuBackground = rm->loadTexture("startMenuBackground");
-    _helpMenuBackground = rm->loadTexture("helpMenuBackground");
-    _pauseMenuBackground = rm->loadTexture("pauseMenuBackground");
-    _writeNameMenuBackground = rm->loadTexture("writeNameMenuBackground");
+
+    _menuBackground = rm->loadTexture("menuBackground");
+	_helpMenuBackground = rm->loadTexture("helpMenuBackground");
+
+	_pausedText = rm->loadTexture("pausedText");
+	_startMenuText = rm->loadTexture("startMenuText");
+	_newHighscoreText = rm->loadTexture("newHighscoreText");
+	_helpMenuText = rm->loadTexture("helpMenuText");
   }
   ~MenuRenderer();
   
@@ -26,11 +30,15 @@ class MenuRenderer : public Renderer
    ButtonRenderer* _buttonRenderer;
 
  private:
-  Texture* _startMenuBackground;
+  Texture* _menuBackground;
   Texture* _helpMenuBackground;
-  Texture* _pauseMenuBackground;
-  Texture* _writeNameMenuBackground;
 
+  Texture* _pausedText;
+  Texture* _startMenuText;
+  Texture* _newHighscoreText;
+  Texture* _helpMenuText;
+
+  //For writeNameMenu
   Texture* _nameText;
 };
 

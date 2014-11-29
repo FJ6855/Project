@@ -33,7 +33,7 @@ class Player : public Object
       _score = 0;
       _highscore = 0;
       _scoreOffset = 0;
-      _healthLossFactor = 0.1f;
+      _healthLossFactor = 0.05f;
       _jumpBoost = true;
       _jumpBoostGravity = _gravity;
       

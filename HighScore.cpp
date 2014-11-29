@@ -72,8 +72,8 @@ void HighScore::saveScores(ResourceManager* rm)
   std::ofstream file("./res/HighScore.txt");
 
   if (file.is_open())
-    {
-      for(int i; i < _scores.size(); ++i)
+  {
+	  for (int i{}; i < _scores.size(); ++i)
 	{
 	  file << _scores[i].getScore() << " " << _scores[i].getName() << std::endl;
 	}

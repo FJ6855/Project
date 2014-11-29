@@ -12,6 +12,20 @@ void Game::run()
 		updateLogic();
 
 		render();
+
+		_levelHasBeenReset = false;
+	}
+	else if (systemState == PAUSE)
+	{
+		render();
+	}
+	else
+	{
+		if (!_levelHasBeenReset)
+		{
+			_levelHasBeenReset = true;
+			_level->reset();
+		}
 	}
 }
 

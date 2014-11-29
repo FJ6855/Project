@@ -9,7 +9,8 @@ HighscoreMenuRenderer::~HighscoreMenuRenderer()
 
 void HighscoreMenuRenderer::render(HighscoreMenu* menu, SDL_Renderer* renderer)
 {
-  _highscoreMenuBackground->render(renderer, 0, 0, 896, 512);
+	_menuBackground->render(renderer, 0, 0, 896, 512);
+	_highscoreMenuText->render(renderer, 896 / 2 - _highscoreMenuText->getWidth()/2, 0, _highscoreMenuText->getWidth(), _highscoreMenuText->getHeight());
   //std::stringstream ss;
   std::vector<Score> _scores = menu->getScores();
   //std::string line;

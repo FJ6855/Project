@@ -12,8 +12,8 @@ MenuRenderer::~MenuRenderer()
 
 void MenuRenderer::loadContent()
 {
-  _buttonRenderer->loadContent();
-  //Load textures into texture vector
+	_buttonRenderer->loadContent();
+	//Load textures into texture vector
 
 }
 
@@ -21,19 +21,22 @@ void MenuRenderer::render(Menu* menu, SDL_Renderer* renderer)
 {
 	if (dynamic_cast<StartMenu*>(menu))
 	{
-		_startMenuBackground->render(renderer, 0, 0, 896, 512);
+		_menuBackground->render(renderer, 0, 0, 896, 512);
+		_startMenuText->render(renderer, 896 / 2 - _startMenuText->getWidth() / 2, 0, _startMenuText->getWidth(), _startMenuText->getHeight());
 	}
 	else if (dynamic_cast<HelpMenu*>(menu))
 	{
 		_helpMenuBackground->render(renderer, 0, 0, 896, 512);
+		_helpMenuText->render(renderer, 896 / 2 - _helpMenuText->getWidth() / 2, 0, _helpMenuText->getWidth(), _helpMenuText->getHeight());
 	}
 	else if (dynamic_cast<PauseMenu*>(menu))
 	{
-		_pauseMenuBackground->render(renderer, 0, 0, 896, 512);
+		_pausedText->render(renderer, 896 / 2 - _pausedText->getWidth() / 2, 100, _pausedText->getWidth(), _pausedText->getHeight());
 	}
 	else if (dynamic_cast<WriteNameMenu*>(menu))
 	{
-		_writeNameMenuBackground->render(renderer, 0, 0, 896, 512);
+		_menuBackground->render(renderer, 0, 0, 896, 512);
+		_newHighscoreText->render(renderer, 896 / 2 - _newHighscoreText->getWidth() / 2, 0, _newHighscoreText->getWidth(), _newHighscoreText->getHeight());
 		WriteNameMenu* writeNameMenu = dynamic_cast<WriteNameMenu*>(menu);
 	        if(writeNameMenu->getName().size() > 0) 
 		  {

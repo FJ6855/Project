@@ -13,7 +13,7 @@
 	      
 	  if ((input->getKey(SDL_SCANCODE_W) || input->getKey(SDL_SCANCODE_SPACE) || input->getKey(SDL_SCANCODE_UP)) && _playerState == running)
 	    {
-	      _yVel = -8;
+	      _yVel = -8.5;
 		  _playerState = jumping;
 		  _jumpBoost = true;
 		  _jumpBoostGravity = _gravity;
@@ -77,7 +77,7 @@
 	  
 	  //Lose life by time
 	  if (_godMode == false)
-	    _health -= _currentDifficulty * _healthLossFactor;
+		  _health -= _healthLossFactor;//_currentDifficulty * _healthLossFactor;
 
 	  //Check if player is dead
 	  if (_y > 600 || _health <= 0)
