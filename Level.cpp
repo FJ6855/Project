@@ -64,10 +64,21 @@ void Level::render(SDL_Renderer* renderer)
 {
 	_backgroundRenderer->render(_background, renderer);
 
-	for (int i{}; i < 3; ++i)
+	if (_player->getX() > -896)
 	{
-		_segments.at(i)->setX(-896 + 896*i - _player->getX());
-		_segments.at(i)->render(renderer);
+		for (int i{}; i < 3; ++i)
+		{
+			_segments.at(i)->setX(-896 + 896 * i - _player->getX());
+			_segments.at(i)->render(renderer);
+		}
+	}
+	else
+	{
+		for (int i{}; i < 3; ++i)
+		{
+			_segments.at(i)->setX(-896 + 896 * i + 896);
+			_segments.at(i)->render(renderer);
+		}
 	}
  
     _playerRenderer->render(_player, renderer);

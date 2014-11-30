@@ -89,7 +89,12 @@ void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
 		}
 	}
 
-	_playerTexture->render(renderer, 448 - (player->getWidth() / 2), player->getY(), player->getWidth(), player->getHeight());
+	if (player->getX() < -896)
+	{
+		_playerTexture->render(renderer, 448 + (896 + player->getX()) - player->getWidth()/2, player->getY(), player->getWidth(), player->getHeight());
+	}
+	else
+		_playerTexture->render(renderer, 448 - (player->getWidth() / 2), player->getY(), player->getWidth(), player->getHeight());
 
 	//Render health bar
 	_healthBarTextTexture->render(renderer, 350, 10, _healthBarTextTexture->getWidth(), _healthBarTextTexture->getHeight());
