@@ -47,11 +47,9 @@ void Game::updateLogic()
 	  {
 	      if(_highScore->compare(_level->getPlayer()->getScore()))
 	      {
-		systemState = WRITENAMEMENU;
-		_highScore->setCurrentScore(_level->getPlayer()->getScore());
+			systemState = WRITENAMEMENU;
+			_highScore->setCurrentScore(_level->getPlayer()->getScore());
 	      }
-
-	    _level->reset();
 	  }
 
 	_level->handleCollision();

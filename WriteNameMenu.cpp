@@ -44,7 +44,7 @@ void WriteNameMenu::handleInput(InputHandler* input, SystemState& systemState)
 	if(input->getPressed(SDL_SCANCODE_SPACE) && _name.size() < 15)
 	{
 	    _name += " ";
-        }
+    }
 
 	if(_name.size() > 0 && input->getPressed(SDL_SCANCODE_BACKSPACE))
 	   _name.pop_back(); 

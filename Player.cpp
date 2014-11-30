@@ -81,12 +81,12 @@
 
 	  //Check if player is dead
 	  if (_y > 600 || _health <= 0)
-	    {
+	  {
 	      if (_godMode == false)
-		_playerState = dead;
+			_playerState = dead;
 	      else
-		_y = 0;
-	    }
+			_y = 0;
+	  }
   }
 
   float Player::getXvel()
@@ -176,4 +176,14 @@ void Player::setHighscore(int highscore)
 int Player::getHighscore()
 {
 	return _highscore;
+}
+
+void Player::setLastScore(int lastScore)
+{
+	_lastScore = lastScore;
+}
+
+int Player::getLastScore()
+{
+	return _lastScore;
 }

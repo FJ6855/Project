@@ -30,7 +30,9 @@ void PlayerRenderer::loadContent()
 	_healthBarTexture = _rm->loadTexture(1, 16, 255, 0, 0);
 
 	_scoreTextTexture = _rm->loadTexture("Score: ", SDL_Color{ 255, 255, 255 });
-	_lastScoreTextTexture = _rm->loadTexture("Your highest score: ", SDL_Color{ 255, 255, 255 });
+	_lastHighestScoreTextTexture = _rm->loadTexture("Your highest score: ", SDL_Color{ 255, 255, 255 });
+
+	_lastScoreTextTexture = _rm->loadTexture("Last rounds score: ", SDL_Color{ 255, 255, 255 });
 }
 
 void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
@@ -111,8 +113,14 @@ void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
 	_scoreTextTexture->render(renderer, 420 - _scoreTextTexture->getWidth() + 3, 30, _scoreTextTexture->getWidth(), _scoreTextTexture->getHeight());
 	_scoreTexture->render(renderer, 420, 30, _scoreTexture->getWidth(), _scoreTexture->getHeight());
 
+	delete _lastHighestScoreTexture; //free the old texture
+	_lastHighestScoreTexture = _rm->loadTexture(std::to_string(player->getHighscore()), SDL_Color{ 0, 180, 0 });
+
+	_lastHighestScoreTextTexture->render(renderer, 420 - _lastHighestScoreTextTexture->getWidth() + 3, 70, _lastHighestScoreTextTexture->getWidth(), _lastHighestScoreTextTexture->getHeight());
+	_lastHighestScoreTexture->render(renderer, 420, 70, _lastHighestScoreTexture->getWidth(), _lastHighestScoreTexture->getHeight());
+
 	delete _lastScoreTexture; //free the old texture
-	_lastScoreTexture = _rm->loadTexture(std::to_string(player->getHighscore()), SDL_Color{ 0, 180, 0 });
+	_lastScoreTexture = _rm->loadTexture(std::to_string(player->getLastScore()), SDL_Color{ 0, 180, 0 });
 
 	_lastScoreTextTexture->render(renderer, 420 - _lastScoreTextTexture->getWidth() + 3, 50, _lastScoreTextTexture->getWidth(), _lastScoreTextTexture->getHeight());
 	_lastScoreTexture->render(renderer, 420, 50, _lastScoreTexture->getWidth(), _lastScoreTexture->getHeight());

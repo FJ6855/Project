@@ -116,6 +116,8 @@ void Level::reset()
 
   if(_player->getHighscore() < _player->getScore())
     _player->setHighscore(_player->getScore());
+
+  _player->setLastScore(_player->getScore());
   
   _player->setScore(0);
   _player->setHealth(100);

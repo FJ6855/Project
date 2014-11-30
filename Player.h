@@ -36,6 +36,7 @@ class Player : public Object
       _healthLossFactor = 0.05f;
       _jumpBoost = true;
       _jumpBoostGravity = _gravity;
+	  _lastScore = 0;
       
       _godMode = false;
     }
@@ -66,6 +67,9 @@ class Player : public Object
   void setHighscore(int highscore);
   int getHighscore();
 
+  void setLastScore(int lastScore);
+  int getLastScore();
+
   void setDifficulty(int difficulty);
 
  private:
@@ -75,9 +79,12 @@ class Player : public Object
   float _xVel;
   float _yVel;
   float _health;
+
   int _score;
   int _highscore;
+  int _lastScore;
   float _scoreOffset;
+
   int _currentDifficulty;
   float _healthLossFactor;
 
