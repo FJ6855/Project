@@ -13,19 +13,10 @@ void Game::run()
 
 		render();
 
-		_levelHasBeenReset = false;
 	}
 	else if (systemState == PAUSE)
 	{
 		render();
-	}
-	else
-	{
-		if (!_levelHasBeenReset)
-		{
-			_levelHasBeenReset = true;
-			_level->reset();
-		}
 	}
 }
 
@@ -44,13 +35,18 @@ void Game::updateLogic()
 	_level->updateLogic();
 
 	if(_level->getPlayerState() == PlayerState::dead) 
-	  {
+	{
 	      if(_highScore->compare(_level->getPlayer()->getScore()))
 	      {
 			systemState = WRITENAMEMENU;
 			_highScore->setCurrentScore(_level->getPlayer()->getScore());
 	      }
-	  }
+	}
+
+	if (_level->getPlayerState() == PlayerState::dead)
+	{
+		_level->reset();
+	}
 
 	_level->handleCollision();
 }
