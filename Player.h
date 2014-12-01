@@ -57,7 +57,7 @@ class Player : public Object
   PlayerState getState();
 
 
-  void Player::setDirection(PlayerDirection direction);
+  void setDirection(PlayerDirection direction);
   PlayerDirection getDirection();
 
   float getHealth();
