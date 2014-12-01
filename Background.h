@@ -9,11 +9,15 @@ public:
 	Background();
 	~Background();
 
-	void setX(int x);
-	int getX();
+	void setX1(int x1);
+	int getX1();
+	void setX2(int x2);
+	int getX2();
+
 
 private:
-	int _x;
+	int _x1;
+	int _x2;
 };
 
 
