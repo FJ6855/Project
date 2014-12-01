@@ -1,108 +1,138 @@
 #include "Player.h"
 
 #include <iostream>
-  void Player::handleInput(InputHandler* input)
-  {
-	  _xVel = 0;
 
-	  //Move right and left
-	  if (input->getKey(SDL_SCANCODE_D) || input->getKey(SDL_SCANCODE_RIGHT))
-	    _xVel = _speed;
-	  else if ((input->getKey(SDL_SCANCODE_A) || input->getKey(SDL_SCANCODE_LEFT)) && _x > -1328)
-	    _xVel = -_speed;
+void Player::reset()
+{
+  _x = -896;
+  _y = 200;
+  _speed = 8;
+  _defaultSpeed = _speed;
+  _gravity = 0.45f;
+  _xVel = 0;
+  _yVel = 0;
+  _playerState = inAir;
+  _playerDirection = right;
+  _health = 100;
+
+  if(_highscore < _score)
+  _highscore = _score;
+
+  _lastScore = _score;
+  _score = 0;
+  _scoreOffset = 0;
+  _healthLossFactor = 0.05f;
+  _jumpBoost = true;
+  _jumpBoostGravity = _gravity;
+  _movementDifference = 0;   
+  _godMode = false;
+  _lastX = _x;
+}
+
+void Player::handleInput(InputHandler* input)
+{
+  _xVel = 0;
+
+  //Move right and left
+  if (input->getKey(SDL_SCANCODE_D) || input->getKey(SDL_SCANCODE_RIGHT))
+    _xVel = _speed;
+  else if ((input->getKey(SDL_SCANCODE_A) || input->getKey(SDL_SCANCODE_LEFT)) && _x > -1328)
+    _xVel = -_speed;
 	      
-	  if ((input->getKey(SDL_SCANCODE_W) || input->getKey(SDL_SCANCODE_SPACE) || input->getKey(SDL_SCANCODE_UP)) && _playerState == running)
-	    {
-	      _yVel = -8.5;
-		  _playerState = jumping;
-		  _jumpBoost = true;
-		  _jumpBoostGravity = _gravity;
-	    }
+  if ((input->getKey(SDL_SCANCODE_W) || input->getKey(SDL_SCANCODE_SPACE) || input->getKey(SDL_SCANCODE_UP)) && _playerState == running)
+    {
+      _yVel = -8.5;
+      _playerState = jumping;
+      _jumpBoost = true;
+      _jumpBoostGravity = _gravity;
+    }
 
-	  if (_playerState == jumping && !(input->getKey(SDL_SCANCODE_UP) || input->getKey(SDL_SCANCODE_W) || input->getKey(SDL_SCANCODE_SPACE)))
-	  {
-		  _jumpBoost = false;
-	  }
+  if (_playerState == jumping && !(input->getKey(SDL_SCANCODE_UP) || input->getKey(SDL_SCANCODE_W) || input->getKey(SDL_SCANCODE_SPACE)))
+    {
+      _jumpBoost = false;
+    }
 
-	  if (input->getPressed(SDL_SCANCODE_G))
-	    {
-	      _godMode = !_godMode;
+  if (input->getPressed(SDL_SCANCODE_G))
+    {
+      _godMode = !_godMode;
 	      
-	      std::cout << "God mode: " << _godMode << std::endl;
-	    }
-  }
+      std::cout << "God mode: " << _godMode << std::endl;
+    }
+}
 
-  void Player::updateLogic()
-  {
+void Player::updateLogic()
+{ 
+  //Update direction
+  if (_xVel < 0) _playerDirection = left;
+  else if (_xVel > 0)_playerDirection = right;
+  
+  if(_x - _lastX < -500)
+    _movementDifference = _x - _lastX + 896;
+  else
+    _movementDifference = _x - _lastX;
 
-	  //std::cout << _jumpBoost << std::endl;
-	  //Update direction
-	  if (_xVel < 0) _playerDirection = left;
-	  else if (_xVel > 0)_playerDirection = right;
+  _lastX = _x;
 
-	  //Update score
-	  if (_xVel > 0 && _playerDirection == PlayerDirection::right)
-	  {
-		  _scoreOffset += _xVel;
+  _scoreOffset += _movementDifference;
+  
+  //Update score
+  if (_scoreOffset > 0 && _movementDifference > 0) 
+    {
+      _scoreOffset = 0;
 
-		  if (_scoreOffset > 0) 
-		  {
-			  _scoreOffset = 0;
-			  _score += _xVel;
-		  }
-	  }
-	  else if (_xVel < 0 && _playerDirection == PlayerDirection::left)
-	  {
-		  _scoreOffset += _xVel;
-	  }
+      _score += _movementDifference;
+    }
 	  
-	  if(_score < 0) _score = 0;
+  if(_score < 0) _score = 0;
 
-	  //Gravity
-	  if (_playerState == jumping && _jumpBoost)
-	  {
-		  if (_jumpBoostGravity > 0.15)
-		    _jumpBoostGravity -= 0.01f;
-		  else
-		    _jumpBoost = false;
+  //Gravity
+  if (_playerState == jumping && _jumpBoost)
+    {
+      if (_jumpBoostGravity > 0.15)
+	_jumpBoostGravity -= 0.01f;
+      else
+	_jumpBoost = false;
 
-		  _yVel += _jumpBoostGravity;
-	  }
-	  else
-		  _yVel += _gravity;
-
-	  //Move player
-	  _x += _xVel;
-	  _y += _yVel;
+      _yVel += _jumpBoostGravity;
+    }
+  else
+    {
+      _yVel += _gravity;
+    }
 	  
-	  //Lose life by time
-	  if (_godMode == false)
-		  _health -= _healthLossFactor;//_currentDifficulty * _healthLossFactor;
 
-	  //Check if player is dead
-	  if (_y > 600 || _health <= 0)
-	  {
-	      if (_godMode == false)
-			_playerState = dead;
-	      else
-			_y = 0;
-	  }
-  }
+  //Move player
+  _x += _xVel;
+  _y += _yVel;
+	  
+  //Lose life by time
+  if (_godMode == false)
+    _health -= _healthLossFactor;//_currentDifficulty * _healthLossFactor;
 
-  float Player::getXvel()
-  {
-	  return _xVel;
-  }
+  //Check if player is dead
+  if (_y > 600 || _health <= 0)
+    {
+      if (_godMode == false)
+	_playerState = dead;
+      else
+	_y = 0;
+    }
+}
 
-  float Player::getYvel()
-  {
-	  return _yVel;
-  }
+float Player::getXvel()
+{
+  return _xVel;
+}
 
-  float Player::getSpeed()
-  {
-	  return _speed;
-  }
+float Player::getYvel()
+{
+  return _yVel;
+}
+
+float Player::getSpeed()
+{
+  return _speed;
+}
 
 void Player::setSpeed(float speed)
 {
@@ -114,15 +144,25 @@ void Player::resetSpeed()
   _speed = _defaultSpeed;
 }
 
-  void Player::setXvel(int xVel)
-  {
-	  _xVel = xVel;
-  }
+void Player::setXvel(int xVel)
+{
+  _xVel = xVel;
+}
 
-  void Player::setYvel(int yVel)
-  {
-	  _yVel = yVel;
-  }
+void Player::setYvel(int yVel)
+{
+  _yVel = yVel;
+}
+
+int Player::getMovementDifference()
+{
+  return _movementDifference;
+}
+
+void Player::setMovementDifference(int movementDifference)
+{
+  _movementDifference = movementDifference;
+}
 
 void Player::setState(PlayerState state)
 {

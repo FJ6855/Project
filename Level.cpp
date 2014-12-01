@@ -39,10 +39,10 @@ void Level::updateLogic()
 
 	_player->updateLogic();
 
-	if (_player->getX() >= 897)
+	if (_player->getX() > 896)
 	{
-		_player->setX(_player->getX() - 897);
-
+		_player->setX(_player->getX() - 896);
+		_player->setMovementDifference(_player->getMovementDifference());
 		delete _segments.at(0); //Free the memory
 		
 		_segments.at(0) = _segments.at(1);
@@ -51,13 +51,27 @@ void Level::updateLogic()
 		_segments.at(2) = new LevelSegment(*(_loadedSegments.at(Level::getRandom())));
 	} 
 	
+
 	// cap difficulty at maximum difficulty rating
 	if (_player->getScore() < 5000 * _maxDifficulty)
 	  _currentDifficulty = _player->getScore() / 5000 + 1;
 
 	//Logic for background
-	if (_background->getX() <= -896) _background->setX(0);
-	_background->setX(_background->getX() + -_player->getXvel() / _player->getSpeed());
+	if (_background->getX1() <= -896)
+	  _background->setX1(0);
+
+	if (_background->getX2() <= -896)
+	  _background->setX2(0);
+
+	if(_player->getMovementDifference() > 0 && _player->getX() > -896) 
+	  _background->setX1(_background->getX1() - 1);
+	else if(_player->getMovementDifference() < 0 && _player->getX() > -896)
+	   _background->setX1(_background->getX1() + 1);
+
+	if(_player->getMovementDifference() > 0 && _player->getX() > -896) 
+	  _background->setX2(_background->getX2() - 2);
+	else if(_player->getMovementDifference() < 0 && _player->getX() > -896)
+	  _background->setX2(_background->getX2() + 2);
 }
 
 void Level::render(SDL_Renderer* renderer)
@@ -107,22 +121,11 @@ void Level::handleCollision()
 
 void Level::reset()
 {
-  _player->setX(-896);
-  _player->setY(200);
-  _player->setState(PlayerState::inAir);
-  _player->setXvel(0);
-  _player->setYvel(0);
-  _player->setDirection(PlayerDirection::right);
-
-  if(_player->getHighscore() < _player->getScore())
-    _player->setHighscore(_player->getScore());
-
-  _player->setLastScore(_player->getScore());
-  
-  _player->setScore(0);
-  _player->setHealth(100);
-
+  _player->reset();
   _currentDifficulty = 1;
+
+  _background->setX1(0);
+  _background->setX2(0);
 
   delete _segments.at(0); //Free the memory
   delete _segments.at(1); //Free the memory

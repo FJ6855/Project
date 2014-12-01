@@ -41,11 +41,9 @@ void Game::updateLogic()
 			systemState = WRITENAMEMENU;
 			_highScore->setCurrentScore(_level->getPlayer()->getScore());
 	      }
-	}
 
-	if (_level->getPlayerState() == PlayerState::dead)
-	{
-		_level->reset();
+	_level->reset();
+
 	}
 
 	_level->handleCollision();

@@ -16,7 +16,7 @@ class MenuRenderer : public Renderer
     _menuBackground = rm->loadTexture("menuBackground");
 	_helpMenuBackground = rm->loadTexture("helpMenuBackground");
 
-	_pausedText = rm->loadTexture("pausedText");
+	_pausedText = rm->loadTexture("PausedText");
 	_startMenuText = rm->loadTexture("startMenuText");
 	_newHighscoreText = rm->loadTexture("newHighscoreText");
 	_helpMenuText = rm->loadTexture("helpMenuText");

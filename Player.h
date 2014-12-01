@@ -36,10 +36,13 @@ class Player : public Object
       _healthLossFactor = 0.05f;
       _jumpBoost = true;
       _jumpBoostGravity = _gravity;
-	  _lastScore = 0;
-      
+      _lastScore = 0;
+      _movementDifference = 0;   
       _godMode = false;
+      _lastX = _x;
     }
+
+  void reset();
 
   void handleInput(InputHandler* inputHandler);
   void updateLogic();
@@ -53,11 +56,14 @@ class Player : public Object
   void setXvel(int xVel);
   void setYvel(int yVel);
 
+  int getMovementDifference();
+  void setMovementDifference(int movementDifference);
+
   void setState(PlayerState state);
   PlayerState getState();
 
 
-  void Player::setDirection(PlayerDirection direction);
+  void setDirection(PlayerDirection direction);
   PlayerDirection getDirection();
 
   float getHealth();
@@ -78,6 +84,10 @@ class Player : public Object
   float _gravity;
   float _xVel;
   float _yVel;
+  
+  int _lastX;
+  int _movementDifference;
+
   float _health;
 
   int _score;

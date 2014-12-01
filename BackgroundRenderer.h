@@ -18,7 +18,8 @@ public:
 
 private:
 	Texture* _backgroundStatic;
-	Texture* _backgroundMoving;
+	Texture* _backgroundMoving1;
+	Texture* _backgroundMoving2;
 	Texture* _pauseInscructionText;
 };
 
