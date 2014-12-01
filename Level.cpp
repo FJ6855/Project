@@ -11,7 +11,7 @@ void Level::loadLevel()
 
 void Level::loadSegments()
 {
-	for (int i{0}; i < _maxDifficulty * 5 + 1; ++i)
+	for (int i{0}; i <= _maxDifficulty * 5; ++i)
 	{
 		LevelSegment* ls = new LevelSegment(_rm);
 		ls->loadLevelSegment("levelSegment" + std::to_string(i));
