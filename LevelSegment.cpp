@@ -162,6 +162,10 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 
   int objectX;
   int objectY;
+  
+  // Checking if player has been moved by a moving block, 
+  //should only happen once per collision handling
+  bool hasBeenMoved = false;
 
   for (int i{}; i < objects.size(); ++i)
   {
@@ -172,7 +176,7 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
     if (movingBlock != nullptr)
 	objectX += movingBlock->getMovingX();
 	
-	objectY = objects.at(i)->getY() * objects.at(i)->getWidth();
+    objectY = objects.at(i)->getY() * objects.at(i)->getWidth();
       
 	  Block* block = dynamic_cast<Block*>(objects.at(i));
 	  BlinkingBlock* blinkingBlock = dynamic_cast<BlinkingBlock*>(objects.at(i));
@@ -200,9 +204,18 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 					  SpeedBlock* speedBlock = dynamic_cast<SpeedBlock*>(objects.at(i));
 					  
 					  if (speedBlock != nullptr)
-					    player->setSpeed(speedBlock->getSpeedFactor());
+					    {
+					      player->setSpeed(speedBlock->getSpeedFactor());
+					    }
+					  else if (movingBlock != nullptr && hasBeenMoved == false)
+					    {
+					      player->setX(player->getX() + movingBlock->getSpeed());
+					      hasBeenMoved = true;
+					    }
 					  else
-					    player->resetSpeed();
+					    {
+					      player->resetSpeed();
+					    }
 
 					  continue;
 				  }

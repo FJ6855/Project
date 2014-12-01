@@ -14,7 +14,8 @@ class MovingBlock : public Block
     }
 
     int getMovingX();
-
+    float getSpeed();
+    
   void updateLogic() override;
 
  private:
