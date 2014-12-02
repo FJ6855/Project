@@ -54,6 +54,10 @@ class PlayerRenderer : public Renderer
 
 	Texture* _lastScoreTexture = nullptr;
 	Texture* _lastScoreTextTexture;
+
+	// Textures for power up timer
+	Texture* _powerUpTimerTexture = nullptr;
+	Texture* _powerUpTimerTextTexture;
 	
 	int _playerFrame;
 };

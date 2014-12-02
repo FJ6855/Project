@@ -14,9 +14,10 @@ void Player::reset()
   _playerState = inAir;
   _playerDirection = right;
   _health = 100;
+  _powerUpTimer = 0;
 
   if(_highscore < _score)
-  _highscore = _score;
+    _highscore = _score;
 
   _lastScore = _score;
   _score = 0;
@@ -57,6 +58,15 @@ void Player::handleInput(InputHandler* input)
       _godMode = !_godMode;
 	      
       std::cout << "God mode: " << _godMode << std::endl;
+    }
+
+  _powerUpTimer -= 1;
+
+  if (_powerUpTimer <= 0)
+    {
+      _powerUpTimer = 0;
+      
+      resetSpeed();
     }
 }
 
@@ -188,9 +198,23 @@ float Player::getHealth()
 {
   return _health;
 }
+
 void Player::setHealth(int health)
 {
   _health = health;
+
+  if (_health > 100)
+    _health = 100;
+}
+
+int Player::getPowerUpTimer()
+{
+  return _powerUpTimer;
+}
+
+void Player::setPowerUpTimer(int timer)
+{
+  _powerUpTimer = timer;
 }
 
 int Player::getScore()

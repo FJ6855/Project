@@ -2,11 +2,9 @@
 #include <sstream>
 #include <algorithm>
 #include <iostream>
+#include <cctype>
 
 #include "LevelSegment.h"
-#include "BlinkingBlock.h"
-#include "SpeedBlock.h"
-#include "MovingBlock.h"
 
 LevelSegment::~LevelSegment()
 {
@@ -15,339 +13,394 @@ LevelSegment::~LevelSegment()
 
 void LevelSegment::loadLevelSegment(const std::string& fileName)
 {
-  std::ifstream file("./res/LevelSegments/" + fileName + ".txt");
-
-  if (file.is_open())
+    std::ifstream file("./res/LevelSegments/" + fileName + ".txt");
+    
+    if (file.is_open())
     {
-      int x = 0;
-      int y = -1;
-
-      std::string line;
-
-      while (getline(file, line))
+	int x = 0;
+	int y = -1;
+	
+	std::string line;
+	
+	while (getline(file, line))
 	{
-	  std::stringstream ss(line);
-	  char c;
-	  
-	  if (y == -1)
-	    ss >> _difficultyRating;
-
-	  while (ss >> c)
+	    std::stringstream ss(line);
+	    char c;
+	    
+	    if (y == -1)
+		ss >> _difficultyRating;
+	    
+	    while (ss >> c)
 	    {
-	      if (c == 'X')
+		if (c == 'X')
 		{
-		  Block* b = new Block(x, y, 32, 32, BlockType::BlockType1);
-
-		  _blocks.push_back(b);
+		    Block* b = new Block(x, y, 32, 32, BlockType::BlockType1);
+		    
+		    _blocks.push_back(b);
 		}
-	      else if (c == 'B')
+		else if (c == 'B')
 		{
-		  Block* b = new BlinkingBlock(x, y, 32, 32, BlockType::BlinkingBlock1, 100);
+		    Block* b = new BlinkingBlock(x, y, 32, 32, BlockType::BlinkingBlock1, 100);
 
-		  _blocks.push_back(b);
+		    _blocks.push_back(b);
 		}
-	      else if (c == 'S')
+		else if (c == 'S')
 		{
-		  Block* sb = new SpeedBlock(x, y, 32, 32, BlockType::SpeedBlock1, 15);
+		    Block* sb = new SpeedBlock(x, y, 32, 32, BlockType::SpeedBlock1, 2);
 
-		  _blocks.push_back(sb);
+		    _blocks.push_back(sb);
 		}
-	      else if (c == 'M')
+		else if (c == 'M')
 		{
-		  Block* mb = new MovingBlock(x, y, 32, 32, BlockType::BlockType1, 2, 5);
+		    int interval;
+		    Block* mb;
 
-		  _blocks.push_back(mb);
+		    if (isdigit(ss.peek()))
+		    {
+			ss >> interval;
+
+			mb = new MovingBlock(x, y, 32, 32, BlockType::BlockType1, 2, interval);
+		    }
+		    else
+		    {
+			mb = new MovingBlock(x, y, 32, 32, BlockType::BlockType1, 2, 5);
+		    }
+		    
+		    _blocks.push_back(mb);
 		}
-	      else if (c == 'Y')
+		else if (c == 'Y')
 		{
-		  Obstacle* o = new Obstacle(x, y, 32, 32, ObstacleType::ObstacleType1, 10);
+		    Obstacle* o = new Obstacle(x, y, 32, 32, ObstacleType::ObstacleType1, 10);
 
-		  _obstacles.push_back(o);
+		    _obstacles.push_back(o);
 		}
-	      else if (c == 'Z')
+		else if (c == 'H')
 		{
-		  Item* i = new Item(x, y, 32, 32, ItemType::ItemType1, 10);
+		  Item* h = new Health(x, y, 32, 32, 10);
 
-		  _items.push_back(i);
+		  _items.push_back(h);
+		}
+		else if (c == 'P')
+		{
+		    Item* sb = new SpeedBoost(x, y, 32, 32, 12, 600);
+
+		    _items.push_back(sb);
 		}
 
-	      ++x;
+		++x;
 	    }
 
-	  x = 0;
-	  ++y;
+	    x = 0;
+	    ++y;
 	}
     }
-  else
+    else
     {
-      std::cout << "Could not open file: LevelSegments/" + fileName << std::endl;
+	std::cout << "Could not open file: LevelSegments/" + fileName << std::endl;
     }
 }
 
 void LevelSegment::updateLogic()
 {
-  for (Block* b : _blocks)
+    for (Block* b : _blocks)
     {
-      b->updateLogic();
+	b->updateLogic();
     }
-  /*
-	for (Obstacle* o : _obstacles)
-	{
-		o->updateLogic();
-	}
-
-	for (Item* i : _items)
-	{
-		i->updateLogic();
-		}*/
 }
 
 void LevelSegment::render(SDL_Renderer* renderer)
 {
-  for (Block* b : _blocks)
+    for (Block* b : _blocks)
     {
-      _blockRenderer->render(b, _x, renderer);
+	_blockRenderer->render(b, _x, renderer);
     }
   
-  for (Obstacle* o : _obstacles)
+    for (Obstacle* o : _obstacles)
     {
-      _obstacleRenderer->render(o, _x, renderer);
+	_obstacleRenderer->render(o, _x, renderer);
     }
   
-  for (Item* i : _items)
+    for (Item* i : _items)
     {
-      _itemRenderer->render(i, _x, renderer);
+	_itemRenderer->render(i, _x, renderer);
     }
 }
 
 void LevelSegment::handleCollision(Player* player, int segmentIndex)
 {
-	handleCollisionAgainstObjects(player, _blocks, segmentIndex);
-	handleCollisionAgainstObjects(player, _obstacles, segmentIndex);
-	handleCollisionAgainstObjects(player, _items, segmentIndex);
+    handleCollisionAgainstObjects(player, _blocks, segmentIndex);
+    handleCollisionAgainstObjects(player, _obstacles, segmentIndex);
+    handleCollisionAgainstObjects(player, _items, segmentIndex);
 }
 
 template <typename T>
 void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>& objects, int segmentIndex)
 {
-  int preX = player->getX() - player->getXvel();
-  int preY = player->getY() - player->getYvel();
+    int preX = player->getX() - player->getXvel();
+    int preY = player->getY() - player->getYvel();
 
-  int playerY;
-  int playerX;
+    int playerY;
+    int playerX;
 
-  if(player->getYvel() >= 0 && player->getYvel() < 1)
+    if(player->getYvel() >= 0 && player->getYvel() < 1)
     {
-      playerY = player->getY() + 1;
+	playerY = player->getY() + 1;
     }
-  else 
+    else 
     {
-      playerY = player->getY();
-    }
-
-  if (player->getXvel() >= 0 && player->getXvel() < 1)
-  {
-	  playerX = player->getX() + 1;
-  }
-  else if (player->getXvel() <= 0 && player->getXvel() > -1)
-  {
-	  playerX = player->getX() - 1;
-  }
-  else
-    {
-      playerX = player->getX();
+	playerY = player->getY();
     }
 
-  int offset = -896 + 896 * segmentIndex - 448 + 16;
+    if (player->getXvel() >= 0 && player->getXvel() < 1)
+    {
+	playerX = player->getX() + 1;
+    }
+    else if (player->getXvel() <= 0 && player->getXvel() > -1)
+    {
+	playerX = player->getX() - 1;
+    }
+    else
+    {
+	playerX = player->getX();
+    }
 
-  int objectX;
-  int objectY;
+    int offset = -896 + 896 * segmentIndex - 448 + 16;
+
+    int objectX;
+    int objectY;
   
-  // Checking if player has been moved by a moving block, 
-  //should only happen once per collision handling
-  bool hasBeenMoved = false;
+    // Checking if player has been moved by a moving block, 
+    // should only happen once per collision handling
+    bool hasBeenMoved = false;
 
-  for (int i{}; i < objects.size(); ++i)
-  {
-    MovingBlock* movingBlock = dynamic_cast<MovingBlock*>(objects.at(i));
+    for (int i{}; i < objects.size(); ++i)
+    {
+	Object* object = dynamic_cast<Object*>(objects.at(i));
+
+	Block* block = dynamic_cast<Block*>(object);
+	MovingBlock* movingBlock = dynamic_cast<MovingBlock*>(block);
+	BlinkingBlock* blinkingBlock = dynamic_cast<BlinkingBlock*>(block);
+
+	Obstacle* obstacle = dynamic_cast<Obstacle*>(object);
+	Item* item = dynamic_cast<Item*>(object);
+       
+	if (blinkingBlock != nullptr && !blinkingBlock->isVisible())
+	{
+	    continue;
+	}
+
+	objectX = object->getX() * object->getWidth() + offset;
     
-    objectX = objects.at(i)->getX() * objects.at(i)->getWidth() + offset;
-    
-    if (movingBlock != nullptr)
-	objectX += movingBlock->getMovingX();
+	if (movingBlock != nullptr)
+	    objectX += movingBlock->getMovingX();
 	
-    objectY = objects.at(i)->getY() * objects.at(i)->getWidth();
-      
-	  Block* block = dynamic_cast<Block*>(objects.at(i));
-	  BlinkingBlock* blinkingBlock = dynamic_cast<BlinkingBlock*>(objects.at(i));
-	  Obstacle* obstacle = dynamic_cast<Obstacle*>(objects.at(i));
-	  Item* item = dynamic_cast<Item*>(objects.at(i));
+	objectY = object->getY() * object->getWidth();
 
-	  if (blinkingBlock != nullptr && !blinkingBlock->isVisible())
+	if (player->getYvel() >= 0) //Player falling down
+	{
+	    //Check if players bottom corners are inside a box
+	    if (playerY + player->getHeight() - 1 >= objectY && playerY + player->getHeight() - 1 <= objectY + object->getHeight() - 1)
 	    {
-	      continue;
-	    }
-
-	  if (player->getYvel() >= 0) //Player falling down
-	  {
-		  //Check if players bottom corners are inside a box
-		  if (playerY + player->getHeight() - 1 >= objectY && playerY + player->getHeight() - 1 <= objectY + objects.at(i)->getHeight() - 1)
-		  {
-			  if ((preX + player->getWidth() - 1 >= objectX && preX + player->getWidth() - 1 <= objectX + objects.at(i)->getWidth() - 1) || (preX >= objectX && preX <= objectX + objects.at(i)->getWidth() - 1))
-			  {
-				  if (block != nullptr)
-				  {
-					  player->setState(PlayerState::running);
-					  player->setYvel(0);
-					  player->setY(objectY - player->getHeight());
+		if ((preX + player->getWidth() - 1 >= objectX && preX + player->getWidth() - 1 <= objectX + object->getWidth() - 1) || (preX >= objectX && preX <= objectX + object->getWidth() - 1))
+		{
+		    if (block != nullptr)
+		    {
+			player->setState(PlayerState::running);
+			player->setYvel(0);
+			player->setY(objectY - player->getHeight());
 					  					  
-					  SpeedBlock* speedBlock = dynamic_cast<SpeedBlock*>(objects.at(i));
+			SpeedBlock* speedBlock = dynamic_cast<SpeedBlock*>(block);
 					  
-					  if (speedBlock != nullptr)
-					    {
-					      player->setSpeed(speedBlock->getSpeedFactor());
-					    }
-					  else if (movingBlock != nullptr && hasBeenMoved == false)
-					    {
-					      player->setX(player->getX() + movingBlock->getSpeed());
-					      hasBeenMoved = true;
-					    }
-					  else
-					    {
-					      player->resetSpeed();
-					    }
+			if (speedBlock != nullptr)
+			{
+			    player->setX(player->getX() + speedBlock->getSpeedFactor());
+			}
+			else if (movingBlock != nullptr && hasBeenMoved == false)
+			{
+			    player->setX(player->getX() + movingBlock->getSpeed());
+			    hasBeenMoved = true;
+			}
 
-					  continue;
-				  }
-				  else if (obstacle != nullptr)
-				  {
-					  player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
-					  objects.erase(objects.begin() + i);
-					  continue;
-				  }
-				  else if (item != nullptr)
-				  {
-					  player->setHealth(player->getHealth() + item->getHealth()); //Give player hp is the item was hpBox
-					  if (player->getHealth() > 100) player->setHealth(100);
-					  objects.erase(objects.begin() + i);
-					  continue;
-				  }
-			  }
-		  }
-	  }
-	  else if (player->getYvel() < 0) //Player jumping up
-	  {
-	    
-	    player->resetSpeed();
+			continue;
+		    }
+		    else if (obstacle != nullptr)
+		    {
+			player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
+			
+			objects.erase(objects.begin() + i);
+			
+			continue;
+		    }
+		    else if (item != nullptr)
+		    {
+			Health* health = dynamic_cast<Health*>(item);
+			SpeedBoost* speedBoost = dynamic_cast<SpeedBoost*>(item);
 
-		  //Check if players top corners are inside a box
-		  if (player->getY() >= objectY && player->getY() <= objectY + objects.at(i)->getHeight() - 1)
-		  {
-			  if ((preX + player->getWidth() - 1 >= objectX && preX + player->getWidth() - 1 <= objectX + objects.at(i)->getWidth() - 1) || (preX >= objectX && preX <= objectX + objects.at(i)->getWidth() - 1))
-			  {
-				  if (block != nullptr)
-				  {
-					  player->setYvel(0);
-					  player->setY(objectY + block->getHeight());
-					  continue;
-				  }
-				  else if (obstacle != nullptr)
-				  {
-					  player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
-					  objects.erase(objects.begin() + i);
-					  continue;
-				  }
-				  else if (item != nullptr)
-				  {
-					  player->setHealth(player->getHealth() + item->getHealth()); //Give player hp is the item was hpBox
-					  objects.erase(objects.begin() + i);
-					  continue;
-				  }
-			  }
-		  }
-	  }
+			if (health != nullptr)
+			{
+			    player->setHealth(player->getHealth() + health->getHealth());
+			}
+			else if (speedBoost != nullptr)
+			{
+			    player->setSpeed(speedBoost->getSpeed());
+			    player->setPowerUpTimer(speedBoost->getTimer());
+			}
 
-	  if (player->getXvel() > 0) //Player running right
-	  {
-		  //Check if players right corners are inside a box
-		  if (playerX + player->getWidth() - 1 >= objectX && playerX + player->getWidth() - 1 <= objectX + objects.at(i)->getWidth() - 1)
-		  {
-			  if ((preY + player->getHeight() - 1 >= objectY && preY + player->getHeight() - 1 <= objectY + objects.at(i)->getHeight() - 1) || (preY >= objectY && preY <= objectY + objects.at(i)->getHeight() - 2))
-			  {
-				  if (block != nullptr)
-				  {
-					  player->setXvel(0);
-					  player->setX(objectX - player->getWidth());
-					  continue;
-				  }
-				  else if (obstacle != nullptr)
-				  {
-					  player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
-					  objects.erase(objects.begin() + i);
-					  continue;
-				  }
-				  else if (item != nullptr)
-				  {
-					  player->setHealth(player->getHealth() + item->getHealth()); //Give player hp is the item was hpBox
-					  if (player->getHealth() > 100) player->setHealth(100);
-					  objects.erase(objects.begin() + i);
-					  continue;
-				  }
-			  }
-		  }
-	  }
-	  else if (player->getXvel() < 0) //Player running left
-	  {
-		  //Check if players left corners are inside a box
-		  if (playerX >= objectX && playerX <= objectX + objects.at(i)->getWidth() - 1)
-		  {
-			  if ((preY + player->getHeight() - 1 >= objectY && preY + player->getHeight() - 1 <= objectY + objects.at(i)->getHeight() - 1) || (preY >= objectY && preY <= objectY + objects.at(i)->getHeight() - 2))
-			  {
-				  if (block != nullptr)
-				  {
-					  player->setXvel(0);
-					  player->setX(objectX + block->getWidth());
-					  continue;
-				  }
-				  else if (obstacle != nullptr)
-				  {
-					  player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
-					  objects.erase(objects.begin() + i);
-					  continue;
-				  }
-				  else if (item != nullptr)
-				  {
-					  player->setHealth(player->getHealth() + item->getHealth()); //Give player hp is the item was hpBox
-					  objects.erase(objects.begin() + i);
-					  continue;
-				  }
-			  }
-		  }
-	  }
-  }
+			objects.erase(objects.begin() + i);
+			
+			continue;
+		    }
+		}
+	    }
+	}
+	else if (player->getYvel() < 0) //Player jumping up
+	{	    
+	    //Check if players top corners are inside a box
+	    if (player->getY() >= objectY && player->getY() <= objectY + object->getHeight() - 1)
+	    {
+		if ((preX + player->getWidth() - 1 >= objectX && preX + player->getWidth() - 1 <= objectX + object->getWidth() - 1) || (preX >= objectX && preX <= objectX + object->getWidth() - 1))
+		{
+		    if (block != nullptr)
+		    {
+			player->setYvel(0);
+			player->setY(objectY + block->getHeight());
+			continue;
+		    }
+		    else if (obstacle != nullptr)
+		    {
+			player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
+			objects.erase(objects.begin() + i);
+			continue;
+		    }
+		    else if (item != nullptr)
+		    {
+			Health* health = dynamic_cast<Health*>(item);
+			SpeedBoost* speedBoost = dynamic_cast<SpeedBoost*>(item);
+
+			if (health != nullptr)
+			{
+			    player->setHealth(player->getHealth() + health->getHealth());
+			}
+			else if (speedBoost != nullptr)
+			{
+			    player->setSpeed(speedBoost->getSpeed());
+			    player->setPowerUpTimer(speedBoost->getTimer());
+			}
+			
+			objects.erase(objects.begin() + i);
+			
+			continue;
+		    }
+		}
+	    }
+	}
+
+	if (player->getXvel() > 0) //Player running right
+	{
+	    //Check if players right corners are inside a box
+	    if (playerX + player->getWidth() - 1 >= objectX && playerX + player->getWidth() - 1 <= objectX + object->getWidth() - 1)
+	    {
+		if ((preY + player->getHeight() - 1 >= objectY && preY + player->getHeight() - 1 <= objectY + object->getHeight() - 1) || (preY >= objectY && preY <= objectY + object->getHeight() - 2))
+		{
+		    if (block != nullptr)
+		    {
+			player->setXvel(0);
+			player->setX(objectX - player->getWidth());
+			continue;
+		    }
+		    else if (obstacle != nullptr)
+		    {
+			player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
+			objects.erase(objects.begin() + i);
+			continue;
+		    }
+		    else if (item != nullptr)
+		    {
+			Health* health = dynamic_cast<Health*>(item);
+			SpeedBoost* speedBoost = dynamic_cast<SpeedBoost*>(item);
+
+			if (health != nullptr)
+			{
+			    player->setHealth(player->getHealth() + health->getHealth());
+			}
+			else if (speedBoost != nullptr)
+			{
+			    player->setSpeed(speedBoost->getSpeed());
+			    player->setPowerUpTimer(speedBoost->getTimer());
+			}
+
+			objects.erase(objects.begin() + i);
+			
+			continue;
+		    }
+		}
+	    }
+	}
+	else if (player->getXvel() < 0) //Player running left
+	{
+	    //Check if players left corners are inside a box
+	    if (playerX >= objectX && playerX <= objectX + object->getWidth() - 1)
+	    {
+		if ((preY + player->getHeight() - 1 >= objectY && preY + player->getHeight() - 1 <= objectY + object->getHeight() - 1) || (preY >= objectY && preY <= objectY + object->getHeight() - 2))
+		{
+		    if (block != nullptr)
+		    {
+			player->setXvel(0);
+			player->setX(objectX + block->getWidth());
+			continue;
+		    }
+		    else if (obstacle != nullptr)
+		    {
+			player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
+			objects.erase(objects.begin() + i);
+			continue;
+		    }
+		    else if (item != nullptr)
+		    {
+			Health* health = dynamic_cast<Health*>(item);
+			SpeedBoost* speedBoost = dynamic_cast<SpeedBoost*>(item);
+
+			if (health != nullptr)
+			{
+			    player->setHealth(player->getHealth() + health->getHealth());
+			}
+			else if (speedBoost != nullptr)
+			{
+			    player->setSpeed(speedBoost->getSpeed());
+			    player->setPowerUpTimer(speedBoost->getTimer());
+			}
+
+			objects.erase(objects.begin() + i);
+
+			continue;
+		    }
+		}
+	    }
+	}
+    }
 }
 
 void LevelSegment::setX(int x)
 {
-	_x = x;
+    _x = x;
 }
 
 void LevelSegment::setY(int y)
 {
-	_y = y;
+    _y = y;
 }
 
 int LevelSegment::getX()
 {
-	return _x;
+    return _x;
 }
 
 int LevelSegment::getY()
 {
-	return _y;
+    return _y;
 }
 
 int LevelSegment::getDifficultyRating()
 {
-  return _difficultyRating;
+    return _difficultyRating;
 }

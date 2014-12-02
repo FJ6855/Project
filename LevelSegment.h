@@ -8,6 +8,8 @@
 #include "SpeedBlock.h"
 #include "Obstacle.h"
 #include "Item.h"
+#include "Health.h"
+#include "SpeedBoost.h"
 #include "BlockRenderer.h"
 #include "ObstacleRenderer.h"
 #include "ItemRenderer.h"
@@ -43,7 +45,6 @@ class LevelSegment
 		    MovingBlock* movingBlock = dynamic_cast<MovingBlock*>(b);
 		    SpeedBlock* speedBlock = dynamic_cast<SpeedBlock*>(b);
 		    BlinkingBlock* blinkingBlock = dynamic_cast<BlinkingBlock*>(b);
-		    
 
 		    if (movingBlock != nullptr)
 		      _blocks.push_back(new MovingBlock(*(movingBlock)));
@@ -62,6 +63,14 @@ class LevelSegment
 
 		for (Item* i : ls._items)
 		  {
+		    Health* health = dynamic_cast<Health*>(i);
+		    SpeedBoost* speedBoost = dynamic_cast<SpeedBoost*>(i);
+
+		    if (health != nullptr)
+		      _items.push_back(new Health(*(health)));
+		    else if (speedBoost != nullptr)
+		      _items.push_back(new SpeedBoost(*(speedBoost)));
+		    else
 		      _items.push_back(new Item(*(i)));
 		  }
 

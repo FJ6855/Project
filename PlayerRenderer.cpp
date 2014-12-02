@@ -33,6 +33,9 @@ void PlayerRenderer::loadContent()
 	_lastHighestScoreTextTexture = _rm->loadTexture("Your highest score: ", SDL_Color{ 255, 255, 255 });
 
 	_lastScoreTextTexture = _rm->loadTexture("Last rounds score: ", SDL_Color{ 255, 255, 255 });
+
+	_powerUpTimerTexture = _rm->loadTexture(1, 16, 0, 255, 0); 
+	_powerUpTimerTextTexture = _rm->loadTexture("Power up timer: ", SDL_Color{ 255, 255, 255 });
 }
 
 void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
@@ -124,5 +127,11 @@ void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
 
 	_lastScoreTextTexture->render(renderer, 10, 50, _lastScoreTextTexture->getWidth(), _lastScoreTextTexture->getHeight());
 	_lastScoreTexture->render(renderer, _lastScoreTextTexture->getWidth() + 13, 50, _lastScoreTexture->getWidth(), _lastScoreTexture->getHeight());
+
+	if (player->getPowerUpTimer() > 0)
+	  {
+	    _powerUpTimerTexture->render(renderer, _powerUpTimerTexture->getWidth() + _powerUpTimerTextTexture->getWidth() + 303, 450, player->getPowerUpTimer() / 10, _powerUpTimerTexture->getHeight());
+	    _powerUpTimerTextTexture->render(renderer, 256 - (_powerUpTimerTextTexture->getWidth() + _powerUpTimerTexture->getWidth() + 303) / 2, 450, _powerUpTimerTextTexture->getWidth(), _powerUpTimerTextTexture->getHeight());
+	  }
 }
 

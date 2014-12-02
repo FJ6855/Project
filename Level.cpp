@@ -64,14 +64,14 @@ void Level::updateLogic()
 	  _background->setX2(0);
 
 	if(_player->getMovementDifference() > 0 && _player->getX() > -896) 
-	  _background->setX1(_background->getX1() - 1);
+	  _background->setX1(_background->getX1() - _player->getSpeed() / 6);
 	else if(_player->getMovementDifference() < 0 && _player->getX() > -896)
-	   _background->setX1(_background->getX1() + 1);
+	   _background->setX1(_background->getX1() + _player->getSpeed() / 6);
 
 	if(_player->getMovementDifference() > 0 && _player->getX() > -896) 
-	  _background->setX2(_background->getX2() - 2);
+	  _background->setX2(_background->getX2() - _player->getSpeed() / 6 - 1);
 	else if(_player->getMovementDifference() < 0 && _player->getX() > -896)
-	  _background->setX2(_background->getX2() + 2);
+	  _background->setX2(_background->getX2() + _player->getSpeed() / 6 + 1);
 }
 
 void Level::render(SDL_Renderer* renderer)

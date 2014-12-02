@@ -1,7 +1,5 @@
 #include "Block.h"
 
-#include <SDL2/SDL.h>
-
 #ifndef MOVING_BLOCK_H
 #define MOVING_BLOCK_H
 

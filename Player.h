@@ -30,6 +30,7 @@ class Player : public Object
       _playerState = inAir;
       _playerDirection = right;
       _health = 100;
+      _powerUpTimer = 0;
       _score = 0;
       _highscore = 0;
       _scoreOffset = 0;
@@ -62,12 +63,15 @@ class Player : public Object
   void setState(PlayerState state);
   PlayerState getState();
 
-
   void setDirection(PlayerDirection direction);
   PlayerDirection getDirection();
 
   float getHealth();
   void setHealth(int health);
+  
+  int getPowerUpTimer();
+  void setPowerUpTimer(int timer);
+
   int getScore();
   void setScore(int score);
   void setHighscore(int highscore);
@@ -84,11 +88,13 @@ class Player : public Object
   float _gravity;
   float _xVel;
   float _yVel;
-  
+
   int _lastX;
   int _movementDifference;
 
   float _health;
+
+  int _powerUpTimer;
 
   int _score;
   int _highscore;
