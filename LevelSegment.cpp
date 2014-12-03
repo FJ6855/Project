@@ -34,19 +34,25 @@ void LevelSegment::loadLevelSegment(const std::string& fileName)
 	    {
 		if (c == 'X')
 		{
-		    Block* b = new Block(x, y, 32, 32, BlockType::BlockType1);
+		    Block* b = new Block(x, y, 32, 32);
 		    
 		    _blocks.push_back(b);
 		}
 		else if (c == 'B')
 		{
-		    Block* b = new BlinkingBlock(x, y, 32, 32, BlockType::BlinkingBlock1, 100);
+		    Block* b = new BlinkingBlock(x, y, 32, 32, 100);
 
 		    _blocks.push_back(b);
 		}
 		else if (c == 'S')
 		{
-		    Block* sb = new SpeedBlock(x, y, 32, 32, BlockType::SpeedBlock1, 2);
+		    Block* sb = new SpeedBlock(x, y, 32, 32, BlockType::SpeedBlockRight1, 2);
+
+		    _blocks.push_back(sb);
+		}
+		else if (c == 'D')
+		{
+		    Block* sb = new SpeedBlock(x, y, 32, 32, BlockType::SpeedBlockLeft1, -2);
 
 		    _blocks.push_back(sb);
 		}
@@ -59,18 +65,18 @@ void LevelSegment::loadLevelSegment(const std::string& fileName)
 		    {
 			ss >> interval;
 
-			mb = new MovingBlock(x, y, 32, 32, BlockType::BlockType1, 2, interval);
+			mb = new MovingBlock(x, y, 32, 32, 2.0f, interval);
 		    }
 		    else
 		    {
-			mb = new MovingBlock(x, y, 32, 32, BlockType::BlockType1, 2, 5);
+			mb = new MovingBlock(x, y, 32, 32, 2.0f, 5);
 		    }
 		    
 		    _blocks.push_back(mb);
 		}
 		else if (c == 'Y')
 		{
-		    Obstacle* o = new Obstacle(x, y, 32, 32, ObstacleType::ObstacleType1, 10);
+		    Obstacle* o = new Obstacle(x, y, 32, 32, 10);
 
 		    _obstacles.push_back(o);
 		}
@@ -213,6 +219,7 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 					  
 			if (speedBlock != nullptr)
 			{
+			    player->setAirSpeed(speedBlock->getSpeedFactor());
 			    player->setX(player->getX() + speedBlock->getSpeedFactor());
 			}
 			else if (movingBlock != nullptr && hasBeenMoved == false)
@@ -220,6 +227,10 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 			    player->setX(player->getX() + movingBlock->getSpeed());
 			    hasBeenMoved = true;
 			}
+			else 
+			{
+			    player->resetSpeed();
+			}			
 
 			continue;
 		    }
@@ -295,8 +306,8 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 	    }
 	}
 
-	if (player->getXvel() > 0) //Player running right
-	{
+	//if (player->getXvel() > 0) //Player running right
+	//{
 	    //Check if players right corners are inside a box
 	    if (playerX + player->getWidth() - 1 >= objectX && playerX + player->getWidth() - 1 <= objectX + object->getWidth() - 1)
 	    {
@@ -335,9 +346,9 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 		    }
 		}
 	    }
-	}
-	else if (player->getXvel() < 0) //Player running left
-	{
+	    //}
+	    //else if (player->getXvel() < 0) //Player running left
+	      //{
 	    //Check if players left corners are inside a box
 	    if (playerX >= objectX && playerX <= objectX + object->getWidth() - 1)
 	    {
@@ -375,7 +386,7 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 			continue;
 		    }
 		}
-	    }
+		//}
 	}
     }
 }

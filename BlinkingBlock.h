@@ -6,10 +6,11 @@
 class BlinkingBlock : public Block
 {
  public:
- BlinkingBlock(int x, int y, int width, int height, BlockType type, int timeLimit) : Block(x, y, width, height, type), _timeLimit{timeLimit}
+ BlinkingBlock(int x, int y, int width, int height, int timeLimit) : Block(x, y, width, height), _timeLimit{timeLimit}
     {
       _timer = 0;
       _visible = true;
+      _type = BlockType::BlinkingBlock1;
     }
  
   void updateLogic() override;

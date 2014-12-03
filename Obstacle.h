@@ -5,21 +5,24 @@
 
 enum ObstacleType
 {
-	ObstacleType1
+    ObstacleType1
 };
 
 class Obstacle : public Object
 {
-public:
-	Obstacle(int x, int y, int width, int height, ObstacleType type, float damage) : _type{ type }, _damage{ damage }, Object(x, y, width, height){}
+  public:
+  Obstacle(int x, int y, int width, int height, float damage) : Object(x, y, width, height), _damage{ damage }
+    {
+	_type = ObstacleType::ObstacleType1;
+    }
 
-	ObstacleType getType();
-	float getDamage();
-	void updateLogic();
+    ObstacleType getType();
+    float getDamage();
+    void updateLogic();
 
-private:
-	ObstacleType _type;
-	float _damage;
+  private:
+    ObstacleType _type;
+    float _damage;
 };
 
 #endif
