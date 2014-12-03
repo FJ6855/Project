@@ -229,7 +229,7 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 			}
 			else 
 			{
-			    player->resetSpeed();
+			    player->setAirSpeed(0);
 			}			
 
 			continue;
