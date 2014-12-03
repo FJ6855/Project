@@ -6,7 +6,7 @@
 class MovingBlock : public Block
 {
  public:
- MovingBlock(int x, int y, int width, int height, BlockType type, float speed, int interval) : Block(x, y, width, height, type), _speed{speed}, _interval(interval)
+ MovingBlock(int x, int y, int width, int height, float speed, int interval) : Block(x, y, width, height), _speed{speed}, _interval(interval)
     {
       _movingX = 0;
     }

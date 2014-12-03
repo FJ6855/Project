@@ -24,6 +24,7 @@ class Player : public Object
     {
       _speed = 8;
       _defaultSpeed = _speed;
+      _airSpeed = 0;
       _gravity = 0.45f;
       _xVel = 0;
       _yVel = 0;
@@ -50,9 +51,12 @@ class Player : public Object
 
   float getXvel();
   float getYvel();
+
   float getSpeed();
   void setSpeed(float speed);
   void resetSpeed();
+
+  void setAirSpeed(float airSpeed);
 
   void setXvel(int xVel);
   void setYvel(int yVel);
@@ -84,6 +88,7 @@ class Player : public Object
 
  private:
   float _speed;
+  float _airSpeed;
   float _defaultSpeed;
   float _gravity;
   float _xVel;
