@@ -18,16 +18,13 @@ class HighScore
   void saveScores(ResourceManager* rm);
   void setCurrentScore(int score);
   void setCurrentName(std::string name);
-  std::vector<Score> getScores();
+  std::vector<Score*> getScores();
 
  private:
-  std::vector<Score> _scores;
+  std::vector<Score*> _scores;
   ResourceManager* _rm;
   int _currentScore;
   std::string _currentName;
 
 };
-
-bool operator<(const Score &s1, const Score &s2);
-
 #endif

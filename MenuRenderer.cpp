@@ -42,6 +42,7 @@ void MenuRenderer::render(Menu* menu, SDL_Renderer* renderer)
 		WriteNameMenu* writeNameMenu = dynamic_cast<WriteNameMenu*>(menu);
 	        if(writeNameMenu->getName().size() > 0) 
 		  {
+		    delete _nameText;
 		    _nameText = _rm->loadTexture(writeNameMenu->getName(), SDL_Color{255, 255, 255});
 		    _nameText->render(renderer, 448 - _nameText->getWidth()/2, 200, _nameText->getWidth(), _nameText->getHeight());
 		  }

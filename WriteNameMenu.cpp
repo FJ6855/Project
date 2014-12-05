@@ -12,9 +12,7 @@ WriteNameMenu::WriteNameMenu(HighScore* hs)
 
 
 WriteNameMenu::~WriteNameMenu()
-{
-
-}
+{}
 
 void WriteNameMenu::buildMenu()
 {

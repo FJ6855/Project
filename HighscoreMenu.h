@@ -12,7 +12,7 @@ public:
 	~HighscoreMenu();
 
 	void handleInput(InputHandler* input, SystemState& systemState) override;
-	std::vector<Score> getScores();
+	std::vector<Score*> getScores();
 private:
 	void buildMenu();
 	HighScore* _highscore;
