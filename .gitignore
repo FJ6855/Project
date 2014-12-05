@@ -5,3 +5,7 @@
 # Ignore stupid emacs files
 \#*\#
 .\#*
+# ignore highscore
+HighScore.txt
+# ignore game
+game

@@ -7,7 +7,7 @@ class Score
 {
  public:
  Score(int pos, std::string name, int score) : _pos{pos}, _name{name}, _score{score} {}
-
+  ~Score() {}
   int getPos();
   void setPos(int);
   std::string getName();

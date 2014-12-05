@@ -24,8 +24,10 @@ void Game::handleInput()
 {
     if(_input->getPressed(SDL_SCANCODE_P))
     {
-	if(systemState != PAUSE) systemState = PAUSE;
-	else systemState = PLAY;
+	if(systemState != PAUSE) 
+	    systemState = PAUSE;
+	else 
+	    systemState = PLAY;
     }
 
     _level->handleInput();

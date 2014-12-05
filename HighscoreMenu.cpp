@@ -27,7 +27,7 @@ void HighscoreMenu::handleInput(InputHandler* input, SystemState& systemState)
 		_selectedButtonIndex = 0;
 	}
 }
-std::vector<Score> HighscoreMenu::getScores()
+std::vector<Score*> HighscoreMenu::getScores()
 {
   return _highscore->getScores();
 }
