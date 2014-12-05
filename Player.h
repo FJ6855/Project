@@ -1,5 +1,11 @@
+#include <vector>
+
 #include "Object.h"
 #include "InputHandler.h"
+
+#include "PowerUp.h"
+#include "SpeedBoost.h"
+#include "DoubleJump.h"
 
 #ifndef PLAYER_H
 #define PLAYER_H
@@ -8,6 +14,7 @@ enum PlayerState {
 	dead,
 	running,
 	jumping,
+	standing,
 	inAir
 };
 
@@ -29,9 +36,9 @@ class Player : public Object
       _xVel = 0;
       _yVel = 0;
       _playerState = inAir;
+      _lastPlayerState = _playerState;
       _playerDirection = right;
       _health = 100;
-      _powerUpTimer = 0;
       _score = 0;
       _highscore = 0;
       _scoreOffset = 0;
@@ -56,6 +63,7 @@ class Player : public Object
   void setSpeed(float speed);
   void resetSpeed();
 
+  void resetJump();
   void setAirSpeed(float airSpeed);
 
   void setXvel(int xVel);
@@ -66,6 +74,8 @@ class Player : public Object
 
   void setState(PlayerState state);
   PlayerState getState();
+  void setLastState(PlayerState state);
+  PlayerState getLastState();
 
   void setDirection(PlayerDirection direction);
   PlayerDirection getDirection();
@@ -73,8 +83,8 @@ class Player : public Object
   float getHealth();
   void setHealth(int health);
   
-  int getPowerUpTimer();
-  void setPowerUpTimer(int timer);
+  std::vector<PowerUp*> getPowerUps();
+  void addPowerUp(PowerUp* powerUp);
 
   int getScore();
   void setScore(int score);
@@ -99,7 +109,7 @@ class Player : public Object
 
   float _health;
 
-  int _powerUpTimer;
+  std::vector<PowerUp*> _powerUps;
 
   int _score;
   int _highscore;
@@ -115,9 +125,12 @@ class Player : public Object
   //jump control
   bool _jumpBoost;
   float _jumpBoostGravity;
-  
+
   PlayerDirection _playerDirection;
   PlayerState _playerState;
+  PlayerState _lastPlayerState;
+
+  void updatePowerUps();
 };
 
 #endif

@@ -9,19 +9,18 @@ PlayerRenderer::~PlayerRenderer()
 
 void PlayerRenderer::loadContent()
 {
-    _playerTextureRunningRight0 = _rm->loadTexture("playerTextureRunningRight0");
-    _playerTextureRunningRight1 = _rm->loadTexture("playerTextureRunningRight1");
-    _playerTextureRunningRight2 = _rm->loadTexture("playerTextureRunningRight2");
-    _playerTextureRunningRight3 = _rm->loadTexture("playerTextureRunningRight3");
-    _playerTextureRunningRight4 = _rm->loadTexture("playerTextureRunningRight4");
-    _playerTextureRunningRight5 = _rm->loadTexture("playerTextureRunningRight5");
-
-    _playerTextureRunningLeft0 = _rm->loadTexture("playerTextureRunningLeft0");
-    _playerTextureRunningLeft1 = _rm->loadTexture("playerTextureRunningLeft1");
-    _playerTextureRunningLeft2 = _rm->loadTexture("playerTextureRunningLeft2");
-    _playerTextureRunningLeft3 = _rm->loadTexture("playerTextureRunningLeft3");
-    _playerTextureRunningLeft4 = _rm->loadTexture("playerTextureRunningLeft4");
-    _playerTextureRunningLeft5 = _rm->loadTexture("playerTextureRunningLeft5");
+    _textures.push_back(_rm->loadTexture("playerTextureRunningRight0"));
+    _textures.push_back(_rm->loadTexture("playerTextureRunningRight1"));
+    _textures.push_back(_rm->loadTexture("playerTextureRunningRight2"));
+    _textures.push_back(_rm->loadTexture("playerTextureRunningRight3"));
+    _textures.push_back(_rm->loadTexture("playerTextureRunningRight4"));
+    _textures.push_back(_rm->loadTexture("playerTextureRunningRight5"));
+    _textures.push_back(_rm->loadTexture("playerTextureRunningLeft0"));
+    _textures.push_back(_rm->loadTexture("playerTextureRunningLeft1"));
+    _textures.push_back(_rm->loadTexture("playerTextureRunningLeft2"));
+    _textures.push_back(_rm->loadTexture("playerTextureRunningLeft3"));
+    _textures.push_back(_rm->loadTexture("playerTextureRunningLeft4"));
+    _textures.push_back(_rm->loadTexture("playerTextureRunningLeft5"));
 
     _playerTextureInAirRight = _rm->loadTexture("playerTextureJumpingRight");
     _playerTextureInAirLeft = _rm->loadTexture("playerTextureJumpingLeft");
@@ -41,7 +40,8 @@ void PlayerRenderer::loadContent()
 void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
 {
     //Render player
-    if (_playerFrame >= 12) _playerFrame = 0;
+    if (_playerFrame > 17) 
+	_playerFrame = 0;
 
     if (player->getState() == inAir || player->getState() == jumping)
     {
@@ -50,58 +50,34 @@ void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
 	else if (player->getDirection() == right)
 	    _playerTexture = _playerTextureInAirRight;
     }
-    else if (player->getXvel() == 0)
+    else if (player->getState() == standing)
     {
 	if (player->getDirection() == right)
-	    _playerTexture = _playerTextureRunningRight0;
+	    _playerTexture = _textures.at(0);
 	else if (player->getDirection() == left)
-	    _playerTexture = _playerTextureRunningLeft0;
+	    _playerTexture = _textures.at(0 + 6);
     }
     else if (player->getState() == running)
-    {
+    {	
+	if (player->getDirection() == right)
+	{
+	    _playerTexture = _textures.at(_playerFrame / 3);
+	}
+	else
+	{
+	    _playerTexture = _textures.at(_playerFrame / 3 + 6);
+	}
+	
 	_playerFrame++;
+    }  
+    
+    int playerPosX = 448 - (player->getWidth() / 2);
 
-	if (player->getDirection() == left)
-	{
-	    if (_playerFrame >= 0 && _playerFrame <= 1)
-		_playerTexture = _playerTextureRunningLeft0;
-	    else if (_playerFrame >= 2 && _playerFrame <= 3)
-		_playerTexture = _playerTextureRunningLeft1;
-	    else if (_playerFrame >= 4 && _playerFrame <= 5)
-		_playerTexture = _playerTextureRunningLeft2;
-	    else if (_playerFrame >= 6 && _playerFrame <= 7)
-		_playerTexture = _playerTextureRunningLeft3;
-	    else if (_playerFrame >= 8 && _playerFrame <= 9)
-		_playerTexture = _playerTextureRunningLeft4;
-	    else if (_playerFrame >= 10 && _playerFrame <= 11)
-		_playerTexture = _playerTextureRunningLeft5;
+    if (player->getX() < -896)    
+	playerPosX += (896 + player->getX());
 
-	}
-	else if (player->getDirection() == right)
-	{
-	    if (_playerFrame >= 0 && _playerFrame <= 2)
-		_playerTexture = _playerTextureRunningRight0;
-	    else if (_playerFrame >= 3 && _playerFrame <= 5)
-		_playerTexture = _playerTextureRunningRight1;
-	    else if (_playerFrame >= 6 && _playerFrame <= 8)
-		_playerTexture = _playerTextureRunningRight2;
-	    else if (_playerFrame >= 9 && _playerFrame <= 11)
-		_playerTexture = _playerTextureRunningRight3;
-	    else if (_playerFrame >= 12 && _playerFrame <= 14)
-		_playerTexture = _playerTextureRunningRight4;
-	    else if (_playerFrame >= 15 && _playerFrame <= 17)
-		_playerTexture = _playerTextureRunningRight5;
-	}
-    }
+    _playerTexture->render(renderer, playerPosX, player->getY(), player->getWidth(), player->getHeight());
 
-    if (player->getX() < -896)
-    {
-	_playerTexture->render(renderer, 448 + (896 + player->getX()) - player->getWidth()/2, player->getY(), player->getWidth(), player->getHeight());
-    }
-    else
-    {
-	_playerTexture->render(renderer, 448 - (player->getWidth() / 2), player->getY(), player->getWidth(), player->getHeight());
-    }
 
     //Render health bar
     _healthBarTextTexture->render(renderer, 10, 10, _healthBarTextTexture->getWidth(), _healthBarTextTexture->getHeight());
@@ -129,11 +105,15 @@ void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
 
     _lastScoreTextTexture->render(renderer, 10, 50, _lastScoreTextTexture->getWidth(), _lastScoreTextTexture->getHeight());
     _lastScoreTexture->render(renderer, _lastScoreTextTexture->getWidth() + 13, 50, _lastScoreTexture->getWidth(), _lastScoreTexture->getHeight());
-
-    if (player->getPowerUpTimer() > 0)
+    
+    // Render power up
+    for (PowerUp* p : player->getPowerUps())
     {
-	_powerUpTimerTexture->render(renderer, 259 + _powerUpTimerTextTexture->getWidth(), 450, player->getPowerUpTimer() / 10, _powerUpTimerTexture->getHeight());
-	_powerUpTimerTextTexture->render(renderer, 256, 450, _powerUpTimerTextTexture->getWidth(), _powerUpTimerTextTexture->getHeight());
+	if (p->isActive())
+	{
+	    _powerUpTimerTexture->render(renderer, 259 + _powerUpTimerTextTexture->getWidth(), 450, p->getTimer() / 100, _powerUpTimerTexture->getHeight());
+	    _powerUpTimerTextTexture->render(renderer, 256, 450, _powerUpTimerTextTexture->getWidth(), _powerUpTimerTextTexture->getHeight());
+	}
     }
 }
 

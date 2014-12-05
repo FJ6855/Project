@@ -6,7 +6,9 @@
 enum ItemType
 {
     HealthType,
-    SpeedBoostType
+    SpeedBoostType,
+    DoubleJumpType,
+    GlideJumpType,
 };
 
 class Item : public Object

@@ -15,7 +15,6 @@ void Player::reset()
     _playerState = inAir;
     _playerDirection = right;
     _health = 100;
-    _powerUpTimer = 0;
 
     if (_highscore < _score)
 	_highscore = _score;
@@ -29,6 +28,8 @@ void Player::reset()
     _movementDifference = 0;   
     _godMode = false;
     _lastX = _x;
+
+    _powerUps.clear();
 }
 
 void Player::handleInput(InputHandler* input)
@@ -37,27 +38,24 @@ void Player::handleInput(InputHandler* input)
     
     //Move right and left
     if (input->getKey(SDL_SCANCODE_D) || input->getKey(SDL_SCANCODE_RIGHT))
-    {
 	_xVel = _speed + _airSpeed;
-    }
     else if ((input->getKey(SDL_SCANCODE_A) || input->getKey(SDL_SCANCODE_LEFT)) && _x > -1328)
-    {
-	_xVel = -_speed + _airSpeed;;
-    }
+	_xVel = -_speed + _airSpeed;
     else
-    {
 	_xVel = _airSpeed;
-    }
       
-    if ((input->getKey(SDL_SCANCODE_W) || input->getKey(SDL_SCANCODE_SPACE) || input->getKey(SDL_SCANCODE_UP)) && _playerState == running)
+    if ((input->getKey(SDL_SCANCODE_W) || input->getKey(SDL_SCANCODE_SPACE) || input->getKey(SDL_SCANCODE_UP)) && (_playerState == PlayerState::standing || _playerState == PlayerState::running))
     {
 	_yVel = -8.5;
-	_playerState = jumping;
+
+	_playerState = PlayerState::jumping;
+
 	_jumpBoost = true;
+
 	_jumpBoostGravity = _gravity;
     }
 
-    if (_playerState == jumping && !(input->getKey(SDL_SCANCODE_UP) || input->getKey(SDL_SCANCODE_W) || input->getKey(SDL_SCANCODE_SPACE)))
+    if (_playerState == PlayerState::jumping && !(input->getKey(SDL_SCANCODE_UP) || input->getKey(SDL_SCANCODE_W) || input->getKey(SDL_SCANCODE_SPACE)))
     {
 	_jumpBoost = false;
     }
@@ -72,6 +70,8 @@ void Player::handleInput(InputHandler* input)
 
 void Player::updateLogic()
 { 
+    _lastPlayerState = _playerState;
+
     //Update direction
     if (_xVel < 0) 
 	_playerDirection = left;
@@ -96,7 +96,7 @@ void Player::updateLogic()
     }
 
     //Gravity
-    if (_playerState == jumping && _jumpBoost)
+    if (_playerState == PlayerState::jumping && _jumpBoost)
     {
 	if (_jumpBoostGravity > 0.15)
 	    _jumpBoostGravity -= 0.01f;
@@ -107,6 +107,8 @@ void Player::updateLogic()
     }
     else
     {
+	_playerState = PlayerState::inAir;
+
 	_yVel += _gravity;
     }
 	  
@@ -117,27 +119,24 @@ void Player::updateLogic()
     //Lose life by time
     if (_godMode == false)
 	_health -= _healthLossFactor;//_currentDifficulty * _healthLossFactor;
-
-    // Update power up timer, we need this check so we don't call resetSpeed() every update    
-    if (_powerUpTimer > 0)
-    {	
-	_powerUpTimer -= 1;
-	
-	if (_powerUpTimer <= 0)
-	{
-	    _powerUpTimer = 0;
-      
-	    resetSpeed();
-	}
-    }
+ 
+    updatePowerUps();
     
     //Check if player is dead
     if (_y > 600 || _health <= 0)
     {
 	if (_godMode == false)
-	    _playerState = dead;
+	  _playerState = PlayerState::dead;
 	else
 	    _y = 0;
+    }
+}
+
+void Player::updatePowerUps()
+{
+    for (PowerUp* p : _powerUps)
+    {
+	p->updateLogic(this);
     }
 }
 
@@ -173,6 +172,17 @@ void Player::setAirSpeed(float airSpeed)
     _airSpeed = airSpeed;
 }
 
+void Player::resetJump()
+{
+    _yVel = -8.5;
+
+    _playerState = PlayerState::jumping;
+
+    _jumpBoost = true;
+
+    _jumpBoostGravity = _gravity;
+}
+
 void Player::setXvel(int xVel)
 {
     _xVel = xVel;
@@ -203,6 +213,16 @@ PlayerState Player::getState()
     return _playerState;
 }
 
+void Player::setLastState(PlayerState state)
+{
+    _lastPlayerState = state;
+}
+
+PlayerState Player::getLastState()
+{
+    return _lastPlayerState;
+}
+
 PlayerDirection Player::getDirection()
 {
     return _playerDirection;
@@ -226,14 +246,29 @@ void Player::setHealth(int health)
 	_health = 100;
 }
 
-int Player::getPowerUpTimer()
+std::vector<PowerUp*> Player::getPowerUps()
 {
-    return _powerUpTimer;
+    return _powerUps;
 }
 
-void Player::setPowerUpTimer(int timer)
+void Player::addPowerUp(PowerUp* powerUp)
 {
-    _powerUpTimer = timer;
+    bool updated = false;
+
+    for (PowerUp* p : _powerUps)
+    {
+	if (dynamic_cast<SpeedBoost*>(powerUp))
+	{	    
+	    p->setTimer(powerUp->getTimer());
+	    
+	    updated = true;
+
+	    break;
+	}
+    }
+
+    if (updated == false)
+	_powerUps.push_back(powerUp);
 }
 
 int Player::getScore()

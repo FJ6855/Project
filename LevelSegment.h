@@ -9,7 +9,9 @@
 #include "Obstacle.h"
 #include "Item.h"
 #include "Health.h"
+#include "PowerUp.h"
 #include "SpeedBoost.h"
+#include "DoubleJump.h"
 #include "BlockRenderer.h"
 #include "ObstacleRenderer.h"
 #include "ItemRenderer.h"
@@ -63,13 +65,16 @@ class LevelSegment
 
 		for (Item* i : ls._items)
 		  {
-		    Health* health = dynamic_cast<Health*>(i);
+		    Health* health = dynamic_cast<Health*>(i);		    
 		    SpeedBoost* speedBoost = dynamic_cast<SpeedBoost*>(i);
+		    DoubleJump* doubleJump = dynamic_cast<DoubleJump*>(i);
 
 		    if (health != nullptr)
 		      _items.push_back(new Health(*(health)));
 		    else if (speedBoost != nullptr)
 		      _items.push_back(new SpeedBoost(*(speedBoost)));
+		    else if (doubleJump != nullptr)
+		      _items.push_back(new DoubleJump(*(doubleJump)));
 		    else
 		      _items.push_back(new Item(*(i)));
 		  }

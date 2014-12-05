@@ -82,15 +82,21 @@ void LevelSegment::loadLevelSegment(const std::string& fileName)
 		}
 		else if (c == 'H')
 		{
-		  Item* h = new Health(x, y, 32, 32, 10);
+		    Item* h = new Health(x, y, 32, 32, 10);
 
-		  _items.push_back(h);
+		    _items.push_back(h);
 		}
 		else if (c == 'P')
 		{
-		    Item* sb = new SpeedBoost(x, y, 32, 32, 12, 600);
-
+		    Item* sb = new SpeedBoost(x, y, 32, 32, 10000, 12);
+		    
 		    _items.push_back(sb);
+		}
+		else if (c == 'J')
+		{
+		    Item* dj = new DoubleJump(x, y, 32, 32, 5000);
+		    
+		    _items.push_back(dj);
 		}
 
 		++x;
@@ -211,7 +217,11 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 		{
 		    if (block != nullptr)
 		    {
-			player->setState(PlayerState::running);
+			if (player->getXvel() == 0)
+			    player->setState(PlayerState::standing);
+			else
+			    player->setState(PlayerState::running);
+
 			player->setYvel(0);
 			player->setY(objectY - player->getHeight());
 					  					  
@@ -245,16 +255,15 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 		    else if (item != nullptr)
 		    {
 			Health* health = dynamic_cast<Health*>(item);
-			SpeedBoost* speedBoost = dynamic_cast<SpeedBoost*>(item);
+			PowerUp* powerUp = dynamic_cast<PowerUp*>(item);
 
 			if (health != nullptr)
 			{
 			    player->setHealth(player->getHealth() + health->getHealth());
 			}
-			else if (speedBoost != nullptr)
+			else if (powerUp != nullptr)
 			{
-			    player->setSpeed(speedBoost->getSpeed());
-			    player->setPowerUpTimer(speedBoost->getTimer());
+			    player->addPowerUp(powerUp);
 			}
 
 			objects.erase(objects.begin() + i);
@@ -286,16 +295,15 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 		    else if (item != nullptr)
 		    {
 			Health* health = dynamic_cast<Health*>(item);
-			SpeedBoost* speedBoost = dynamic_cast<SpeedBoost*>(item);
+			PowerUp* powerUp = dynamic_cast<PowerUp*>(item);
 
 			if (health != nullptr)
 			{
 			    player->setHealth(player->getHealth() + health->getHealth());
 			}
-			else if (speedBoost != nullptr)
+			else if (powerUp != nullptr)
 			{
-			    player->setSpeed(speedBoost->getSpeed());
-			    player->setPowerUpTimer(speedBoost->getTimer());
+			    player->addPowerUp(powerUp);
 			}
 			
 			objects.erase(objects.begin() + i);
@@ -306,87 +314,79 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 	    }
 	}
 
-	//if (player->getXvel() > 0) //Player running right
-	//{
-	    //Check if players right corners are inside a box
-	    if (playerX + player->getWidth() - 1 >= objectX && playerX + player->getWidth() - 1 <= objectX + object->getWidth() - 1)
+	//Check if players right corners are inside a box
+	if (playerX + player->getWidth() - 1 >= objectX && playerX + player->getWidth() - 1 <= objectX + object->getWidth() - 1)
+	{
+	    if ((preY + player->getHeight() - 1 >= objectY && preY + player->getHeight() - 1 <= objectY + object->getHeight() - 1) || (preY >= objectY && preY <= objectY + object->getHeight() - 2))
 	    {
-		if ((preY + player->getHeight() - 1 >= objectY && preY + player->getHeight() - 1 <= objectY + object->getHeight() - 1) || (preY >= objectY && preY <= objectY + object->getHeight() - 2))
+		if (block != nullptr)
 		{
-		    if (block != nullptr)
-		    {
-			player->setXvel(0);
-			player->setX(objectX - player->getWidth());
-			continue;
-		    }
-		    else if (obstacle != nullptr)
-		    {
-			player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
-			objects.erase(objects.begin() + i);
-			continue;
-		    }
-		    else if (item != nullptr)
-		    {
-			Health* health = dynamic_cast<Health*>(item);
-			SpeedBoost* speedBoost = dynamic_cast<SpeedBoost*>(item);
+		    player->setXvel(0);
+		    player->setX(objectX - player->getWidth());
+		    continue;
+		}
+		else if (obstacle != nullptr)
+		{
+		    player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
+		    objects.erase(objects.begin() + i);
+		    continue;
+		}
+		else if (item != nullptr)
+		{
+		    Health* health = dynamic_cast<Health*>(item);
+		    PowerUp* powerUp = dynamic_cast<PowerUp*>(item);
 
-			if (health != nullptr)
-			{
-			    player->setHealth(player->getHealth() + health->getHealth());
-			}
-			else if (speedBoost != nullptr)
-			{
-			    player->setSpeed(speedBoost->getSpeed());
-			    player->setPowerUpTimer(speedBoost->getTimer());
-			}
+		    if (health != nullptr)
+		    {
+			player->setHealth(player->getHealth() + health->getHealth());
+		    }
+		    else if (powerUp != nullptr)
+		    {
+			player->addPowerUp(powerUp);
+		    }
 
-			objects.erase(objects.begin() + i);
+		    objects.erase(objects.begin() + i);
 			
-			continue;
-		    }
+		    continue;
 		}
 	    }
-	    //}
-	    //else if (player->getXvel() < 0) //Player running left
-	      //{
-	    //Check if players left corners are inside a box
-	    if (playerX >= objectX && playerX <= objectX + object->getWidth() - 1)
+	}
+	//Check if players left corners are inside a box
+	if (playerX >= objectX && playerX <= objectX + object->getWidth() - 1)
+	{
+	    if ((preY + player->getHeight() - 1 >= objectY && preY + player->getHeight() - 1 <= objectY + object->getHeight() - 1) || (preY >= objectY && preY <= objectY + object->getHeight() - 2))
 	    {
-		if ((preY + player->getHeight() - 1 >= objectY && preY + player->getHeight() - 1 <= objectY + object->getHeight() - 1) || (preY >= objectY && preY <= objectY + object->getHeight() - 2))
+		if (block != nullptr)
 		{
-		    if (block != nullptr)
-		    {
-			player->setXvel(0);
-			player->setX(objectX + block->getWidth());
-			continue;
-		    }
-		    else if (obstacle != nullptr)
-		    {
-			player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
-			objects.erase(objects.begin() + i);
-			continue;
-		    }
-		    else if (item != nullptr)
-		    {
-			Health* health = dynamic_cast<Health*>(item);
-			SpeedBoost* speedBoost = dynamic_cast<SpeedBoost*>(item);
-
-			if (health != nullptr)
-			{
-			    player->setHealth(player->getHealth() + health->getHealth());
-			}
-			else if (speedBoost != nullptr)
-			{
-			    player->setSpeed(speedBoost->getSpeed());
-			    player->setPowerUpTimer(speedBoost->getTimer());
-			}
-
-			objects.erase(objects.begin() + i);
-
-			continue;
-		    }
+		    player->setXvel(0);
+		    player->setX(objectX + block->getWidth());
+		    continue;
 		}
-		//}
+		else if (obstacle != nullptr)
+		{
+		    player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
+		    objects.erase(objects.begin() + i);
+		    continue;
+		}
+		else if (item != nullptr)
+		{
+		    Health* health = dynamic_cast<Health*>(item);
+		    PowerUp* powerUp = dynamic_cast<PowerUp*>(item);
+
+		    if (health != nullptr)
+		    {
+			player->setHealth(player->getHealth() + health->getHealth());
+		    }
+		    else if (powerUp != nullptr)
+		    {
+			player->addPowerUp(powerUp);
+		    }
+
+		    objects.erase(objects.begin() + i);
+
+		    continue;
+		}
+	    }
 	}
     }
 }
