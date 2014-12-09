@@ -53,8 +53,15 @@ void Level::updateLogic()
     } 	
 
     // cap difficulty at maximum difficulty rating
-    if (_player->getScore() < 5000 * _maxDifficulty)
-	_currentDifficulty = _player->getScore() / 5000 + 1;
+    if (_player->getScore() < 110000)
+    {
+	if (_player->getScore() > _nextLevelCap)
+	{
+	    _nextLevelCap += 5000 * (_currentDifficulty / 3 + 1);
+
+	    _currentDifficulty++;
+	}
+    }
 
     //Logic for background
     if (_background->getX1() <= -896)
@@ -122,6 +129,7 @@ void Level::reset()
 {
     _player->reset();
     _currentDifficulty = 1;
+    _nextLevelCap = 5000;
 
     _background->setX1(0);
     _background->setX2(0);
@@ -150,11 +158,20 @@ int Level::getRandom()
     int random = _rnd() % 5 + (_currentDifficulty - 1) * 5 + 1;
 
     // Randomize a new number and check if player should get an easier 
-    // level segment from the previous difficulty
-    int random2 = _rnd() % 10;
-
-    if (random2 == 8 && _currentDifficulty > 1)
-	random = random - 5;
+    // level segment from the 3 previous difficulties
+    if (_currentDifficulty > 3)
+    {
+	int randomEasier = _rnd() % 10;
+	int randomEasier2 = _rnd() % 8;
+	int randomEasier3 = _rnd() % 5;
+	
+	if (randomEasier == 5)	    
+	    random = random - 5 * 3;
+	else if (randomEasier2 == 4)	    
+	    random = random - 5 * 2;
+	else if (randomEasier3 == 3)	    
+	    random = random - 5 * 1;
+    }
 
     return random;
 }

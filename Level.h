@@ -22,6 +22,7 @@ class Level
 		_backgroundRenderer = new BackgroundRenderer(rm);
 		_background = new Background();
 		_currentDifficulty = 1;
+		_nextLevelCap = 5000;
 		_maxDifficulty = 10;
 		_player->setDifficulty(_currentDifficulty);
 		_activeSegmentIndex = 0;
@@ -51,6 +52,7 @@ class Level
 
 	int _activeSegmentIndex;
 	int _currentDifficulty;
+	int _nextLevelCap;
 	int _maxDifficulty;
 
 	Player* _player;
