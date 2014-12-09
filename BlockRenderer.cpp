@@ -4,17 +4,17 @@
 
 void BlockRenderer::loadContent() 
 {
-    _textures.push_back(_rm->loadTexture("block3")); // level 0
-    _textures.push_back(_rm->loadTexture("block3")); // level 1
+    _textures.push_back(_rm->loadTexture("block1")); // level 0
+    _textures.push_back(_rm->loadTexture("block1")); // level 1
     _textures.push_back(_rm->loadTexture("block2")); // level 2
-    _textures.push_back(_rm->loadTexture("block"));  // level 3 ...
-    _textures.push_back(_rm->loadTexture("block"));
-    _textures.push_back(_rm->loadTexture("block"));
-    _textures.push_back(_rm->loadTexture("block"));
-    _textures.push_back(_rm->loadTexture("block"));
-    _textures.push_back(_rm->loadTexture("block"));
-    _textures.push_back(_rm->loadTexture("block"));
-    _textures.push_back(_rm->loadTexture("block"));
+    _textures.push_back(_rm->loadTexture("block3"));  // level 3 ...
+    _textures.push_back(_rm->loadTexture("block4"));
+    _textures.push_back(_rm->loadTexture("block5"));
+    _textures.push_back(_rm->loadTexture("block6"));
+    _textures.push_back(_rm->loadTexture("block7"));
+    _textures.push_back(_rm->loadTexture("block8"));
+    _textures.push_back(_rm->loadTexture("block9"));
+    _textures.push_back(_rm->loadTexture("block10"));
     _textures.push_back(_rm->loadTexture("blinkingBlockVisible"));  
     _textures.push_back(_rm->loadTexture("blinkingBlockInvisible"));
     _textures.push_back(_rm->loadTexture("speedBlockRight"));
