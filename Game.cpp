@@ -45,10 +45,7 @@ void Game::updateLogic()
 	}
 
 	_level->reset();
-
     }
-
-    //_level->handleCollision();
 }
 
 void Game::render()

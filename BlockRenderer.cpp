@@ -4,6 +4,16 @@
 
 void BlockRenderer::loadContent() 
 {
+    _textures.push_back(_rm->loadTexture("block3")); // level 0
+    _textures.push_back(_rm->loadTexture("block3")); // level 1
+    _textures.push_back(_rm->loadTexture("block2")); // level 2
+    _textures.push_back(_rm->loadTexture("block"));  // level 3 ...
+    _textures.push_back(_rm->loadTexture("block"));
+    _textures.push_back(_rm->loadTexture("block"));
+    _textures.push_back(_rm->loadTexture("block"));
+    _textures.push_back(_rm->loadTexture("block"));
+    _textures.push_back(_rm->loadTexture("block"));
+    _textures.push_back(_rm->loadTexture("block"));
     _textures.push_back(_rm->loadTexture("block"));
     _textures.push_back(_rm->loadTexture("blinkingBlockVisible"));  
     _textures.push_back(_rm->loadTexture("blinkingBlockInvisible"));
@@ -18,10 +28,9 @@ void BlockRenderer::render(Block* block, int offset, SDL_Renderer* renderer)
       
     int x = block->getX() * block->getWidth() + offset;
     
-
     if (movingBlock != nullptr)
     {
-	x += movingBlock->getMovingX();
+	    x += movingBlock->getMovingX();
     }
 
     _textures.at(block->getType())->render(renderer, x, block->getY() * block->getHeight(), block->getWidth(), block->getHeight());

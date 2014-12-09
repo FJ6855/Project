@@ -34,7 +34,7 @@ void LevelSegment::loadLevelSegment(const std::string& fileName)
 	    {
 		if (c == 'X')
 		{
-		    Block* b = new Block(x, y, 32, 32);
+		    Block* b = new Block(x, y, 32, 32, static_cast<BlockType>(_difficultyRating));
 		    
 		    _blocks.push_back(b);
 		}

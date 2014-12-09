@@ -11,7 +11,7 @@ void Level::loadLevel()
 
 void Level::loadSegments()
 {
-    for (int i{0}; i <= _maxDifficulty * 5; ++i)
+    for (int i{0}; i <= _maxDifficulty * 5 + 3; ++i)
     {
 	LevelSegment* ls = new LevelSegment(_rm);
 	ls->loadLevelSegment("levelSegment" + std::to_string(i));
@@ -174,6 +174,6 @@ int Level::getRandom()
 	else if (randomEasier3 == 3)	    
 	    random = random - 5 * 1;
     }
-
+    
     return random;
 }
