@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <random>
 
 #include "ResourceManager.h"
 #include "Object.h"
@@ -12,6 +13,7 @@
 #include "PowerUp.h"
 #include "SpeedBoost.h"
 #include "DoubleJump.h"
+#include "GlideJump.h"
 #include "BlockRenderer.h"
 #include "ObstacleRenderer.h"
 #include "ItemRenderer.h"
@@ -68,6 +70,7 @@ class LevelSegment
 		    Health* health = dynamic_cast<Health*>(i);		    
 		    SpeedBoost* speedBoost = dynamic_cast<SpeedBoost*>(i);
 		    DoubleJump* doubleJump = dynamic_cast<DoubleJump*>(i);
+		    GlideJump* glideJump = dynamic_cast<GlideJump*>(i);
 
 		    if (health != nullptr)
 		      _items.push_back(new Health(*(health)));
@@ -75,6 +78,8 @@ class LevelSegment
 		      _items.push_back(new SpeedBoost(*(speedBoost)));
 		    else if (doubleJump != nullptr)
 		      _items.push_back(new DoubleJump(*(doubleJump)));
+		    else if (glideJump != nullptr)
+		      _items.push_back(new GlideJump(*(glideJump)));
 		    else
 		      _items.push_back(new Item(*(i)));
 		  }
@@ -105,6 +110,8 @@ class LevelSegment
 	int _y;
 	int _updates;
 	int _time;
+
+	std::random_device _rnd;
 
 	std::vector<Block*> _blocks;
 	std::vector<Item*> _items;

@@ -11,8 +11,6 @@ class SpeedBoost : public PowerUp
 	_type = ItemType::SpeedBoostType;
     }
 
-  int getSpeed();
-
   void updateLogic() override;
   void updateLogic(Player* player) override;
 

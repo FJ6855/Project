@@ -6,6 +6,6 @@
 \#*\#
 .\#*
 # ignore highscore
-HighScore.txt
+res/HighScore.txt
 # ignore game
 game

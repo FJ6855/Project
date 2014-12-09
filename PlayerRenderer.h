@@ -1,6 +1,9 @@
+#include <vector>
+
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "Player.h"
+#include "PowerUp.h"
 
 #ifndef PLAYERRENDERER_H
 #define PLAYERRENDERER_H
@@ -40,11 +43,18 @@ class PlayerRenderer : public Renderer
 	Texture* _lastScoreTexture = nullptr;
 	Texture* _lastScoreTextTexture;
 
-	// Textures for power up timer
-	Texture* _powerUpTimerTexture = nullptr;
-	Texture* _powerUpTimerTextTexture;
+	// Textures for power ups
+	Texture* _speedBoostTimerTexture = nullptr;
+	Texture* _doubleJumpTimerTexture = nullptr;
+	Texture* _glideJumpTimerTexture = nullptr;
+
+	Texture* _speedBoostTimerTextTexture = nullptr;
+	Texture* _doubleJumpTimerTextTexture = nullptr;
+	Texture* _glideJumpTimerTextTexture = nullptr;
 	
 	int _playerFrame;
+
+	void renderPowerUps(std::vector<PowerUp*> powerUps, SDL_Renderer* renderer);
 };
 
 #endif

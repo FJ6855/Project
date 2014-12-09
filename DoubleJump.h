@@ -9,6 +9,7 @@ class DoubleJump : public PowerUp
  DoubleJump(int x, int y, int width, int height, float timer) : PowerUp(x, y, width, height, timer)
   {
     _type = ItemType::DoubleJumpType;
+    _numberOfJumps = 0;
   }
 
   void updateLogic() override;
@@ -16,6 +17,7 @@ class DoubleJump : public PowerUp
 
  private:
   int _timer;
+  int _numberOfJumps;
 };
 
 #endif

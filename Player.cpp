@@ -25,6 +25,10 @@ void Player::reset()
     _healthLossFactor = 0.05f;
     _jumpBoost = true;
     _jumpBoostGravity = _gravity;
+
+    _canDoubleJump = false;
+    _canGlideJump = false;
+
     _movementDifference = 0;   
     _godMode = false;
     _lastX = _x;
@@ -45,16 +49,16 @@ void Player::handleInput(InputHandler* input)
 	_xVel = -_speed + _airSpeed;
     else
 	_xVel = _airSpeed;
-      
+     
     if ((input->getKey(SDL_SCANCODE_W) || input->getKey(SDL_SCANCODE_SPACE) || input->getKey(SDL_SCANCODE_UP)) && (_playerState == PlayerState::standing || _playerState == PlayerState::running))
     {
-	_yVel = -8.5;
+	jump();
+    }
+    else if ((input->getKey(SDL_SCANCODE_W) || input->getKey(SDL_SCANCODE_SPACE) || input->getKey(SDL_SCANCODE_UP)) && _canDoubleJump && _playerState == PlayerState::inAir)
+    {
+	jump();
 
-	_playerState = PlayerState::jumping;
-
-	_jumpBoost = true;
-
-	_jumpBoostGravity = _gravity;
+	_canDoubleJump = false;
     }
 
     if (_playerState == PlayerState::jumping && !(input->getKey(SDL_SCANCODE_UP) || input->getKey(SDL_SCANCODE_W) || input->getKey(SDL_SCANCODE_SPACE)))
@@ -105,17 +109,27 @@ void Player::updateLogic()
     //Gravity
     if (_playerState == PlayerState::jumping && _jumpBoost)
     {
-	if (_jumpBoostGravity > 0.15)
+	if (_jumpBoostGravity > 0.15f)
 	    _jumpBoostGravity -= 0.01f;
 	else
-	    _jumpBoost = false;
+	{
+	    if (_canGlideJump)
+	    {
+		_jumpBoostGravity = 0;
+		_yVel = 0;
+	    }
+	    else
+	    {
+		_jumpBoost = false;
+	    }
+	}
 
 	_yVel += _jumpBoostGravity;
     }
     else
     {
 	_playerState = PlayerState::inAir;
-
+      
 	_yVel += _gravity;
     }
 	  
@@ -126,8 +140,6 @@ void Player::updateLogic()
     //Lose life by time
     if (_godMode == false)
 	_health -= _healthLossFactor;//_currentDifficulty * _healthLossFactor;
- 
-    updatePowerUps();
     
     //Check if player is dead
     if (_y > 600 || _health <= 0)
@@ -179,15 +191,24 @@ void Player::setAirSpeed(float airSpeed)
     _airSpeed = airSpeed;
 }
 
-void Player::resetJump()
+bool Player::getCanDoubleJump()
 {
-    _yVel = -8.5;
+    return _canDoubleJump;
+}
 
-    _playerState = PlayerState::jumping;
+void Player::setCanDoubleJump(bool canDoubleJump)
+{
+    _canDoubleJump = canDoubleJump;
+}
 
-    _jumpBoost = true;
+bool Player::getCanGlideJump()
+{
+    return _canGlideJump;
+}
 
-    _jumpBoostGravity = _gravity;
+void Player::setCanGlideJump(bool canGlideJump)
+{
+    _canGlideJump = canGlideJump;
 }
 
 void Player::setXvel(int xVel)
@@ -264,7 +285,7 @@ void Player::addPowerUp(PowerUp* powerUp)
 
     for (PowerUp* p : _powerUps)
     {
-	if (dynamic_cast<SpeedBoost*>(powerUp))
+	if (p->getType() == powerUp->getType())
 	{	    
 	    p->setTimer(powerUp->getTimer());
 	    
@@ -311,4 +332,15 @@ void Player::setLastScore(int lastScore)
 int Player::getLastScore()
 {
     return _lastScore;
+}
+
+void Player::jump()
+{
+    _yVel = -8.5;
+
+    _playerState = PlayerState::jumping;
+
+    _jumpBoost = true;
+
+    _jumpBoostGravity = _gravity;
 }

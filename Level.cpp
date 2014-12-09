@@ -72,6 +72,10 @@ void Level::updateLogic()
 	_background->setX2(_background->getX2() - _player->getSpeed() / 6 - 1);
     else if(_player->getMovementDifference() < 0 && _player->getX() > -896)
 	_background->setX2(_background->getX2() + _player->getSpeed() / 6 + 1);
+
+    handleCollision();
+
+    _player->updatePowerUps();
 }
 
 void Level::render(SDL_Renderer* renderer)
