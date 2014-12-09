@@ -38,7 +38,9 @@ void Player::handleInput(InputHandler* input)
     
     //Move right and left
     if (input->getKey(SDL_SCANCODE_D) || input->getKey(SDL_SCANCODE_RIGHT))
+    {
 	_xVel = _speed + _airSpeed;
+    }
     else if ((input->getKey(SDL_SCANCODE_A) || input->getKey(SDL_SCANCODE_LEFT)) && _x > -1328)
 	_xVel = -_speed + _airSpeed;
     else
@@ -65,6 +67,11 @@ void Player::handleInput(InputHandler* input)
 	_godMode = !_godMode;
 	      
 	std::cout << "God mode: " << _godMode << std::endl;
+    }
+
+    if((!input->getKey(SDL_SCANCODE_D) && !input->getKey(SDL_SCANCODE_RIGHT)) || (!input->getKey(SDL_SCANCODE_A) && !input->getKey(SDL_SCANCODE_LEFT)))
+    {
+      _airSpeed = 0;
     }
 }
 
