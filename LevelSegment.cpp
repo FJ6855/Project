@@ -87,16 +87,18 @@ void LevelSegment::loadLevelSegment(const std::string& fileName)
 		    _items.push_back(h);
 		}
 		else if (c == 'P')
-		{
-		    Item* sb = new SpeedBoost(x, y, 32, 32, 10000, 12);
+		{		    
+		    int random = _rnd() % 3 + 1;
+		    Item* p;
 		    
-		    _items.push_back(sb);
-		}
-		else if (c == 'J')
-		{
-		    Item* dj = new DoubleJump(x, y, 32, 32, 5000);
+		    if (random == 1)
+			p = new SpeedBoost(x, y, 32, 32, 10000, 12);
+		    else if (random == 2)
+			p = new DoubleJump(x, y, 32, 32, 10000);
+		    else if (random == 3)
+			p = new GlideJump(x, y, 32, 32, 10000);
 		    
-		    _items.push_back(dj);
+		    _items.push_back(p);
 		}
 
 		++x;

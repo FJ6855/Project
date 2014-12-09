@@ -33,8 +33,15 @@ void PlayerRenderer::loadContent()
 
     _lastScoreTextTexture = _rm->loadTexture("Last rounds score: ", SDL_Color{ 255, 255, 255 });
 
-    _powerUpTimerTexture = _rm->loadTexture(1, 16, 0, 255, 0); 
-    _powerUpTimerTextTexture = _rm->loadTexture("Power up timer: ", SDL_Color{ 255, 255, 255 });
+    _speedBoostTimerTexture = _rm->loadTexture(1, 16, 255, 255, 0); 
+    _doubleJumpTimerTexture = _rm->loadTexture(1, 16, 0, 255, 0);
+    _glideJumpTimerTexture = _rm->loadTexture(1, 16, 0, 0, 255);  
+
+    _speedBoostTimerTextTexture = _rm->loadTexture("Speed boost timer: ", SDL_Color{ 255, 255, 255 });
+    _doubleJumpTimerTextTexture = _rm->loadTexture("Double jump timer: ", SDL_Color{ 255, 255, 255 });
+    _glideJumpTimerTextTexture = _rm->loadTexture("Glide jump timer: ", SDL_Color{ 255, 255, 255 });
+
+    _currentDifficultyTextTexture = _rm->loadTexture("Current difficulty: ", SDL_Color{ 255, 255, 255 });
 }
 
 void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
@@ -43,21 +50,21 @@ void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
     if (_playerFrame > 17) 
 	_playerFrame = 0;
 
-    if (player->getState() == inAir || player->getState() == jumping)
+    if (player->getState() == PlayerState::inAir || player->getState() == PlayerState::jumping)
     {
 	if (player->getDirection() == left)
 	    _playerTexture = _playerTextureInAirLeft;
 	else if (player->getDirection() == right)
 	    _playerTexture = _playerTextureInAirRight;
     }
-    else if (player->getState() == standing)
+    else if (player->getState() == PlayerState::standing)
     {
 	if (player->getDirection() == right)
 	    _playerTexture = _textures.at(0);
 	else if (player->getDirection() == left)
 	    _playerTexture = _textures.at(0 + 6);
     }
-    else if (player->getState() == running)
+    else if (player->getState() == PlayerState::running)
     {	
 	if (player->getDirection() == right)
 	{
@@ -107,13 +114,41 @@ void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
     _lastScoreTexture->render(renderer, _lastScoreTextTexture->getWidth() + 13, 50, _lastScoreTexture->getWidth(), _lastScoreTexture->getHeight());
     
     // Render power up
-    for (PowerUp* p : player->getPowerUps())
+    renderPowerUps(player->getPowerUps(), renderer);
+
+    //Render current difficulty
+    _currentDifficultyTextTexture->render(renderer, 10, 90, _currentDifficultyTextTexture->getWidth(), _currentDifficultyTextTexture->getHeight());
+    delete _currentDifficultyNumberTexture; //free the old texture
+    _currentDifficultyNumberTexture = _rm->loadTexture(std::to_string(player->getDifficulty()), SDL_Color{ 0, 180, 0 });
+    _currentDifficultyNumberTexture->render(renderer, _currentDifficultyTextTexture->getWidth() + 13, 90, _currentDifficultyNumberTexture->getWidth(), _currentDifficultyNumberTexture->getHeight());
+}
+
+
+void PlayerRenderer::renderPowerUps(std::vector<PowerUp*> powerUps, SDL_Renderer* renderer)
+{
+    int powerUpY = 0;
+
+    for (PowerUp* p : powerUps)
     {
 	if (p->isActive())
 	{
-	    _powerUpTimerTexture->render(renderer, 259 + _powerUpTimerTextTexture->getWidth(), 450, p->getTimer() / 100, _powerUpTimerTexture->getHeight());
-	    _powerUpTimerTextTexture->render(renderer, 256, 450, _powerUpTimerTextTexture->getWidth(), _powerUpTimerTextTexture->getHeight());
+	    if (dynamic_cast<SpeedBoost*>(p))
+	    {
+		_speedBoostTimerTexture->render(renderer, 259 + 197, 430 + powerUpY, p->getTimer() / 100, _speedBoostTimerTexture->getHeight());
+		_speedBoostTimerTextTexture->render(renderer, 256, 430 + powerUpY, _speedBoostTimerTextTexture->getWidth(), _speedBoostTimerTextTexture->getHeight());
+	    }
+	    else if (dynamic_cast<DoubleJump*>(p))
+	    {
+		_doubleJumpTimerTexture->render(renderer, 259 + 197, 430 + powerUpY, p->getTimer() / 100, _doubleJumpTimerTexture->getHeight());
+		_doubleJumpTimerTextTexture->render(renderer, 256, 430 + powerUpY, _doubleJumpTimerTextTexture->getWidth(), _doubleJumpTimerTextTexture->getHeight());
+	    }
+	    else if (dynamic_cast<GlideJump*>(p))
+	    {
+		_glideJumpTimerTexture->render(renderer, 259 + 197, 430 + powerUpY, p->getTimer() / 100, _glideJumpTimerTexture->getHeight());
+		_glideJumpTimerTextTexture->render(renderer, 256, 430 + powerUpY, _glideJumpTimerTextTexture->getWidth(), _glideJumpTimerTextTexture->getHeight());
+	    }
 	}
+
+	powerUpY += 25;
     }
 }
-

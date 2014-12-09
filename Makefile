@@ -2,8 +2,8 @@
 CCC	= g++ -std=c++11
 LFLAGS	= -L/usr/lib/x86_64-linux-gnu -lSDL2 -lSDL2_image -lSDL2_ttf -lm
 
-game: 	Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlinkingBlock.o SpeedBlock.o MovingBlock.o BlockRenderer.o Obstacle.o ObstacleRenderer.o Item.o ItemRenderer.o Health.o PowerUp.o SpeedBoost.o DoubleJump.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o Score.o HighScore.o WriteNameMenu.o
-	$(CCC) -o game Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlinkingBlock.o SpeedBlock.o MovingBlock.o BlockRenderer.o Obstacle.o ObstacleRenderer.o Item.o ItemRenderer.o Health.o PowerUp.o SpeedBoost.o DoubleJump.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o HighScore.o Score.o WriteNameMenu.o $(LFLAGS)
+game: 	Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlinkingBlock.o SpeedBlock.o MovingBlock.o BlockRenderer.o Obstacle.o ObstacleRenderer.o Item.o ItemRenderer.o Health.o PowerUp.o SpeedBoost.o DoubleJump.o GlideJump.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o Score.o HighScore.o WriteNameMenu.o
+	$(CCC) -o game Main.o Game.o InputHandler.o MenuSystem.o StartMenu.o HelpMenu.o HighscoreMenu.o PauseMenu.o Menu.o SystemModule.o Level.o LevelSegment.o HighscoreMenuRenderer.o ButtonRenderer.o Button.o MenuRenderer.o Renderer.o ResourceManager.o Texture.o Object.o Block.o BlinkingBlock.o SpeedBlock.o MovingBlock.o BlockRenderer.o Obstacle.o ObstacleRenderer.o Item.o ItemRenderer.o Health.o PowerUp.o SpeedBoost.o DoubleJump.o GlideJump.o Player.o PlayerRenderer.o Background.o BackgroundRenderer.o HighScore.o Score.o WriteNameMenu.o $(LFLAGS)
 
 Main.o : Main.cpp
 	$(CCC) -c Main.cpp 
@@ -106,6 +106,9 @@ SpeedBoost.o : SpeedBoost.cpp SpeedBoost.h
 
 DoubleJump.o : DoubleJump.cpp DoubleJump.h
 	$(CCC) -c DoubleJump.cpp
+
+GlideJump.o : GlideJump.cpp GlideJump.h
+	$(CCC) -c GlideJump.cpp
 
 PlayerRenderer.o : PlayerRenderer.cpp PlayerRenderer.h
 	$(CCC) -c PlayerRenderer.cpp

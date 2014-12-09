@@ -1,6 +1,6 @@
 #include "DoubleJump.h"
 #include "Player.h"
-#include <iostream>
+
 void DoubleJump::updateLogic()
 {
 
@@ -8,21 +8,17 @@ void DoubleJump::updateLogic()
 
 void DoubleJump::updateLogic(Player* player)
 {
-    //PowerUp::updateLogic();
+    PowerUp::updateLogic();
 
     if (PowerUp::isActive())
     {
-	//std::cout << player->getState() << std::endl;
-	//std::cout << player->getLastState() << std::endl;
-	if (player->getState() == PlayerState::jumping && player->getLastState() == PlayerState::jumping)
+	if (player->getState() == PlayerState::standing || player->getState() == PlayerState::running)
 	{
-	    //std::cout << "double jump" << std::endl;
-	    //player->resetJump();
-	    player->setState(PlayerState::standing);
+	    player->setCanDoubleJump(true);
 	}
-	else
-	{
-	    //std::cout << "no double jump" << std::endl;
-	}
+    }
+    else
+    {
+	player->setCanDoubleJump(false);
     }
 }

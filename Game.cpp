@@ -48,7 +48,7 @@ void Game::updateLogic()
 
     }
 
-    _level->handleCollision();
+    //_level->handleCollision();
 }
 
 void Game::render()

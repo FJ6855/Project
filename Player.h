@@ -6,6 +6,7 @@
 #include "PowerUp.h"
 #include "SpeedBoost.h"
 #include "DoubleJump.h"
+#include "GlideJump.h"
 
 #ifndef PLAYER_H
 #define PLAYER_H
@@ -25,36 +26,40 @@ enum PlayerDirection {
 
 class Player : public Object
 {
- public:
- Player(int x, int y, int width, int height) 
-   : Object(x, y, width, height)
+  public:
+  Player(int x, int y, int width, int height) : Object(x, y, width, height)
     {
-      _speed = 8;
-      _defaultSpeed = _speed;
-      _airSpeed = 0;
-      _gravity = 0.45f;
-      _xVel = 0;
-      _yVel = 0;
-      _playerState = inAir;
-      _lastPlayerState = _playerState;
-      _playerDirection = right;
-      _health = 100;
-      _score = 0;
-      _highscore = 0;
-      _scoreOffset = 0;
-      _healthLossFactor = 0.05f;
-      _jumpBoost = true;
-      _jumpBoostGravity = _gravity;
-      _lastScore = 0;
-      _movementDifference = 0;   
-      _godMode = false;
-      _lastX = _x;
+	_speed = 8;
+	_defaultSpeed = _speed;
+	_airSpeed = 0;
+	_gravity = 0.45f;
+	_xVel = 0;
+	_yVel = 0;
+	_playerState = inAir;
+	_lastPlayerState = _playerState;
+	_playerDirection = right;
+	_health = 100;
+	_score = 0;
+	_highscore = 0;
+	_scoreOffset = 0;
+	_healthLossFactor = 0.05f;
+	_jumpBoost = true;
+	_jumpBoostGravity = _gravity;
+	_canDoubleJump = false;
+	_canGlideJump = false;
+	_lastScore = 0;
+	_movementDifference = 0;   
+	_godMode = false;
+	_lastX = _x;
+	_currentDifficulty = 1;
     }
 
   void reset();
 
   void handleInput(InputHandler* inputHandler);
   void updateLogic();
+
+  void updatePowerUps();
 
   float getXvel();
   float getYvel();
@@ -63,8 +68,13 @@ class Player : public Object
   void setSpeed(float speed);
   void resetSpeed();
 
-  void resetJump();
   void setAirSpeed(float airSpeed);
+  
+  bool getCanDoubleJump();
+  void setCanDoubleJump(bool canDoubleJump);
+
+  bool getCanGlideJump();
+  void setCanGlideJump(bool canGlideJump);
 
   void setXvel(int xVel);
   void setYvel(int yVel);
@@ -95,6 +105,7 @@ class Player : public Object
   int getLastScore();
 
   void setDifficulty(int difficulty);
+  int getDifficulty(){ return _currentDifficulty; }
 
  private:
   float _speed;
@@ -126,11 +137,14 @@ class Player : public Object
   bool _jumpBoost;
   float _jumpBoostGravity;
 
+  bool _canDoubleJump;
+  bool _canGlideJump;
+
   PlayerDirection _playerDirection;
   PlayerState _playerState;
   PlayerState _lastPlayerState;
 
-  void updatePowerUps();
+  void jump();
 };
 
 #endif

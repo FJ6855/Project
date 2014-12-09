@@ -54,8 +54,10 @@ void Level::updateLogic()
 
     // cap difficulty at maximum difficulty rating
     if (_player->getScore() < 5000 * _maxDifficulty)
+    {
 	_currentDifficulty = _player->getScore() / 5000 + 1;
-
+	_player->setDifficulty(_currentDifficulty);
+    }
     //Logic for background
     if (_background->getX1() <= -896)
 	_background->setX1(0);
@@ -72,6 +74,10 @@ void Level::updateLogic()
 	_background->setX2(_background->getX2() - _player->getSpeed() / 6 - 1);
     else if(_player->getMovementDifference() < 0 && _player->getX() > -896)
 	_background->setX2(_background->getX2() + _player->getSpeed() / 6 + 1);
+
+    handleCollision();
+
+    _player->updatePowerUps();
 }
 
 void Level::render(SDL_Renderer* renderer)
@@ -118,7 +124,7 @@ void Level::reset()
 {
     _player->reset();
     _currentDifficulty = 1;
-
+    
     _background->setX1(0);
     _background->setX2(0);
 
