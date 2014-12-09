@@ -60,6 +60,8 @@ void Level::updateLogic()
 	    _nextLevelCap += 5000 * (_currentDifficulty / 3 + 1);
 
 	    _currentDifficulty++;
+	    
+	    _player->setDifficulty(_currentDifficulty);
 	}
     }
 

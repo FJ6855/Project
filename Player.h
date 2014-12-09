@@ -51,6 +51,7 @@ class Player : public Object
 	_movementDifference = 0;   
 	_godMode = false;
 	_lastX = _x;
+	_currentDifficulty = 1;
     }
 
   void reset();
@@ -104,6 +105,7 @@ class Player : public Object
   int getLastScore();
 
   void setDifficulty(int difficulty);
+  int getDifficulty(){ return _currentDifficulty; }
 
  private:
   float _speed;

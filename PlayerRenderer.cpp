@@ -40,6 +40,8 @@ void PlayerRenderer::loadContent()
     _speedBoostTimerTextTexture = _rm->loadTexture("Speed boost timer: ", SDL_Color{ 255, 255, 255 });
     _doubleJumpTimerTextTexture = _rm->loadTexture("Double jump timer: ", SDL_Color{ 255, 255, 255 });
     _glideJumpTimerTextTexture = _rm->loadTexture("Glide jump timer: ", SDL_Color{ 255, 255, 255 });
+
+    _currentDifficultyTextTexture = _rm->loadTexture("Current difficulty: ", SDL_Color{ 255, 255, 255 });
 }
 
 void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
@@ -113,6 +115,12 @@ void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
     
     // Render power up
     renderPowerUps(player->getPowerUps(), renderer);
+
+    //Render current difficulty
+    _currentDifficultyTextTexture->render(renderer, 10, 90, _currentDifficultyTextTexture->getWidth(), _currentDifficultyTextTexture->getHeight());
+    delete _currentDifficultyNumberTexture; //free the old texture
+    _currentDifficultyNumberTexture = _rm->loadTexture(std::to_string(player->getDifficulty()), SDL_Color{ 0, 180, 0 });
+    _currentDifficultyNumberTexture->render(renderer, _currentDifficultyTextTexture->getWidth() + 13, 90, _currentDifficultyNumberTexture->getWidth(), _currentDifficultyNumberTexture->getHeight());
 }
 
 

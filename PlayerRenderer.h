@@ -52,6 +52,10 @@ class PlayerRenderer : public Renderer
 	Texture* _doubleJumpTimerTextTexture = nullptr;
 	Texture* _glideJumpTimerTextTexture = nullptr;
 	
+	//Texture for current difficulty
+	Texture* _currentDifficultyTextTexture = nullptr;
+	Texture* _currentDifficultyNumberTexture = nullptr;
+
 	int _playerFrame;
 
 	void renderPowerUps(std::vector<PowerUp*> powerUps, SDL_Renderer* renderer);

@@ -15,6 +15,7 @@ void Player::reset()
     _playerState = inAir;
     _playerDirection = right;
     _health = 100;
+    _currentDifficulty = 1;
 
     if (_highscore < _score)
 	_highscore = _score;
