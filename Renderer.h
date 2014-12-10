@@ -6,16 +6,20 @@
 
 class Renderer
 {
- public:
- Renderer(ResourceManager* rm) : _rm{rm} {}
-  ~Renderer();
+public:
+    Renderer(ResourceManager* rm) : _rm{rm} {}
 
-  virtual void loadContent() = 0;
- protected:
-	std::vector<Texture*> _textures;
-	ResourceManager* _rm;
- private:
+    ~Renderer()
+    {
+	for(Texture* texture : _textures)
+	    delete texture;
+    }
 
+    virtual void loadContent() = 0;
+
+protected:
+    std::vector<Texture*> _textures;
+    ResourceManager* _rm;
 };
 
 #endif

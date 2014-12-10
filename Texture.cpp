@@ -1,10 +1,5 @@
 #include "Texture.h"
 
-Texture::~Texture()
-{
-    SDL_DestroyTexture(_texture);
-}
-
 int Texture::getWidth()
 {
     return _width;

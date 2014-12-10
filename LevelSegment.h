@@ -24,107 +24,120 @@
 
 class LevelSegment
 {
-  public:
-	LevelSegment(ResourceManager* rm) : _rm{rm} 
+public:
+    LevelSegment(ResourceManager* rm, BlockRenderer* blockRenderer, ItemRenderer* itemRenderer, ObstacleRenderer* obstacleRenderer) : _rm{rm}, _blockRenderer{blockRenderer}, _itemRenderer{itemRenderer}, _obstacleRenderer{obstacleRenderer} 
+    {
+	_difficultyRating = 1;
+
+	_x = 0;
+	_y = 0;
+    }
+
+    LevelSegment(const LevelSegment& ls)
+    {
+	_rm = ls._rm;
+	_difficultyRating = ls._difficultyRating;
+	_x = ls._x;
+	_y = ls._y;
+
+	for (Block* b : ls._blocks)
 	{
-	  _blockRenderer = new BlockRenderer(rm);
-	  _itemRenderer = new ItemRenderer(rm);
-	  _obstacleRenderer = new ObstacleRenderer(rm);
+	    MovingBlock* movingBlock = dynamic_cast<MovingBlock*>(b);
+	    SpeedBlock* speedBlock = dynamic_cast<SpeedBlock*>(b);
+	    BlinkingBlock* blinkingBlock = dynamic_cast<BlinkingBlock*>(b);
 
-	  _difficultyRating = 1;
-
-	  _x = 0;
-	  _y = 0;
+	    if (movingBlock != nullptr)
+		_blocks.push_back(new MovingBlock(*(movingBlock)));
+	    else if (speedBlock != nullptr)
+		_blocks.push_back(new SpeedBlock(*(speedBlock)));
+	    else if (blinkingBlock != nullptr)
+		_blocks.push_back(new BlinkingBlock(*(blinkingBlock)));
+	    else
+		_blocks.push_back(new Block(*(b)));
 	}
 
-	LevelSegment(const LevelSegment& ls)
+	for (Obstacle* o : ls._obstacles)
 	{
-		_rm = ls._rm;
-		_difficultyRating = ls._difficultyRating;
-		_x = ls._x;
-		_y = ls._y;
-
-		for (Block* b : ls._blocks)
-		  {
-		    MovingBlock* movingBlock = dynamic_cast<MovingBlock*>(b);
-		    SpeedBlock* speedBlock = dynamic_cast<SpeedBlock*>(b);
-		    BlinkingBlock* blinkingBlock = dynamic_cast<BlinkingBlock*>(b);
-
-		    if (movingBlock != nullptr)
-		      _blocks.push_back(new MovingBlock(*(movingBlock)));
-		    else if (speedBlock != nullptr)
-		      _blocks.push_back(new SpeedBlock(*(speedBlock)));
-		    else if (blinkingBlock != nullptr)
-		      _blocks.push_back(new BlinkingBlock(*(blinkingBlock)));
-		    else
-		      _blocks.push_back(new Block(*(b)));
-		  }
-
-		for (Obstacle* o : ls._obstacles)
-		  {
-		      _obstacles.push_back(new Obstacle(*(o)));
-		  }
-
-		for (Item* i : ls._items)
-		  {
-		    Health* health = dynamic_cast<Health*>(i);		    
-		    SpeedBoost* speedBoost = dynamic_cast<SpeedBoost*>(i);
-		    DoubleJump* doubleJump = dynamic_cast<DoubleJump*>(i);
-		    GlideJump* glideJump = dynamic_cast<GlideJump*>(i);
-
-		    if (health != nullptr)
-		      _items.push_back(new Health(*(health)));
-		    else if (speedBoost != nullptr)
-		      _items.push_back(new SpeedBoost(*(speedBoost)));
-		    else if (doubleJump != nullptr)
-		      _items.push_back(new DoubleJump(*(doubleJump)));
-		    else if (glideJump != nullptr)
-		      _items.push_back(new GlideJump(*(glideJump)));
-		    else
-		      _items.push_back(new Item(*(i)));
-		  }
-
-		_blockRenderer = ls._blockRenderer;
-		_obstacleRenderer = ls._obstacleRenderer;
-		_itemRenderer = ls._itemRenderer;
+	    _obstacles.push_back(new Obstacle(*(o)));
 	}
 
-	~LevelSegment();
+	for (Item* i : ls._items)
+	{
+	    Health* health = dynamic_cast<Health*>(i);		    
+	    SpeedBoost* speedBoost = dynamic_cast<SpeedBoost*>(i);
+	    DoubleJump* doubleJump = dynamic_cast<DoubleJump*>(i);
+	    GlideJump* glideJump = dynamic_cast<GlideJump*>(i);
 
-	void loadLevelSegment(const std::string& fileName);
-	void handleCollision(Player* player, int segmentIndex);
-	void updateLogic();
+	    if (health != nullptr)
+		_items.push_back(new Health(*(health)));
+	    else if (speedBoost != nullptr)
+		_items.push_back(new SpeedBoost(*(speedBoost)));
+	    else if (doubleJump != nullptr)
+		_items.push_back(new DoubleJump(*(doubleJump)));
+	    else if (glideJump != nullptr)
+		_items.push_back(new GlideJump(*(glideJump)));
+	    else
+		_items.push_back(new Item(*(i)));
+	}
 
-	void render(SDL_Renderer* renderer);
+	_blockRenderer = ls._blockRenderer;
+	_obstacleRenderer = ls._obstacleRenderer;
+	_itemRenderer = ls._itemRenderer;
+    }
 
-	void setX(int x);
-	void setY(int y);
-	int getX();
-	int getY();
+    ~LevelSegment()
+    {
+	for (Block* b : _blocks)
+	    delete b;
+	
+	for (Item* i : _items)
+	    delete i;
 
-	int getDifficultyRating();
+	for (Obstacle* o : _obstacles)
+	    delete o;
+	
+	// TODO: Where should we delete this? can't do it here 
+	//delete _blockRenderer;
+	//delete _itemRenderer;
+	//delete _obstacleRenderer;
+    }
 
-  private:
-	int _difficultyRating;
-	int _x;
-	int _y;
-	int _updates;
-	int _time;
+    void loadLevelSegment(const std::string& fileName);
+    void handleCollision(Player* player, int segmentIndex);
+    void updateLogic();
 
-	std::random_device _rnd;
+    void render(SDL_Renderer* renderer);
 
-	std::vector<Block*> _blocks;
-	std::vector<Item*> _items;
-	std::vector<Obstacle*> _obstacles;
+    void setX(int x);
+    void setY(int y);
+    int getX();
+    int getY();
 
-	BlockRenderer* _blockRenderer;
-	ItemRenderer* _itemRenderer;
-	ObstacleRenderer* _obstacleRenderer;
+    std::vector<Block*> getBlocks();
 
-	ResourceManager* _rm;
+    int getDifficultyRating();
 
-	template <typename T>
-	void handleCollisionAgainstObjects(Player* player, std::vector<T*>& objects, int segmentIndex);
+private:
+    int _difficultyRating;
+    int _x;
+    int _y;
+    int _updates;
+    int _time;
+
+    std::random_device _rnd;
+
+    std::vector<Block*> _blocks;
+    std::vector<Item*> _items;
+    std::vector<Obstacle*> _obstacles;
+
+    BlockRenderer* _blockRenderer;
+    ItemRenderer* _itemRenderer;
+    ObstacleRenderer* _obstacleRenderer;
+
+    ResourceManager* _rm;
+
+    template <typename T>
+    void handleCollisionAgainstObjects(Player* player, std::vector<T*>& objects, int segmentIndex);
 };
 
 #endif

@@ -2,13 +2,13 @@
 
 void ItemRenderer::loadContent() 
 {
-  _textures.push_back(_rm->loadTexture("health"));
-  _textures.push_back(_rm->loadTexture("speedBoost"));
-  _textures.push_back(_rm->loadTexture("jumpBoost"));
-  _textures.push_back(_rm->loadTexture("glideBoost"));
+    _textures.push_back(_rm->loadTexture("health"));
+    _textures.push_back(_rm->loadTexture("speedBoost"));
+    _textures.push_back(_rm->loadTexture("jumpBoost"));
+    _textures.push_back(_rm->loadTexture("glideBoost"));
 }
 
 void ItemRenderer::render(Item* item, int offset, SDL_Renderer* renderer)
 {
-  _textures.at(item->getType())->render(renderer, item->getX() * item->getWidth() + offset, item->getY() * item->getHeight(), item->getWidth(), item->getHeight()); 
+    _textures.at(item->getType())->render(renderer, item->getX() * item->getWidth() + offset, item->getY() * item->getHeight(), item->getWidth(), item->getHeight()); 
 }

@@ -1,10 +1,16 @@
 #include "Block.h"
-#include <iostream>
+
 BlockType Block::getType()
 {
-  return _type;
+    return _type;
 }
+
+void Block::setType(BlockType type)
+{
+    _type = type;
+}
+
 void Block::updateLogic()
 {
-  //update logic
+
 }

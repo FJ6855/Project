@@ -6,12 +6,19 @@
 class PauseMenu : public Menu
 {
 public:
-	PauseMenu();
-	~PauseMenu();
+    PauseMenu()
+    {
+	buildMenu();
+	_selectedButtonIndex = 0;
+	_buttons.at(_selectedButtonIndex)->setButtonState(SELECTED);
+    }
+    
+    ~PauseMenu() = default;
 
-	void handleInput(InputHandler* input, SystemState& systemState) override;
+    void handleInput(InputHandler* input, SystemState& systemState) override;
+
 private:
-	void buildMenu();
+    void buildMenu();
 };
 
 #endif

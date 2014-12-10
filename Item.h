@@ -13,13 +13,17 @@ enum ItemType
 
 class Item : public Object
 {
-  public:
+public:
     Item(int x, int y, int width, int height) : Object(x, y, width, height) {}
+
+    ~Item() = default;
+
   
     ItemType getType();
+
     void updateLogic() override;
 
-  protected:
+protected:
     ItemType _type;    
 };
 

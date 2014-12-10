@@ -76,7 +76,7 @@ void Player::handleInput(InputHandler* input)
 
     if((!input->getKey(SDL_SCANCODE_D) && !input->getKey(SDL_SCANCODE_RIGHT)) || (!input->getKey(SDL_SCANCODE_A) && !input->getKey(SDL_SCANCODE_LEFT)))
     {
-      _airSpeed = 0;
+	_airSpeed = 0;
     }
 }
 
@@ -146,7 +146,7 @@ void Player::updateLogic()
     if (_y > 600 || _health <= 0)
     {
 	if (_godMode == false)
-	  _playerState = PlayerState::dead;
+	    _playerState = PlayerState::dead;
 	else
 	    _y = 0;
     }
@@ -308,6 +308,11 @@ int Player::getScore()
 void Player::setScore(int score)
 {
     _score = score;
+}
+
+int Player::getDifficulty()
+{
+    return _currentDifficulty;
 }
 
 void Player::setDifficulty(int difficulty)

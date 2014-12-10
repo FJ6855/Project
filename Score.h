@@ -1,22 +1,24 @@
+#include <string>
+
 #ifndef SCORE_H
 #define SCORE_H
 
-#include <string>
-
 class Score
 {
- public:
- Score(int pos, std::string name, int score) : _pos{pos}, _name{name}, _score{score} {}
-  ~Score() {}
-  int getPos();
-  void setPos(int);
-  std::string getName();
-  int getScore() const;
+public:
+    Score(int pos, std::string name, int score) : _pos{pos}, _name{name}, _score{score} {}
 
- private:
-  int _pos;
-  std::string _name;
-  int _score;
+    ~Score() = default;
+
+    int getPos();
+    void setPos(int);
+    std::string getName();
+    int getScore() const;
+
+private:
+    int _pos;
+    std::string _name;
+    int _score;
 };
 
 #endif

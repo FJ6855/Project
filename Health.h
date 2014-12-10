@@ -5,16 +5,18 @@
 
 class Health : public Item
 {
-  public:
-  Health(int x, int y, int width, int height, float health) : Item{x, y, width, height}, _health{health} 
-  {
-    _type = ItemType::HealthType;
-  }
+public:
+    Health(int x, int y, int width, int height, float health) : Item{x, y, width, height}, _health{health} 
+    {
+	_type = ItemType::HealthType;
+    }
+
+    ~Health() = default;
     
     float getHealth();
     void updateLogic() override;
 
-  private:
+private:
     float _health;
 };
 

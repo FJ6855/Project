@@ -2,29 +2,41 @@
 
 #include "Score.h"
 #include "ResourceManager.h"
+
 #ifndef HIGH_SCORE_H
 #define HIGH_SCORE_H
 
 class HighScore
 {
- public:
-  HighScore(ResourceManager*);
+public:
+    HighScore(ResourceManager* rm)
+    {
+	_rm = rm;
+	loadScores(rm);
+    }
 
-  ~HighScore();
+    ~HighScore()
+    {
+	for (Score* s : _scores)
+	    delete s;
+    }
 
-  void newHighScoreSet();
-  bool compare(int);
-  void loadScores(ResourceManager* rm);
-  void saveScores(ResourceManager* rm);
-  void setCurrentScore(int score);
-  void setCurrentName(std::string name);
-  std::vector<Score*> getScores();
+    void newHighScoreSet();
+    bool compare(int);
 
- private:
-  std::vector<Score*> _scores;
-  ResourceManager* _rm;
-  int _currentScore;
-  std::string _currentName;
+    void loadScores(ResourceManager* rm);
+    void saveScores(ResourceManager* rm);
 
+    void setCurrentScore(int score);
+    void setCurrentName(std::string name);
+
+    std::vector<Score*> getScores();
+
+private:
+    std::vector<Score*> _scores;
+    ResourceManager* _rm;
+    int _currentScore;
+    std::string _currentName;
 };
+
 #endif

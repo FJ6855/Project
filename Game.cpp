@@ -1,18 +1,16 @@
-#include "Game.h"
-
-#include <iostream>
 #include <SDL2/SDL.h>
+
+#include "Game.h"
 
 void Game::run()
 {
     if (systemState == PLAY)
     {
 	handleInput();
-
+	    
 	updateLogic();
-
-	render();
-
+	    
+	render();	    
     }
     else if (systemState == PAUSE)
     {
@@ -32,6 +30,7 @@ void Game::handleInput()
 
     _level->handleInput();
 }
+
 void Game::updateLogic()
 {
     _level->updateLogic();

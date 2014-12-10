@@ -19,100 +19,112 @@ SDL_Window* gWindow = nullptr;
 
 int main(int argc, char* argv[])
 {
-	if (!init())
-	{		
-		return 1;
-	}
-
-  InputHandler* input = new InputHandler();
-  ResourceManager* rm = new ResourceManager(gRenderer, gFont);
-  HighScore* highScore = new HighScore(rm);
-  Game* game = new Game(input, rm, highScore, gRenderer);
-  MenuSystem* menuSystem = new MenuSystem(input, rm, highScore, gRenderer);
-
-  int fps{0};
-  int timeStart = SDL_GetTicks();
-
-  while (!input->isQuit())
-    {
-      input->update();
-      
-      clearScreen();
-
-	  game->run();
-	  menuSystem->run();
-
-      drawGame();
-
-	  //Enkel fpsräknare
-	  fps++;
-	  if (SDL_GetTicks() - timeStart >= 1000)
-	  {
-		//std::cout << "Fps: " << fps << std::endl;
-		  timeStart = SDL_GetTicks();
-		  fps = 0;
-	  }
+    if (!init())
+    {		
+	return 1;
     }
-  highScore->saveScores(rm);
-  return 0;
+
+    InputHandler* input = new InputHandler();
+    ResourceManager* rm = new ResourceManager(gRenderer, gFont);
+    HighScore* highScore = new HighScore(rm);
+    Game* game = new Game(input, rm, highScore, gRenderer);
+    MenuSystem* menuSystem = new MenuSystem(input, rm, highScore, gRenderer);
+
+    int fps{0};
+    int timeStart = SDL_GetTicks();
+
+    while (!input->isQuit())
+    {
+	input->update();
+      
+	clearScreen();
+
+	game->run();
+	menuSystem->run();
+
+	drawGame();
+
+	//Enkel fpsräknare
+	fps++;
+	if (SDL_GetTicks() - timeStart >= 1000)
+	{
+	    //std::cout << "Fps: " << fps << std::endl;
+	    timeStart = SDL_GetTicks();
+	    fps = 0;
+	}
+    }
+
+    highScore->saveScores(rm);
+
+    TTF_CloseFont(gFont);
+    SDL_DestroyRenderer(gRenderer);
+    SDL_DestroyWindow(gWindow);
+    
+    delete input;
+    delete rm;
+    delete highScore;
+    delete game;
+    delete menuSystem;
+
+    return 0;
 }
 
 void drawGame()
 {
-  SDL_RenderPresent(gRenderer);
+    SDL_RenderPresent(gRenderer);
 }
 
 void clearScreen()
 {
-  SDL_RenderClear(gRenderer);
+    SDL_RenderClear(gRenderer);
 }
 
 bool init()
 {
-  if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-      printf("SDL could not initialize SDL_Error: %s\n", SDL_GetError());
-      return false;
+	printf("SDL could not initialize SDL_Error: %s\n", SDL_GetError());
+	return false;
     }
-  //Create Window
-  gWindow = SDL_CreateWindow("SaftEngine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-  if (gWindow == NULL)
+    //Create Window
+    gWindow = SDL_CreateWindow("SaftEngine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    if (gWindow == NULL)
     {
-      printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
-      return false;
+	printf("Window could not be created! SDL Error: %s\n", SDL_GetError());
+	return false;
     }
-  //Create renderer for window
-  gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-  if (gRenderer == NULL)
+    //Create renderer for window
+    gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (gRenderer == NULL)
     {
-      printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
-      return false;
+	printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
+	return false;
     }
   
-  //Initialize PNG loading
-  int imgFlags = IMG_INIT_PNG;
-  if (!(IMG_Init(imgFlags) & imgFlags))
-  {
-	  printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
-	  return false;
-  }
+    //Initialize PNG loading
+    int imgFlags = IMG_INIT_PNG;
+    if (!(IMG_Init(imgFlags) & imgFlags))
+    {
+	printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+	return false;
+    }
 
-  //Initialize SDL_ttf
-  if (TTF_Init() == -1)
-  {
-	  printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
-	  return false;
-  }
+    //Initialize SDL_ttf
+    if (TTF_Init() == -1)
+    {
+	printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+	return false;
+    }
 
-  gFont = TTF_OpenFont("./res/fonts/alphbeta.ttf", 20);
-  if (gFont == NULL)
-  {
-	  printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
-	  return false;
-  }
+    gFont = TTF_OpenFont("./res/fonts/alphbeta.ttf", 20);
+    if (gFont == NULL)
+    {
+	printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
+	return false;
+    }
   
-  //Initialize renderer color
-  SDL_SetRenderDrawColor(gRenderer, 0x0, 0x0, 0x0, 0x0);
+    //Initialize renderer color
+    SDL_SetRenderDrawColor(gRenderer, 0x0, 0x0, 0x0, 0x0);
 
-  return true;
+    return true;
 }

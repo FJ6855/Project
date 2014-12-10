@@ -8,17 +8,15 @@
 class ObstacleRenderer : public Renderer
 {
 public:
-	ObstacleRenderer(ResourceManager* rm) : Renderer{ rm }
-	{
-		loadContent();
-	}
+    ObstacleRenderer(ResourceManager* rm) : Renderer{ rm }
+    {
+	loadContent();
+    }
 
-	~ObstacleRenderer() {}
+    ~ObstacleRenderer() = default;
 
-	void loadContent() override;
-	void render(Obstacle* obstacle, int offset, SDL_Renderer* renderer);
-
-private:
+    void loadContent() override;
+    void render(Obstacle* obstacle, int offset, SDL_Renderer* renderer);
 };
 
 #endif

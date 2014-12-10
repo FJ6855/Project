@@ -6,20 +6,24 @@
 class Background
 {
 public:
-	Background();
-	~Background();
+    Background()
+    {
+	_x1 = 0;
+	_x2 = 0;
+    }
 
-	void setX1(int x1);
-	int getX1();
-	void setX2(int x2);
-	int getX2();
+    ~Background() = default;
 
+    int getX1();
+    void setX1(int x1);
+
+    int getX2();
+    void setX2(int x2);
 
 private:
-	int _x1;
-	int _x2;
+    int _x1;
+    int _x2;
 };
-
 
 #endif
 

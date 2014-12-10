@@ -5,13 +5,13 @@
 
 class SpeedBlock : public Block
 {
- public:
- SpeedBlock(int x, int y, int width, int height, BlockType type, int speedFactor) : Block(x, y, width, height, type), _speedFactor{speedFactor} {}
+public:
+    SpeedBlock(int x, int y, int width, int height, BlockType type, int speedFactor) : Block(x, y, width, height, type), _speedFactor{speedFactor} {}
   
-  int getSpeedFactor() { return _speedFactor; }
+    int getSpeedFactor();
   
- private:
-  int _speedFactor;
+private:
+    int _speedFactor;
 };
 
 #endif

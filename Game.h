@@ -9,27 +9,33 @@
 
 class Game : public SystemModule
 {
- public:
-	 Game(InputHandler* input, ResourceManager* rm, HighScore* highScore, SDL_Renderer* renderer) : SystemModule{}, _input{ input }, _rm{ rm }, _highScore{ highScore }, _renderer{ renderer }
-  {
-    _level = new Level(input, rm);
+public:
+    Game(InputHandler* input, ResourceManager* rm, HighScore* highScore, SDL_Renderer* renderer) : SystemModule(), _input{input}, _rm{rm}, _highScore{highScore}, _renderer{renderer}
+    {
+	_level = new Level(input, rm);
 	_levelHasBeenReset = true;
-  }
+    }
+
+    ~Game()
+    {
+	delete _level;
+    }
   
- void run();
- SystemState getState();
+    void run();
+    SystemState getState();
 
- private:
-  InputHandler* _input;
-  ResourceManager* _rm;
-  Level* _level;
-  HighScore* _highScore;
-  SDL_Renderer* _renderer;
-  void handleInput();
-  void updateLogic();
-  void render();
+private:
+    InputHandler* _input;
+    ResourceManager* _rm;
+    Level* _level;
+    HighScore* _highScore;
+    SDL_Renderer* _renderer;
 
-  bool _levelHasBeenReset;
+    void handleInput();
+    void updateLogic();
+    void render();
+
+    bool _levelHasBeenReset;
 };
 
 #endif

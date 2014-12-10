@@ -2,20 +2,20 @@
 
 float PowerUp::getTimer()
 {
-  return _timer;
+    return _timer;
 }
 
 void PowerUp::setTimer(float timer)
 {
-  _timer = timer;
+    _timer = timer;
 }
 
 void PowerUp::updateLogic()
 {
-  _timer -= 16;
+    _timer -= 16;
 }
 
 bool PowerUp::isActive()
 {
-  return _timer > 0;
+    return _timer > 0;
 }

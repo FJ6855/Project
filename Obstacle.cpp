@@ -2,15 +2,15 @@
 
 ObstacleType Obstacle::getType()
 {
-	return _type;
+    return _type;
 }
 
 float Obstacle::getDamage()
 {
-	return _damage;
+    return _damage;
 }
 
 void Obstacle::updateLogic()
 {
-	//update logic
+
 }

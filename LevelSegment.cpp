@@ -6,11 +6,6 @@
 
 #include "LevelSegment.h"
 
-LevelSegment::~LevelSegment()
-{
-
-}
-
 void LevelSegment::loadLevelSegment(const std::string& fileName)
 {
     std::ifstream file("./res/LevelSegments/" + fileName + ".txt");
@@ -416,4 +411,9 @@ int LevelSegment::getY()
 int LevelSegment::getDifficultyRating()
 {
     return _difficultyRating;
+}
+
+std::vector<Block*> LevelSegment::getBlocks() 
+{
+    return _blocks;
 }

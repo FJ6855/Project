@@ -8,58 +8,77 @@
 #include "PlayerRenderer.h"
 #include "Background.h"
 #include "BackgroundRenderer.h"
+#include "BlockRenderer.h"
+#include "ItemRenderer.h"
+#include "ObstacleRenderer.h"
 
 #ifndef LEVEL_H
 #define LEVEL_H
 
 class Level
 {
-  public:
-	Level(InputHandler* input, ResourceManager* rm) : _input{input}, _rm{rm} 
-	{
-		_player = new Player(-896, 200, 32, 32);
-		_playerRenderer = new PlayerRenderer(rm);
-		_backgroundRenderer = new BackgroundRenderer(rm);
-		_background = new Background();
-		_currentDifficulty = 1;
-		_nextLevelCap = 5000;
-		_maxDifficulty = 10;
-		_player->setDifficulty(_currentDifficulty);
-		_activeSegmentIndex = 0;
-		loadLevel();
-	}
+public:
+    Level(InputHandler* input, ResourceManager* rm) : _input{input}, _rm{rm} 
+    {
+	_player = new Player(-896, 200, 32, 32);
+	_playerRenderer = new PlayerRenderer(rm);
+	_backgroundRenderer = new BackgroundRenderer(rm);
+	_background = new Background();
+	_currentDifficulty = 1;
+	_nextLevelCap = 5000;
+	_maxDifficulty = 10;
+	_player->setDifficulty(_currentDifficulty);
+	_activeSegmentIndex = 0;
+	loadLevel();
+    }
+
+    ~Level()
+    {
+	delete _player;
+	delete _playerRenderer;
+	
+	for (LevelSegment* ls : _segments)
+	    delete ls;
+
+	for (LevelSegment* ls : _loadedSegments)
+	    delete ls;
+    }
  
-	void handleInput();
-	void updateLogic();
-	void render(SDL_Renderer* renderer);
-	void handleCollision();
-	Player* getPlayer() { return _player; }
-	PlayerState getPlayerState();
-	void reset();
+    void handleInput();
+    void updateLogic();
+    void handleCollision();
 
-  private:
-	void loadLevel();
-	void loadSegments();
-	int getRandom();
+    void render(SDL_Renderer* renderer);
+    
+    void reset();
+    
+    Player* getPlayer();
+    PlayerState getPlayerState();
 
-	InputHandler* _input;
-	ResourceManager* _rm;
+private:
+    void loadLevel();
+    void loadSegments();
 
-	std::random_device _rnd;
+    int getRandom();
 
-	std::vector<LevelSegment*> _segments;
-	std::vector<LevelSegment*> _loadedSegments;
+    InputHandler* _input;
+    ResourceManager* _rm;
 
-	int _activeSegmentIndex;
-	int _currentDifficulty;
-	int _nextLevelCap;
-	int _maxDifficulty;
+    std::random_device _rnd;
 
-	Player* _player;
-	PlayerRenderer* _playerRenderer;
+    std::vector<LevelSegment*> _segments;
+    std::vector<LevelSegment*> _loadedSegments;
 
-	Background* _background;
-	BackgroundRenderer* _backgroundRenderer;
+    int _activeSegmentIndex;
+    int _currentDifficulty;
+    int _nextLevelCap;
+    int _maxDifficulty;
+
+    Player* _player;
+    PlayerRenderer* _playerRenderer;
+
+    Background* _background;
+    BackgroundRenderer* _backgroundRenderer;
 };
 
 #endif

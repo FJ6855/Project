@@ -21,7 +21,6 @@ void BlockRenderer::loadContent()
     _textures.push_back(_rm->loadTexture("speedBlockLeft"));
 }
 
-
 void BlockRenderer::render(Block* block, int offset, SDL_Renderer* renderer)
 {
     MovingBlock* movingBlock = dynamic_cast<MovingBlock*>(block);
@@ -30,7 +29,7 @@ void BlockRenderer::render(Block* block, int offset, SDL_Renderer* renderer)
     
     if (movingBlock != nullptr)
     {
-	    x += movingBlock->getMovingX();
+	x += movingBlock->getMovingX();
     }
 
     _textures.at(block->getType())->render(renderer, x, block->getY() * block->getHeight(), block->getWidth(), block->getHeight());

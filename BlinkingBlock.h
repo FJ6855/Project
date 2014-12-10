@@ -5,21 +5,23 @@
 
 class BlinkingBlock : public Block
 {
- public:
- BlinkingBlock(int x, int y, int width, int height, int timeLimit) : Block(x, y, width, height), _timeLimit{timeLimit}
+public:
+    BlinkingBlock(int x, int y, int width, int height, int timeLimit) : Block(x, y, width, height), _timeLimit{timeLimit}
     {
-      _timer = 0;
-      _visible = true;
-      _type = BlockType::BlinkingBlock1;
+	_timer = 0;
+	_visible = true;
+	_type = BlockType::BlinkingBlock1;
     }
- 
-  void updateLogic() override;
-  bool isVisible();
 
- private:
-  int _timer;
-  int _timeLimit; 
-  bool _visible;
+    ~BlinkingBlock() = default;
+ 
+    void updateLogic() override;
+    bool isVisible();
+
+private:
+    int _timer;
+    int _timeLimit; 
+    bool _visible;
 };
 
 #endif

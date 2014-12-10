@@ -5,20 +5,22 @@
 
 class GlideJump : public PowerUp
 {
- public:
- GlideJump(int x, int y, int width, int height, float timer) : PowerUp(x, y, width, height, timer)
-  {
-    _type = ItemType::GlideJumpType;
+public:
+    GlideJump(int x, int y, int width, int height, float timer) : PowerUp(x, y, width, height, timer)
+    {
+	_type = ItemType::GlideJumpType;
   
-    _glideTimer = 1000;
-  }
+	_glideTimer = 1000;
+    }
 
-  void updateLogic() override;
-  void updateLogic(Player* player) override;
+    ~GlideJump() = default;
 
- private:
-  int _timer;
-  int _glideTimer;
+    void updateLogic() override;
+    void updateLogic(Player* player) override;
+
+private:
+    int _timer;
+    int _glideTimer;
 };
 
 #endif

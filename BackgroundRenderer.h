@@ -7,20 +7,27 @@
 class BackgroundRenderer : public Renderer
 {
 public:
-	BackgroundRenderer(ResourceManager* rm) : Renderer{ rm }
-	{
-		loadContent();
-	}
-	~BackgroundRenderer();
+    BackgroundRenderer(ResourceManager* rm) : Renderer(rm) 
+    {
+	loadContent();
+    }
 
-	void loadContent() override;
-	void render(Background* background, SDL_Renderer* renderer);
+    ~BackgroundRenderer()
+    {
+	delete _backgroundStatic;
+	delete _backgroundMoving1;
+	delete _backgroundMoving2;
+	delete _pauseInscructionText;
+    }
+
+    void loadContent() override;
+    void render(Background* background, SDL_Renderer* renderer);
 
 private:
-	Texture* _backgroundStatic;
-	Texture* _backgroundMoving1;
-	Texture* _backgroundMoving2;
-	Texture* _pauseInscructionText;
+    Texture* _backgroundStatic;
+    Texture* _backgroundMoving1;
+    Texture* _backgroundMoving2;
+    Texture* _pauseInscructionText;
 };
 
 #endif

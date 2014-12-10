@@ -1,11 +1,6 @@
-#include "PlayerRenderer.h"
 #include <string>
-#include <iostream>
 
-PlayerRenderer::~PlayerRenderer()
-{
-
-}
+#include "PlayerRenderer.h"
 
 void PlayerRenderer::loadContent()
 {

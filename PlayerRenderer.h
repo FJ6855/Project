@@ -10,55 +10,77 @@
 
 class PlayerRenderer : public Renderer
 {
- public:
- PlayerRenderer(ResourceManager* rm) : Renderer{rm}
-  {
-	 loadContent();
-	 _playerFrame = 0;
-  }
-  ~PlayerRenderer();
+public:
+    PlayerRenderer(ResourceManager* rm) : Renderer{rm}
+    {
+	loadContent();
+	_playerFrame = 0;
+    }
 
-  void loadContent() override;
-  void render(Player* player, SDL_Renderer* renderer);
+    ~PlayerRenderer()
+    {
+	delete _playerTextureInAirRight;
+	delete _playerTextureInAirLeft;
+	delete _playerTexture;
+	delete _healthBarTexture;
+	delete _healthBarTextTexture;
+	delete _scoreTexture;
+	delete _scoreTextTexture;
+	delete _lastHighestScoreTexture;
+	delete _lastHighestScoreTextTexture;
+	delete _lastScoreTexture;
+	delete _lastScoreTextTexture;
+	delete _speedBoostTimerTexture;
+	delete _doubleJumpTimerTexture;
+	delete _glideJumpTimerTexture;
+	delete _speedBoostTimerTextTexture;
+	delete _doubleJumpTimerTextTexture;
+	delete _glideJumpTimerTextTexture;
+	delete _currentDifficultyTextTexture;
+	delete _currentDifficultyNumberTexture; 
+    }
 
- private:
-	//Player sprites in the air
-	Texture* _playerTextureInAirRight;
-	Texture* _playerTextureInAirLeft;
+    void loadContent() override;
+    void render(Player* player, SDL_Renderer* renderer);
 
-	//The texture that is rendered every time. Will be pointing to one of the textures above
-	Texture* _playerTexture;
+private:
+    //Player sprites in the air
+    Texture* _playerTextureInAirRight;
+   Texture* _playerTextureInAirLeft;
 
-	//Textures for health bar
-	Texture* _healthBarTexture;
-	Texture* _healthBarTextTexture;
+    //The texture that is rendered every time. Will be pointing to one of the textures above
+    Texture* _playerTexture;
 
-	//Textures for the score
-	Texture* _scoreTexture = nullptr;
-	Texture* _scoreTextTexture;
+    //Textures for health bar
+    Texture* _healthBarTexture;
+    Texture* _healthBarTextTexture;
 
-	Texture* _lastHighestScoreTexture = nullptr;
-	Texture* _lastHighestScoreTextTexture;
+    //Textures for the score
+    Texture* _scoreTexture = nullptr;
+    Texture* _scoreTextTexture;
 
-	Texture* _lastScoreTexture = nullptr;
-	Texture* _lastScoreTextTexture;
+    Texture* _lastHighestScoreTexture = nullptr;
+    Texture* _lastHighestScoreTextTexture;
 
-	// Textures for power ups
-	Texture* _speedBoostTimerTexture = nullptr;
-	Texture* _doubleJumpTimerTexture = nullptr;
-	Texture* _glideJumpTimerTexture = nullptr;
+    Texture* _lastScoreTexture = nullptr;
+    Texture* _lastScoreTextTexture;
 
-	Texture* _speedBoostTimerTextTexture = nullptr;
-	Texture* _doubleJumpTimerTextTexture = nullptr;
-	Texture* _glideJumpTimerTextTexture = nullptr;
+    // Textures for power ups
+    Texture* _speedBoostTimerTexture = nullptr;
+    Texture* _doubleJumpTimerTexture = nullptr;
+    Texture* _glideJumpTimerTexture = nullptr;
+
+    Texture* _speedBoostTimerTextTexture = nullptr;
+    Texture* _doubleJumpTimerTextTexture = nullptr;
+    Texture* _glideJumpTimerTextTexture = nullptr;
 	
-	//Texture for current difficulty
-	Texture* _currentDifficultyTextTexture = nullptr;
-	Texture* _currentDifficultyNumberTexture = nullptr;
+    //Texture for current difficulty
+    Texture* _currentDifficultyTextTexture = nullptr;
+    Texture* _currentDifficultyNumberTexture = nullptr;
 
-	int _playerFrame;
+    int _playerFrame;
 
-	void renderPowerUps(std::vector<PowerUp*> powerUps, SDL_Renderer* renderer);
+    void renderPowerUps(std::vector<PowerUp*> powerUps, SDL_Renderer* renderer);
 };
 
 #endif

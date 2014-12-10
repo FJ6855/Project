@@ -7,18 +7,16 @@
 
 class ItemRenderer : public Renderer
 {
- public:
- ItemRenderer(ResourceManager* rm) : Renderer{rm} 
-  {
-    loadContent();
-  }
+public:
+    ItemRenderer(ResourceManager* rm) : Renderer(rm) 
+    {
+	loadContent();
+    }
 
-  ~ItemRenderer() {}
+    ~ItemRenderer() = default;
   
-  void loadContent() override;
-  void render(Item* item, int offset, SDL_Renderer* renderer);
-
- private:
+    void loadContent() override;
+    void render(Item* item, int offset, SDL_Renderer* renderer);
 };
 
 #endif

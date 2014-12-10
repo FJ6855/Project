@@ -2,20 +2,20 @@
 
 int Score::getPos()
 {
-  return _pos;
+    return _pos;
 }
 
 void Score::setPos(int pos)
 {
-   _pos = pos;
+    _pos = pos;
 }
 
 std::string Score::getName()
 {
-  return _name;
+    return _name;
 }
 
 int Score::getScore() const
 {
-  return _score;
+    return _score;
 }

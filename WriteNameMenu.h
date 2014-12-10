@@ -1,7 +1,8 @@
+#include <string>
+
 #include "Menu.h"
 #include "InputHandler.h"
 #include "HighScore.h"
-#include <string>
 
 #ifndef WRITENAMEMENU_H
 #define WRITENAMEMENU_H
@@ -9,16 +10,24 @@
 class WriteNameMenu : public Menu
 {
 public:
-  WriteNameMenu(HighScore* hs);
-	~WriteNameMenu();
+    WriteNameMenu(HighScore* hs)
+    {
+	_highscore = hs;
+	buildMenu();
+	_selectedButtonIndex = 0;
+	_buttons.at(_selectedButtonIndex)->setButtonState(SELECTED);
+	_name = "";
+    }
 
-	std::string getName();
-	void handleInput(InputHandler* input, SystemState& systemState) override;
+    ~WriteNameMenu() = default;
+
+    std::string getName();
+    void handleInput(InputHandler* input, SystemState& systemState) override;
+
 private:
-	HighScore* _highscore;
-	void buildMenu();
-	std::string _name;
-
+    HighScore* _highscore;
+    void buildMenu();
+    std::string _name;
 };
 
 #endif

@@ -1,8 +1,8 @@
-#include "Level.h"
-#include "LevelSegment.h"
-
 #include <algorithm>
 #include <iostream>
+
+#include "Level.h"
+#include "LevelSegment.h"
 
 void Level::loadLevel()
 {
@@ -11,10 +11,16 @@ void Level::loadLevel()
 
 void Level::loadSegments()
 {
+    BlockRenderer* blockRenderer = new BlockRenderer(_rm);
+    ItemRenderer* itemRenderer = new ItemRenderer(_rm);
+    ObstacleRenderer* obstacleRenderer = new ObstacleRenderer(_rm);
+
     for (int i{0}; i <= _maxDifficulty * 5 + 3; ++i)
     {
-	LevelSegment* ls = new LevelSegment(_rm);
+	LevelSegment* ls = new LevelSegment(_rm, blockRenderer, itemRenderer, obstacleRenderer);
+
 	ls->loadLevelSegment("levelSegment" + std::to_string(i));
+
 	_loadedSegments.push_back(ls);
     }
 
@@ -50,6 +56,12 @@ void Level::updateLogic()
 	_segments.at(1) = _segments.at(2);
 	       
 	_segments.at(2) = new LevelSegment(*(_loadedSegments.at(Level::getRandom())));
+
+	for (Block* b : _segments.at(2)->getBlocks())
+	{
+	    if (dynamic_cast<BlinkingBlock*>(b) == nullptr && dynamic_cast<SpeedBlock*>(b) == nullptr)
+		b->setType(static_cast<BlockType>(_currentDifficulty));
+	}
     } 	
 
     // cap difficulty at maximum difficulty rating
@@ -87,6 +99,22 @@ void Level::updateLogic()
     _player->updatePowerUps();
 }
 
+void Level::handleCollision()
+{
+    int x = _player->getX();
+  
+    if(x < 0)
+    {
+	_segments.at(0)->handleCollision(_player, 0);
+	_segments.at(1)->handleCollision(_player, 1);
+    }
+    if(x >= 0)
+    {
+	_segments.at(1)->handleCollision(_player, 1);
+	_segments.at(2)->handleCollision(_player, 2);
+    }
+}
+
 void Level::render(SDL_Renderer* renderer)
 {
     _backgroundRenderer->render(_background, renderer);
@@ -111,22 +139,6 @@ void Level::render(SDL_Renderer* renderer)
     _playerRenderer->render(_player, renderer);
 }
 
-void Level::handleCollision()
-{
-    int x = _player->getX();
-  
-    if(x < 0)
-    {
-	_segments.at(0)->handleCollision(_player, 0);
-	_segments.at(1)->handleCollision(_player, 1);
-    }
-    if(x >= 0)
-    {
-	_segments.at(1)->handleCollision(_player, 1);
-	_segments.at(2)->handleCollision(_player, 2);
-    }
-}
-
 void Level::reset()
 {
     _player->reset();
@@ -145,6 +157,11 @@ void Level::reset()
     _segments.at(2) = new LevelSegment(*(_loadedSegments.at(Level::getRandom())));
 
     _activeSegmentIndex = 0;
+}
+
+Player* Level::getPlayer()
+{
+    return _player;
 }
 
 PlayerState Level::getPlayerState()

@@ -7,9 +7,10 @@ class Player;
 
 class PowerUp : public Item
 {
-  public:
-  PowerUp(int x, int y, int width, int height, float timer) : Item(x, y, width, height), _timer{timer}
-    {}
+public:
+    PowerUp(int x, int y, int width, int height, float timer) : Item(x, y, width, height), _timer{timer} {}
+    
+    ~PowerUp() = default;
 
     void updateLogic() override;    
     virtual void updateLogic(Player* player) = 0;
@@ -19,7 +20,7 @@ class PowerUp : public Item
     float getTimer();
     void setTimer(float timer);
 
-  private:
+private:
     float _timer;
 };
 

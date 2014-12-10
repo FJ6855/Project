@@ -5,17 +5,19 @@
 
 class SpeedBoost : public PowerUp
 {
- public:
-  SpeedBoost(int x, int y, int width, int height, float timer, int speed) : PowerUp(x, y, width, height, timer), _speed{speed}
+public:
+    SpeedBoost(int x, int y, int width, int height, float timer, int speed) : PowerUp(x, y, width, height, timer), _speed{speed}
     {
 	_type = ItemType::SpeedBoostType;
     }
 
-  void updateLogic() override;
-  void updateLogic(Player* player) override;
+    ~SpeedBoost() = default;
 
- private:
-  int _speed;
+    void updateLogic() override;
+    void updateLogic(Player* player) override;
+
+private:
+    int _speed;
 };
 
 #endif

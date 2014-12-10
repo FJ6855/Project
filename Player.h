@@ -2,7 +2,6 @@
 
 #include "Object.h"
 #include "InputHandler.h"
-
 #include "PowerUp.h"
 #include "SpeedBoost.h"
 #include "DoubleJump.h"
@@ -12,22 +11,22 @@
 #define PLAYER_H
 
 enum PlayerState {
-	dead,
-	running,
-	jumping,
-	standing,
-	inAir
+    dead,
+    running,
+    jumping,
+    standing,
+    inAir
 };
 
 enum PlayerDirection {
-	right,
-	left
+    right,
+    left
 };
 
 class Player : public Object
 {
-  public:
-  Player(int x, int y, int width, int height) : Object(x, y, width, height)
+public:
+    Player(int x, int y, int width, int height) : Object(x, y, width, height)
     {
 	_speed = 8;
 	_defaultSpeed = _speed;
@@ -54,97 +53,103 @@ class Player : public Object
 	_currentDifficulty = 1;
     }
 
-  void reset();
+    ~Player() 
+    {
+	for (PowerUp* p : _powerUps)
+	    delete p;
+    }
 
-  void handleInput(InputHandler* inputHandler);
-  void updateLogic();
+    void reset();
 
-  void updatePowerUps();
+    void handleInput(InputHandler* inputHandler);
+    void updateLogic();
 
-  float getXvel();
-  float getYvel();
+    void updatePowerUps();
 
-  float getSpeed();
-  void setSpeed(float speed);
-  void resetSpeed();
+    float getXvel();
+    float getYvel();
 
-  void setAirSpeed(float airSpeed);
+    float getSpeed();
+    void setSpeed(float speed);
+    void resetSpeed();
+
+    void setAirSpeed(float airSpeed);
   
-  bool getCanDoubleJump();
-  void setCanDoubleJump(bool canDoubleJump);
+    bool getCanDoubleJump();
+    void setCanDoubleJump(bool canDoubleJump);
 
-  bool getCanGlideJump();
-  void setCanGlideJump(bool canGlideJump);
+    bool getCanGlideJump();
+    void setCanGlideJump(bool canGlideJump);
 
-  void setXvel(int xVel);
-  void setYvel(int yVel);
+    void setXvel(int xVel);
+    void setYvel(int yVel);
 
-  int getMovementDifference();
-  void setMovementDifference(int movementDifference);
+    int getMovementDifference();
+    void setMovementDifference(int movementDifference);
 
-  void setState(PlayerState state);
-  PlayerState getState();
-  void setLastState(PlayerState state);
-  PlayerState getLastState();
+    void setState(PlayerState state);
+    PlayerState getState();
+    void setLastState(PlayerState state);
+    PlayerState getLastState();
 
-  void setDirection(PlayerDirection direction);
-  PlayerDirection getDirection();
+    void setDirection(PlayerDirection direction);
+    PlayerDirection getDirection();
 
-  float getHealth();
-  void setHealth(int health);
+    float getHealth();
+    void setHealth(int health);
   
-  std::vector<PowerUp*> getPowerUps();
-  void addPowerUp(PowerUp* powerUp);
+    std::vector<PowerUp*> getPowerUps();
+    void addPowerUp(PowerUp* powerUp);
 
-  int getScore();
-  void setScore(int score);
-  void setHighscore(int highscore);
-  int getHighscore();
+    int getScore();
+    void setScore(int score);
+    void setHighscore(int highscore);
+    int getHighscore();
 
-  void setLastScore(int lastScore);
-  int getLastScore();
+    void setLastScore(int lastScore);
+    int getLastScore();
 
-  void setDifficulty(int difficulty);
-  int getDifficulty(){ return _currentDifficulty; }
+    void setDifficulty(int difficulty);
+    int getDifficulty();
 
- private:
-  float _speed;
-  float _airSpeed;
-  float _defaultSpeed;
-  float _gravity;
-  float _xVel;
-  float _yVel;
+private:
+    float _speed;
+    float _airSpeed;
+    float _defaultSpeed;
+    float _gravity;
+    float _xVel;
+    float _yVel;
 
-  int _lastX;
-  int _movementDifference;
+    int _lastX;
+    int _movementDifference;
 
-  float _health;
+    float _health;
 
-  std::vector<PowerUp*> _powerUps;
+    std::vector<PowerUp*> _powerUps;
 
-  int _score;
-  int _highscore;
-  int _lastScore;
-  float _scoreOffset;
+    int _score;
+    int _highscore;
+    int _lastScore;
+    float _scoreOffset;
 
-  int _currentDifficulty;
-  float _healthLossFactor;
+    int _currentDifficulty;
+    float _healthLossFactor;
 
-  // testing
-  bool _godMode;
+    // testing
+    bool _godMode;
 
-  //jump control
-  bool _jumpBoost;
-  float _jumpBoostGravity;
+    //jump control
+    bool _jumpBoost;
+    float _jumpBoostGravity;
 
-  bool _canDoubleJump;
-  bool _canGlideJump;
+    bool _canDoubleJump;
+    bool _canGlideJump;
 
-  PlayerDirection _playerDirection;
-  PlayerState _playerState;
-  PlayerState _lastPlayerState;
+    PlayerDirection _playerDirection;
+    PlayerState _playerState;
+    PlayerState _lastPlayerState;
 
-  void jump();
+    void jump();
 };
 
 #endif

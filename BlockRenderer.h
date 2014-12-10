@@ -7,18 +7,16 @@
 
 class BlockRenderer : public Renderer
 {
- public:
- BlockRenderer(ResourceManager* rm) : Renderer{rm} 
-  {
-    loadContent();
-  }
+public:
+    BlockRenderer(ResourceManager* rm) : Renderer{rm} 
+    {
+	loadContent();
+    }
 
-  ~BlockRenderer() {}
+    ~BlockRenderer() = default;
   
-  void loadContent() override;
-  void render(Block* block, int offset, SDL_Renderer* renderer);
-
- private:
+    void loadContent() override;
+    void render(Block* block, int offset, SDL_Renderer* renderer);
 };
 
 #endif

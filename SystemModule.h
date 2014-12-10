@@ -3,22 +3,24 @@
 
 enum SystemState
 {
-	PLAY,
-	PAUSE,
-	WRITENAMEMENU,
-	DEAD,
-	STARTMENU,
-	HIGHSCORE,
-	HELP,
-	QUIT
+    PLAY,
+    PAUSE,
+    WRITENAMEMENU,
+    DEAD,
+    STARTMENU,
+    HIGHSCORE,
+    HELP,
+    QUIT
 };
 
 class SystemModule
 {
 public:
-	static SystemState systemState;
-	SystemModule();
-	~SystemModule();
+    SystemModule() {}   
+    
+    ~SystemModule() = default;
+    
+    static SystemState systemState; 
 };
 
 #endif

@@ -11,19 +11,24 @@
 class Menu
 {
 public:
-	Menu();
-	~Menu();
+    Menu()
+    {
+    }
 
-	virtual void handleInput(InputHandler* input, SystemState& systemState) = 0;
-	std::vector<Button*> getButtons();
-	Texture* getMenuBackground();
+    ~Menu()
+    {
+	for (Button* b : _buttons)
+	    delete b;
+    }
+
+    virtual void handleInput(InputHandler* input, SystemState& systemState) = 0;
+
+    std::vector<Button*> getButtons();
+    Texture* getMenuBackground();
 
 protected:
-	std::vector<Button*> _buttons;
-	int _selectedButtonIndex;
-
-private:
-
+    std::vector<Button*> _buttons;
+    int _selectedButtonIndex;
 };
 
 #endif

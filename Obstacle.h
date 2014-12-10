@@ -10,17 +10,19 @@ enum ObstacleType
 
 class Obstacle : public Object
 {
-  public:
-  Obstacle(int x, int y, int width, int height, float damage) : Object(x, y, width, height), _damage{ damage }
+public:
+    Obstacle(int x, int y, int width, int height, float damage) : Object(x, y, width, height), _damage{ damage }
     {
 	_type = ObstacleType::ObstacleType1;
     }
+
+    ~Obstacle() = default;
 
     ObstacleType getType();
     float getDamage();
     void updateLogic();
 
-  private:
+private:
     ObstacleType _type;
     float _damage;
 };

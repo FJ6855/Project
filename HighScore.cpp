@@ -1,15 +1,8 @@
-#include "HighScore.h"
 #include <fstream>
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 
-HighScore::HighScore(ResourceManager* rm)
-{
-    _rm = rm;
-    loadScores(rm);
-}
-HighScore::~HighScore()
-{}
+#include "HighScore.h"
 
 void HighScore::newHighScoreSet()
 {
@@ -40,6 +33,7 @@ bool HighScore::compare(int score)
 	    return true;
 	}
     }
+
     return false;
 }
 
@@ -75,7 +69,6 @@ void HighScore::loadScores(ResourceManager* rm)
     {
 	std::cout << "Could not open file HighScore.txt" << std::endl;
     }
-
 }
 
 void HighScore::saveScores(ResourceManager* rm)
@@ -88,6 +81,7 @@ void HighScore::saveScores(ResourceManager* rm)
 	{
 	    file << _scores[i]->getScore() << " " << _scores[i]->getName() << std::endl;
 	}
+
 	file.close();
     }
     else

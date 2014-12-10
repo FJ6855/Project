@@ -7,12 +7,19 @@
 class HelpMenu : public Menu
 {
 public:
-	HelpMenu();
-	~HelpMenu();
+    HelpMenu()
+    {
+	buildMenu();
+	_selectedButtonIndex = 0;
+	_buttons.at(_selectedButtonIndex)->setButtonState(SELECTED);
+    }
 
-	void handleInput(InputHandler* input, SystemState& systemState) override;
+    ~HelpMenu() = default;
+
+    void handleInput(InputHandler* input, SystemState& systemState) override;
+
 private:
-	void buildMenu();
+    void buildMenu();
 };
 
 #endif

@@ -2,7 +2,7 @@
 
 ItemType Item::getType()
 {
-  return _type;
+    return _type;
 }
 
 void Item::updateLogic()

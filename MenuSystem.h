@@ -15,33 +15,52 @@
 
 class MenuSystem : public SystemModule
 {
- public:
-	 MenuSystem(InputHandler* ih, ResourceManager* rm, HighScore* hs, SDL_Renderer* renderer);
-  ~MenuSystem();
+public:
+    MenuSystem(InputHandler* ih, ResourceManager* rm, HighScore* hs, SDL_Renderer* renderer) : SystemModule{}, _input{ih}, _rm{rm}, _highscore{hs}, _renderer{renderer}
+    {
+	_startMenu = new StartMenu();
+	_helpMenu = new HelpMenu();
+	_highscoreMenu = new HighscoreMenu(_highscore);
+	_pauseMenu = new PauseMenu();
+	_writeNameMenu = new WriteNameMenu(_highscore);
+	_menuRenderer = new MenuRenderer(rm);
+	_menuRenderer->loadContent();
+	_highscoreMenuRenderer = new HighscoreMenuRenderer(rm);
+	_highscoreMenuRenderer->loadContent();
+    }
 
-  void run();
-  SystemState getState();
-  void handleInput();
-  void render();
+    ~MenuSystem()
+    {
+	delete _startMenu;
+	delete _helpMenu;
+	delete _highscoreMenu;
+	delete _pauseMenu;
+	delete _writeNameMenu;
+	delete _menuRenderer;
+	delete _highscoreMenuRenderer;
+    }
 
- private:
-  InputHandler* _input;
-  ResourceManager* _rm;
-  HighScore* _highscore;
-  SDL_Renderer* _renderer;
+    void run();
+    SystemState getState();
+    void handleInput();
+    void render();
 
-  void loadContent();
+private:
+    InputHandler* _input;
+    ResourceManager* _rm;
+    HighScore* _highscore;
+    SDL_Renderer* _renderer;
 
-  StartMenu* _startMenu;
-  HighscoreMenu* _highscoreMenu;
-  PauseMenu* _pauseMenu;
-  WriteNameMenu* _writeNameMenu;
-  HelpMenu* _helpMenu;
+    void loadContent();
 
-  MenuRenderer* _menuRenderer;
-  HighscoreMenuRenderer* _highscoreMenuRenderer;
+    StartMenu* _startMenu;
+    HighscoreMenu* _highscoreMenu;
+    PauseMenu* _pauseMenu;
+    WriteNameMenu* _writeNameMenu;
+    HelpMenu* _helpMenu;
+
+    MenuRenderer* _menuRenderer;
+    HighscoreMenuRenderer* _highscoreMenuRenderer;
 };
-
-
 
 #endif

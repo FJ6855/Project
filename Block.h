@@ -16,27 +16,33 @@ enum BlockType
     NormalBlock8,
     NormalBlock9,
     NormalBlock10,
-  BlinkingBlock1,
-  BlinkingBlockInvisible1,
-  SpeedBlockRight1,
-  SpeedBlockLeft1,
+    BlinkingBlock1,
+    BlinkingBlockInvisible1,
+    SpeedBlockRight1,
+    SpeedBlockLeft1,
 };
 
 class Block : public Object
 {
- public:
- Block(int x, int y, int width, int height) : Object(x, y, width, height)
-  {
-    _type = BlockType::NormalBlock1;
- }
+public:
+    Block(int x, int y, int width, int height) : Object(x, y, width, height)
+    {
+	_type = BlockType::NormalBlock1;
+    }
 
- Block(int x, int y, int width, int height, BlockType type) : Object(x, y, width, height), _type{type} {}
+    Block(int x, int y, int width, int height, BlockType type) : Object(x, y, width, height), _type{type} 
+    {
+    }
+
+    ~Block() = default;
   
-  BlockType getType();
-  void updateLogic() override;
+    BlockType getType();
+    void setType(BlockType type);
+
+    void updateLogic() override;
   
- protected:
-  BlockType _type;
+protected:
+    BlockType _type;
 };
 
 #endif
