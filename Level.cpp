@@ -15,7 +15,7 @@ void Level::loadSegments()
     ItemRenderer* itemRenderer = new ItemRenderer(_rm);
     ObstacleRenderer* obstacleRenderer = new ObstacleRenderer(_rm);
 
-    for (int i{0}; i <= _maxDifficulty * 5 + 3; ++i)
+    for (int i{0}; i <= _maxDifficulty * 5; ++i)
     {
 	LevelSegment* ls = new LevelSegment(_rm, blockRenderer, itemRenderer, obstacleRenderer);
 
