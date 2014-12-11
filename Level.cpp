@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iostream>
+#include <math.h>
 
 #include "Level.h"
 #include "LevelSegment.h"
@@ -86,14 +87,14 @@ void Level::updateLogic()
 	_background->setX2(0);
 
     if(_player->getMovementDifference() > 0 && _player->getX() > -896) 
-	_background->setX1(_background->getX1() - _player->getSpeed() / 6);
+	_background->setX1(_background->getX1() - floor(_player->getSpeed() / 6));
     else if(_player->getMovementDifference() < 0 && _player->getX() > -896)
-	_background->setX1(_background->getX1() + _player->getSpeed() / 6);
+	_background->setX1(_background->getX1() + floor(_player->getSpeed() / 6));
 
     if(_player->getMovementDifference() > 0 && _player->getX() > -896) 
-	_background->setX2(_background->getX2() - _player->getSpeed() / 6 - 1);
+	_background->setX2(_background->getX2() - floor(_player->getSpeed() / 6) - 1);
     else if(_player->getMovementDifference() < 0 && _player->getX() > -896)
-	_background->setX2(_background->getX2() + _player->getSpeed() / 6 + 1);
+	_background->setX2(_background->getX2() + floor(_player->getSpeed() / 6) + 1);
 
     handleCollision();
 
