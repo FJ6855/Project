@@ -32,6 +32,7 @@ void Player::reset()
 
     _movementDifference = 0;   
     _godMode = false;
+    _saveHighScore = true;
     _lastX = _x;
 
     _powerUps.clear();
@@ -70,7 +71,9 @@ void Player::handleInput(InputHandler* input)
     if (input->getPressed(SDL_SCANCODE_G))
     {
 	_godMode = !_godMode;
-	      
+	     
+	_saveHighScore = false;
+
 	std::cout << "God mode: " << _godMode << std::endl;
     }
 
@@ -131,7 +134,8 @@ void Player::updateLogic()
     {
 	_playerState = PlayerState::inAir;
       
-	_yVel += _gravity;
+	if (_yVel < 20)
+	    _yVel += _gravity;
     }
 	  
     //Move player
@@ -140,7 +144,7 @@ void Player::updateLogic()
 	  
     //Lose life by time
     if (_godMode == false)
-	_health -= _healthLossFactor;//_currentDifficulty * _healthLossFactor;
+	_health -= _healthLossFactor;
     
     //Check if player is dead
     if (_y > 600 || _health <= 0)
@@ -349,4 +353,14 @@ void Player::jump()
     _jumpBoost = true;
 
     _jumpBoostGravity = _gravity;
+}
+
+bool Player::isGod()
+{
+    return _godMode;
+}
+
+bool Player::getSaveHighScore()
+{
+    return _saveHighScore;
 }

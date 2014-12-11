@@ -3,6 +3,17 @@
 
 #include "HighscoreMenuRenderer.h"
 
+void HighscoreMenuRenderer::loadContent()
+{
+    for(int i{} ; i < 10; ++i)
+    {
+	_scoreTextures.push_back(nullptr);
+    }
+
+    _highscoreMenuText = _rm->loadTexture("highscoreMenuText");
+    _menuBackground = _rm->loadTexture("menuBackground");
+}
+
 void HighscoreMenuRenderer::render(HighscoreMenu* menu, SDL_Renderer* renderer)
 {
     _menuBackground->render(renderer, 0, 0, 896, 512);

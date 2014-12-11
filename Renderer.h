@@ -12,7 +12,10 @@ public:
     ~Renderer()
     {
 	for(Texture* texture : _textures)
+	{
 	    delete texture;
+	    texture = nullptr;
+	}
     }
 
     virtual void loadContent() = 0;

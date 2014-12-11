@@ -13,32 +13,32 @@ MenuRenderer(ResourceManager* rm) : Renderer{rm}
     {
 	_buttonRenderer = new ButtonRenderer(rm);
 
-	_menuBackground = rm->loadTexture("menuBackground");
-	_helpMenuBackground = rm->loadTexture("helpMenuBackground");
-
-	_pausedText = rm->loadTexture("PausedText");
-	_startMenuText = rm->loadTexture("startMenuText");
-	_newHighscoreText = rm->loadTexture("newHighscoreText");
-	_helpMenuText = rm->loadTexture("helpMenuText");
-	_nameText = rm->loadTexture(" ", SDL_Color{ 255, 255, 255 });
-
-	_writeNameInscruction = _rm->loadTexture("Please type your name ", SDL_Color{ 255, 255, 255 });
+	loadContent();
     }
 
     ~MenuRenderer()
     {
 	delete _buttonRenderer;
+	_buttonRenderer = nullptr;
 
 	delete _menuBackground;
+	_menuBackground = nullptr;
 	delete _helpMenuBackground;
+	_helpMenuBackground = nullptr;
 
 	delete _pausedText;
+	_pausedText = nullptr;
 	delete _startMenuText;
+	_startMenuText = nullptr;
 	delete _newHighscoreText;
+	_newHighscoreText = nullptr;
 	delete _helpMenuText;
+	_helpMenuText = nullptr;
 
 	delete _nameText;
-	delete _writeNameInscruction;
+	_nameText = nullptr;
+	delete _writeNameInstruction;
+	_writeNameInstruction = nullptr;
     }
   
     void loadContent() override;
@@ -58,7 +58,7 @@ private:
 
     //For writeNameMenu
     Texture* _nameText;
-    Texture* _writeNameInscruction;
+    Texture* _writeNameInstruction;
 };
 
 #endif

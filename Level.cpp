@@ -23,12 +23,13 @@ void Level::loadSegments()
 
 	_loadedSegments.push_back(ls);
     }
-
+    
+    // Sort loaded level segments after difficulty rating
     std::sort(_loadedSegments.begin(), _loadedSegments.end(), [](LevelSegment* ls, LevelSegment* ls2) { return ls->getDifficultyRating() < ls2->getDifficultyRating(); });
 
-    _segments.push_back(new LevelSegment(*(_loadedSegments.at(0))));
-    _segments.push_back(new LevelSegment(*(_loadedSegments.at(Level::getRandom()))));
-    _segments.push_back(new LevelSegment(*(_loadedSegments.at(Level::getRandom()))));
+    _segments.push_back(nullptr);
+    _segments.push_back(nullptr);
+    _segments.push_back(nullptr);
 }
 
 void Level::handleInput()
@@ -148,9 +149,14 @@ void Level::reset()
     _background->setX1(0);
     _background->setX2(0);
 
-    delete _segments.at(0); //Free the memory
-    delete _segments.at(1); //Free the memory
-    delete _segments.at(2); //Free the memory
+    delete _segments.at(0);
+    _segments.at(0) = nullptr;
+
+    delete _segments.at(1);
+    _segments.at(1) = nullptr;
+
+    delete _segments.at(2);
+    _segments.at(2) = nullptr;
 
     _segments.at(0) = new LevelSegment(*(_loadedSegments.at(0)));
     _segments.at(1) = new LevelSegment(*(_loadedSegments.at(Level::getRandom())));
@@ -162,11 +168,6 @@ void Level::reset()
 Player* Level::getPlayer()
 {
     return _player;
-}
-
-PlayerState Level::getPlayerState()
-{
-    return _player->getState();
 }
 
 int Level::getRandom()

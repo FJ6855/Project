@@ -19,6 +19,7 @@ public:
     ~Game()
     {
 	delete _level;
+	_level = nullptr;
     }
   
     void run();

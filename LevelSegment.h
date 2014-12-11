@@ -88,18 +88,22 @@ public:
     ~LevelSegment()
     {
 	for (Block* b : _blocks)
+	{
 	    delete b;
-	
-	for (Item* i : _items)
-	    delete i;
+	    b = nullptr;
+	}
 
-	for (Obstacle* o : _obstacles)
-	    delete o;
+	for (Item* i : _items)
+	{
+	    delete i;
+	    i = nullptr;
+	}
 	
-	// TODO: Where should we delete this? can't do it here 
-	//delete _blockRenderer;
-	//delete _itemRenderer;
-	//delete _obstacleRenderer;
+	for (Obstacle* o : _obstacles)
+	{
+	    delete o;
+	    o = nullptr;
+	}
     }
 
     void loadLevelSegment(const std::string& fileName);
@@ -107,6 +111,8 @@ public:
     void updateLogic();
 
     void render(SDL_Renderer* renderer);
+
+    void deleteRenderers();
 
     void setX(int x);
     void setY(int y);

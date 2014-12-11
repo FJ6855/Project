@@ -4,6 +4,13 @@
 
 void Game::run()
 {
+    if (systemState == START_GAME)
+    {
+	_level->reset();
+
+	systemState = PLAY;
+    }
+    
     if (systemState == PLAY)
     {
 	handleInput();
@@ -20,9 +27,9 @@ void Game::run()
 
 void Game::handleInput()
 {
-    if(_input->getPressed(SDL_SCANCODE_P))
+    if (_input->getPressed(SDL_SCANCODE_P))
     {
-	if(systemState != PAUSE) 
+	if (systemState != PAUSE) 
 	    systemState = PAUSE;
 	else 
 	    systemState = PLAY;
@@ -34,16 +41,20 @@ void Game::handleInput()
 void Game::updateLogic()
 {
     _level->updateLogic();
-
-    if(_level->getPlayerState() == PlayerState::dead) 
+    
+    Player* player = _level->getPlayer();
+    
+    if (player->getState() == PlayerState::dead) 
     {
-	if(_highScore->compare(_level->getPlayer()->getScore()))
+	if (player->getSaveHighScore() && _highScore->compare(player->getScore()))
 	{
 	    systemState = WRITENAMEMENU;
-	    _highScore->setCurrentScore(_level->getPlayer()->getScore());
+	    _highScore->setCurrentScore(player->getScore());
 	}
-
-	_level->reset();
+	else 
+	{
+	    systemState = START_GAME;
+	}
     }
 }
 

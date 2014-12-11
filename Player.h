@@ -49,6 +49,7 @@ public:
 	_lastScore = 0;
 	_movementDifference = 0;   
 	_godMode = false;
+	_saveHighScore = true;
 	_lastX = _x;
 	_currentDifficulty = 1;
     }
@@ -56,7 +57,10 @@ public:
     ~Player() 
     {
 	for (PowerUp* p : _powerUps)
+	{
 	    delete p;
+	    p = nullptr;
+	}
     }
 
     void reset();
@@ -112,6 +116,9 @@ public:
     void setDifficulty(int difficulty);
     int getDifficulty();
 
+    bool isGod();
+    bool getSaveHighScore();
+
 private:
     float _speed;
     float _airSpeed;
@@ -135,9 +142,6 @@ private:
     int _currentDifficulty;
     float _healthLossFactor;
 
-    // testing
-    bool _godMode;
-
     //jump control
     bool _jumpBoost;
     float _jumpBoostGravity;
@@ -148,6 +152,10 @@ private:
     PlayerDirection _playerDirection;
     PlayerState _playerState;
     PlayerState _lastPlayerState;
+
+    // cheat
+    bool _godMode;
+    bool _saveHighScore;
 
     void jump();
 };

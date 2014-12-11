@@ -13,25 +13,24 @@ class HighscoreMenuRenderer : public MenuRenderer
 public:
     HighscoreMenuRenderer(ResourceManager* rm) : MenuRenderer(rm)
     {
-	for(int i{} ; i < 10; ++i)
-	{
-	    _scoreTextures.push_back(nullptr);
-	}
-
-	_highscoreMenuText = rm->loadTexture("highscoreMenuText");
-	_menuBackground = rm->loadTexture("menuBackground");
+	loadContent();
     }
 
     ~HighscoreMenuRenderer()
     {
 	for (Texture* t : _scoreTextures)
+	{
 	    delete t;
+	    t = nullptr;
+	}
 
 	delete _highscoreMenuText;
+	_highscoreMenuText = nullptr;
 	delete _menuBackground;
+	_menuBackground = nullptr;
     }
 
-
+    void loadContent() override;
     void render(HighscoreMenu* menu, SDL_Renderer* renderer);
 
 private:

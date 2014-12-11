@@ -11,6 +11,7 @@ public:
     ~Texture()
     {	
 	SDL_DestroyTexture(_texture);
+	_texture = nullptr;
     }
 
     int getWidth();

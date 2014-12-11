@@ -214,10 +214,13 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 		{
 		    if (block != nullptr)
 		    {
-			if (player->getXvel() == 0)
-			    player->setState(PlayerState::standing);
-			else
-			    player->setState(PlayerState::running);
+			if (player->getState() != PlayerState::dead)
+			{
+			    if (player->getXvel() == 0)
+				player->setState(PlayerState::standing);
+			    else
+				player->setState(PlayerState::running);
+			}
 
 			player->setYvel(0);
 			player->setY(objectY - player->getHeight());
@@ -243,7 +246,8 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 		    }
 		    else if (obstacle != nullptr)
 		    {
-			player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
+			if (!player->isGod())
+			    player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
 			
 			objects.erase(objects.begin() + i);
 			
@@ -285,7 +289,8 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 		    }
 		    else if (obstacle != nullptr)
 		    {
-			player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
+			if (!player->isGod())
+			    player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
 			objects.erase(objects.begin() + i);
 			continue;
 		    }
@@ -324,7 +329,8 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 		}
 		else if (obstacle != nullptr)
 		{
-		    player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
+		    if (!player->isGod())
+			player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
 		    objects.erase(objects.begin() + i);
 		    continue;
 		}
@@ -361,7 +367,8 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 		}
 		else if (obstacle != nullptr)
 		{
-		    player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
+		    if (!player->isGod())
+			player->setHealth(player->getHealth() - obstacle->getDamage()); // Reduce player hp with the obstacle damage
 		    objects.erase(objects.begin() + i);
 		    continue;
 		}
@@ -386,6 +393,18 @@ void LevelSegment::handleCollisionAgainstObjects(Player* player, std::vector<T*>
 	    }
 	}
     }
+}
+
+void LevelSegment::deleteRenderers()
+{
+    delete _blockRenderer;
+    _blockRenderer = nullptr;
+
+    delete _itemRenderer;
+    _itemRenderer = nullptr;
+
+    delete _obstacleRenderer;
+    _obstacleRenderer = nullptr;
 }
 
 void LevelSegment::setX(int x)

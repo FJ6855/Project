@@ -12,10 +12,17 @@ const int SCREEN_HEIGHT = 512;
 bool init();
 void drawGame();
 void clearScreen();
+void quitGame();
 
 TTF_Font* gFont = nullptr;
 SDL_Renderer* gRenderer = nullptr;
 SDL_Window* gWindow = nullptr;
+
+InputHandler* input;
+ResourceManager* rm;
+HighScore* highScore;
+Game* game;
+MenuSystem* menuSystem;
 
 int main(int argc, char* argv[])
 {
@@ -24,11 +31,11 @@ int main(int argc, char* argv[])
 	return 1;
     }
 
-    InputHandler* input = new InputHandler();
-    ResourceManager* rm = new ResourceManager(gRenderer, gFont);
-    HighScore* highScore = new HighScore(rm);
-    Game* game = new Game(input, rm, highScore, gRenderer);
-    MenuSystem* menuSystem = new MenuSystem(input, rm, highScore, gRenderer);
+    input = new InputHandler();
+    rm = new ResourceManager(gRenderer, gFont);
+    highScore = new HighScore(rm);
+    game = new Game(input, rm, highScore, gRenderer);
+    menuSystem = new MenuSystem(input, rm, highScore, gRenderer);
 
     int fps{0};
     int timeStart = SDL_GetTicks();
@@ -56,16 +63,8 @@ int main(int argc, char* argv[])
 
     highScore->saveScores(rm);
 
-    TTF_CloseFont(gFont);
-    SDL_DestroyRenderer(gRenderer);
-    SDL_DestroyWindow(gWindow);
+    quitGame();
     
-    delete input;
-    delete rm;
-    delete highScore;
-    delete game;
-    delete menuSystem;
-
     return 0;
 }
 
@@ -127,4 +126,35 @@ bool init()
     SDL_SetRenderDrawColor(gRenderer, 0x0, 0x0, 0x0, 0x0);
 
     return true;
+}
+
+void quitGame()
+{
+    TTF_CloseFont(gFont);
+    gFont = nullptr;
+    
+    SDL_DestroyRenderer(gRenderer);
+    gRenderer = nullptr;
+
+    SDL_DestroyWindow(gWindow);
+    gWindow = nullptr;
+    
+    delete input;
+    input = nullptr;
+
+    delete rm;
+    rm = nullptr;
+
+    delete highScore;
+    highScore = nullptr;
+
+    delete game;
+    game = nullptr;
+
+    delete menuSystem;
+    menuSystem = nullptr;
+
+    TTF_Quit();
+    IMG_Quit();
+    SDL_Quit();
 }

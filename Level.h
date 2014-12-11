@@ -29,19 +29,31 @@ public:
 	_maxDifficulty = 10;
 	_player->setDifficulty(_currentDifficulty);
 	_activeSegmentIndex = 0;
+
 	loadLevel();
     }
 
     ~Level()
     {
 	delete _player;
+	_player = nullptr;
+
 	delete _playerRenderer;
-	
-	for (LevelSegment* ls : _segments)
-	    delete ls;
+	_playerRenderer = nullptr;
+
+	_loadedSegments.at(0)->deleteRenderers();
 
 	for (LevelSegment* ls : _loadedSegments)
+	{
 	    delete ls;
+	    ls = nullptr;
+	}
+	
+	for (LevelSegment* ls : _segments)
+	{
+	    delete ls;
+	    ls = nullptr;
+	}
     }
  
     void handleInput();
@@ -53,7 +65,6 @@ public:
     void reset();
     
     Player* getPlayer();
-    PlayerState getPlayerState();
 
 private:
     void loadLevel();

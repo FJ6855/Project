@@ -3,7 +3,7 @@
 
 void WriteNameMenu::buildMenu()
 {
-    _buttons.push_back(new Button{"ACCEPT", 896/2, 400, 64, 32, PLAY });
+    _buttons.push_back(new Button{"ACCEPT", 896/2, 400, 64, 32, START_GAME });
 }
 
 void WriteNameMenu::handleInput(InputHandler* input, SystemState& systemState)
@@ -18,20 +18,20 @@ void WriteNameMenu::handleInput(InputHandler* input, SystemState& systemState)
     }
 
 	
-    for(int i = 4; i < 29; ++i)
+    for (int i = 4; i < 29; ++i)
     {
-	if(input->getPressed(i) && _name.size() < 15)
+	if (input->getPressed(i) && _name.size() < 15)
 	{
 	    _name += i+61;
 	}
     }
 
-    if(input->getPressed(SDL_SCANCODE_SPACE) && _name.size() < 15)
+    if (input->getPressed(SDL_SCANCODE_SPACE) && _name.size() < 15)
     {
 	_name += " ";
     }
 
-    if(_name.size() > 0 && input->getPressed(SDL_SCANCODE_BACKSPACE))
+    if (_name.size() > 0 && input->getPressed(SDL_SCANCODE_BACKSPACE))
 	_name.pop_back(); 	
 }
 

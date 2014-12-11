@@ -113,6 +113,7 @@ void PlayerRenderer::render(Player* player, SDL_Renderer* renderer)
 
     //Render current difficulty
     _currentDifficultyTextTexture->render(renderer, 10, 90, _currentDifficultyTextTexture->getWidth(), _currentDifficultyTextTexture->getHeight());
+
     delete _currentDifficultyNumberTexture; //free the old texture
     _currentDifficultyNumberTexture = _rm->loadTexture(std::to_string(player->getDifficulty()), SDL_Color{ 0, 180, 0 });
     _currentDifficultyNumberTexture->render(renderer, _currentDifficultyTextTexture->getWidth() + 13, 90, _currentDifficultyNumberTexture->getWidth(), _currentDifficultyNumberTexture->getHeight());

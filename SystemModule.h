@@ -3,6 +3,7 @@
 
 enum SystemState
 {
+    START_GAME,
     PLAY,
     PAUSE,
     WRITENAMEMENU,
