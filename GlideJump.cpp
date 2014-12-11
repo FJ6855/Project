@@ -1,9 +1,9 @@
 #include "GlideJump.h"
 #include "Player.h"
 
-void GlideJump::updateLogic()
+GlideJump* GlideJump::clone() const
 {
-
+    return new GlideJump(*this);
 }
 
 void GlideJump::updateLogic(Player* player)

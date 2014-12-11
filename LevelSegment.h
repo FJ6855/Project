@@ -41,44 +41,13 @@ public:
 	_y = ls._y;
 
 	for (Block* b : ls._blocks)
-	{
-	    MovingBlock* movingBlock = dynamic_cast<MovingBlock*>(b);
-	    SpeedBlock* speedBlock = dynamic_cast<SpeedBlock*>(b);
-	    BlinkingBlock* blinkingBlock = dynamic_cast<BlinkingBlock*>(b);
-
-	    if (movingBlock != nullptr)
-		_blocks.push_back(new MovingBlock(*(movingBlock)));
-	    else if (speedBlock != nullptr)
-		_blocks.push_back(new SpeedBlock(*(speedBlock)));
-	    else if (blinkingBlock != nullptr)
-		_blocks.push_back(new BlinkingBlock(*(blinkingBlock)));
-	    else
-		_blocks.push_back(new Block(*(b)));
-	}
+	    _blocks.push_back(b->clone());
 
 	for (Obstacle* o : ls._obstacles)
-	{
-	    _obstacles.push_back(new Obstacle(*(o)));
-	}
+	    _obstacles.push_back(o->clone());
 
 	for (Item* i : ls._items)
-	{
-	    Health* health = dynamic_cast<Health*>(i);		    
-	    SpeedBoost* speedBoost = dynamic_cast<SpeedBoost*>(i);
-	    DoubleJump* doubleJump = dynamic_cast<DoubleJump*>(i);
-	    GlideJump* glideJump = dynamic_cast<GlideJump*>(i);
-
-	    if (health != nullptr)
-		_items.push_back(new Health(*(health)));
-	    else if (speedBoost != nullptr)
-		_items.push_back(new SpeedBoost(*(speedBoost)));
-	    else if (doubleJump != nullptr)
-		_items.push_back(new DoubleJump(*(doubleJump)));
-	    else if (glideJump != nullptr)
-		_items.push_back(new GlideJump(*(glideJump)));
-	    else
-		_items.push_back(new Item(*(i)));
-	}
+	    _items.push_back(i->clone());
 
 	_blockRenderer = ls._blockRenderer;
 	_obstacleRenderer = ls._obstacleRenderer;

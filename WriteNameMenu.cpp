@@ -4,6 +4,8 @@
 void WriteNameMenu::buildMenu()
 {
     _buttons.push_back(new Button{"ACCEPT", 896/2, 400, 64, 32, START_GAME });
+
+    _buttons.at(_selectedButtonIndex)->setButtonState(SELECTED);
 }
 
 void WriteNameMenu::handleInput(InputHandler* input, SystemState& systemState)
@@ -17,7 +19,6 @@ void WriteNameMenu::handleInput(InputHandler* input, SystemState& systemState)
 	_name = "";
     }
 
-	
     for (int i = 4; i < 29; ++i)
     {
 	if (input->getPressed(i) && _name.size() < 15)

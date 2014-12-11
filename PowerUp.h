@@ -12,7 +12,8 @@ public:
     
     ~PowerUp() = default;
 
-    void updateLogic() override;    
+    PowerUp* clone() const override = 0;
+    void updateLogic() override;
     virtual void updateLogic(Player* player) = 0;
     
     bool isActive();

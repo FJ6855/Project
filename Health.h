@@ -13,8 +13,9 @@ public:
 
     ~Health() = default;
     
+    Health* clone() const override;
+
     float getHealth();
-    void updateLogic() override;
 
 private:
     float _health;

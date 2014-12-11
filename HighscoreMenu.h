@@ -11,19 +11,18 @@ public:
     HighscoreMenu(HighScore* hs) : _highscore{hs} 
     {	
 	buildMenu();
-	_selectedButtonIndex = 0;
-	_buttons.at(_selectedButtonIndex)->setButtonState(SELECTED);
     }
 
     ~HighscoreMenu() = default;
 
-    void handleInput(InputHandler* input, SystemState& systemState) override;
+    void handleInput(InputHandler* input, SystemState& systemState);
 
     std::vector<Score*> getScores();
 
 private:
-    void buildMenu();
     HighScore* _highscore;
+
+    void buildMenu() override;
 };
 
 #endif

@@ -1,5 +1,10 @@
 #include "BlinkingBlock.h"
 
+BlinkingBlock* BlinkingBlock::clone() const
+{
+    return new BlinkingBlock(*this);
+}
+
 void BlinkingBlock::updateLogic()
 {
     _timer += 1;

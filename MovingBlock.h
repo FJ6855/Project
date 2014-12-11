@@ -12,11 +12,12 @@ public:
     }
 
     ~MovingBlock() = default;
+    
+    MovingBlock* clone() const override;
+    void updateLogic() override;
 
     int getMovingX();
     float getSpeed();
-    
-    void updateLogic() override;
 
 private:
     int _movingX;

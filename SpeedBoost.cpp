@@ -1,6 +1,11 @@
 #include "SpeedBoost.h"
 #include "Player.h"
 
+SpeedBoost* SpeedBoost::clone() const
+{
+    return new SpeedBoost(*this);
+}
+
 void SpeedBoost::updateLogic()
 {
 

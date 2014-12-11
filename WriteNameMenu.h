@@ -10,13 +10,9 @@
 class WriteNameMenu : public Menu
 {
 public:
-    WriteNameMenu(HighScore* hs)
+    WriteNameMenu(HighScore* hs) : _highscore{hs}, _name{""}
     {
-	_highscore = hs;
 	buildMenu();
-	_selectedButtonIndex = 0;
-	_buttons.at(_selectedButtonIndex)->setButtonState(SELECTED);
-	_name = "";
     }
 
     ~WriteNameMenu() = default;
@@ -26,8 +22,9 @@ public:
 
 private:
     HighScore* _highscore;
-    void buildMenu();
     std::string _name;
+
+    void buildMenu() override;
 };
 
 #endif

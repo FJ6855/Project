@@ -1,9 +1,9 @@
 #include "DoubleJump.h"
 #include "Player.h"
 
-void DoubleJump::updateLogic()
+DoubleJump* DoubleJump::clone() const
 {
-
+    return new DoubleJump(*this);
 }
 
 void DoubleJump::updateLogic(Player* player)

@@ -18,11 +18,11 @@ public:
 
     ~Item() = default;
 
+    Item* clone() const override;
+    void updateLogic() override;
   
     ItemType getType();
-
-    void updateLogic() override;
-
+    
 protected:
     ItemType _type;    
 };

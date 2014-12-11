@@ -15,7 +15,9 @@ public:
 
     ~BlinkingBlock() = default;
  
+    BlinkingBlock* clone() const override;
     void updateLogic() override;
+
     bool isVisible();
 
 private:

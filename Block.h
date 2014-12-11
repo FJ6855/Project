@@ -30,16 +30,17 @@ public:
 	_type = BlockType::NormalBlock1;
     }
 
-    Block(int x, int y, int width, int height, BlockType type) : Object(x, y, width, height), _type{type} 
-    {
-    }
+    Block(int x, int y, int width, int height, BlockType type) : Object(x, y, width, height), _type{type} {}
+    
+    Block(const Block&) = default;
 
     ~Block() = default;
+
+    Block* clone() const override;
+    void updateLogic() override;
   
     BlockType getType();
     void setType(BlockType type);
-
-    void updateLogic() override;
   
 protected:
     BlockType _type;

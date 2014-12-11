@@ -13,8 +13,8 @@ public:
     }
 
     ~DoubleJump() = default;
-
-    void updateLogic() override;
+    
+    DoubleJump* clone() const override;
     void updateLogic(Player* player) override;
 
 private:

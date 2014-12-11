@@ -1,13 +1,8 @@
 #include "MovingBlock.h"
 
-int MovingBlock::getMovingX()
+MovingBlock* MovingBlock::clone() const
 {
-    return _movingX;
-}
-
-float MovingBlock::getSpeed()
-{
-    return _speed;
+    return new MovingBlock(*this);
 }
 
 void MovingBlock::updateLogic()
@@ -16,4 +11,14 @@ void MovingBlock::updateLogic()
 	_speed = -_speed;
 
     _movingX += _speed;
+}
+
+int MovingBlock::getMovingX()
+{
+    return _movingX;
+}
+
+float MovingBlock::getSpeed()
+{
+    return _speed;
 }

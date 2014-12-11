@@ -5,6 +5,9 @@ class Object
 {
 public:    
     ~Object() = default;
+  
+    virtual Object* clone() const = 0;
+    virtual void updateLogic() = 0;
 
     int getX();
     void setX(int);
@@ -14,12 +17,11 @@ public:
     void setWidth(int);
     int getHeight();
     void setHeight(int);
-  
-    virtual void updateLogic() = 0;
 
 protected:
     Object() : _width{0}, _height{0}, _x{0}, _y{0} {}
     Object(int x, int y, int width, int height) : _x{x}, _y{y}, _width{width}, _height{height} {}
+    Object(const Object&) = default;
  
     int _width;
     int _height;

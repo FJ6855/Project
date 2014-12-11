@@ -13,6 +13,7 @@ public:
 
     ~SpeedBoost() = default;
 
+    SpeedBoost* clone() const override;
     void updateLogic() override;
     void updateLogic(Player* player) override;
 

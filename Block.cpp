@@ -10,6 +10,11 @@ void Block::setType(BlockType type)
     _type = type;
 }
 
+Block* Block::clone() const
+{
+    return new Block(*this);
+}
+
 void Block::updateLogic()
 {
 

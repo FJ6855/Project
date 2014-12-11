@@ -2,6 +2,11 @@
 
 #include <iostream>
 
+Player* Player::clone() const
+{
+    return new Player(*this);
+}
+
 void Player::reset()
 {
     _x = -896;
@@ -30,10 +35,11 @@ void Player::reset()
     _canDoubleJump = false;
     _canGlideJump = false;
 
-    _movementDifference = 0;   
+    _lastX = _x;
+    _movementDifference = 0;  
+ 
     _godMode = false;
     _saveHighScore = true;
-    _lastX = _x;
 
     _powerUps.clear();
 }

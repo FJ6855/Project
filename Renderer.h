@@ -7,8 +7,6 @@
 class Renderer
 {
 public:
-    Renderer(ResourceManager* rm) : _rm{rm} {}
-
     ~Renderer()
     {
 	for(Texture* texture : _textures)
@@ -21,6 +19,9 @@ public:
     virtual void loadContent() = 0;
 
 protected:
+    Renderer(ResourceManager* rm) : _rm{rm} {}
+    Renderer(const Renderer&) = default;
+
     std::vector<Texture*> _textures;
     ResourceManager* _rm;
 };

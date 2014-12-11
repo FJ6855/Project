@@ -18,9 +18,11 @@ public:
 
     ~Obstacle() = default;
 
+    Obstacle* clone() const override;
+    void updateLogic();
+
     ObstacleType getType();
     float getDamage();
-    void updateLogic();
 
 private:
     ObstacleType _type;

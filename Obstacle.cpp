@@ -1,5 +1,15 @@
 #include "Obstacle.h"
 
+Obstacle* Obstacle::clone() const
+{
+    return new Obstacle(*this);
+}
+
+void Obstacle::updateLogic()
+{
+
+}
+
 ObstacleType Obstacle::getType()
 {
     return _type;
@@ -8,9 +18,4 @@ ObstacleType Obstacle::getType()
 float Obstacle::getDamage()
 {
     return _damage;
-}
-
-void Obstacle::updateLogic()
-{
-
 }

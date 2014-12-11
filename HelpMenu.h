@@ -10,8 +10,6 @@ public:
     HelpMenu()
     {
 	buildMenu();
-	_selectedButtonIndex = 0;
-	_buttons.at(_selectedButtonIndex)->setButtonState(SELECTED);
     }
 
     ~HelpMenu() = default;
@@ -19,7 +17,7 @@ public:
     void handleInput(InputHandler* input, SystemState& systemState) override;
 
 private:
-    void buildMenu();
+    void buildMenu() override;
 };
 
 #endif

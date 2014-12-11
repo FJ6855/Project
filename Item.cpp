@@ -9,3 +9,8 @@ void Item::updateLogic()
 {
 
 }
+
+Item* Item::clone() const
+{
+    return new Item(*this);
+}

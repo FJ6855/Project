@@ -62,11 +62,13 @@ public:
 	    p = nullptr;
 	}
     }
+    
+    Player* clone() const override;
 
     void reset();
 
     void handleInput(InputHandler* inputHandler);
-    void updateLogic();
+    void updateLogic() override;
 
     void updatePowerUps();
 
