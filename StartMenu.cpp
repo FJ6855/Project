@@ -10,9 +10,9 @@ void StartMenu::buildMenu()
     _buttons.at(_selectedButtonIndex)->setButtonState(SELECTED);
 }
 
-void StartMenu::handleInput(InputHandler* input, SystemState& systemState)
+void StartMenu::handleInput(InputHandler* input, SystemState& systemState, SystemState& lastSystemState)
 {
-    Menu::updateButtons(input, systemState);
+    Menu::updateButtons(input, systemState, lastSystemState);
 
     if (systemState == QUIT)
     {

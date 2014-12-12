@@ -15,7 +15,7 @@ public:
 
     ~HighscoreMenu() = default;
 
-    void handleInput(InputHandler* input, SystemState& systemState);
+    void handleInput(InputHandler* input, SystemState& systemState, SystemState& lastSystemState) override;
 
     std::vector<Score*> getScores();
 

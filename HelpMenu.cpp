@@ -7,7 +7,9 @@ void HelpMenu::buildMenu()
     _buttons.at(_selectedButtonIndex)->setButtonState(SELECTED);
 }
 
-void HelpMenu::handleInput(InputHandler* input, SystemState& systemState)
+void HelpMenu::handleInput(InputHandler* input, SystemState& systemState, SystemState& lastSystemState)
 {
-    Menu::updateButtons(input, systemState);
+    _buttons.at(0)->setSystemState(lastSystemState);
+
+    Menu::updateButtons(input, systemState, lastSystemState);
 }

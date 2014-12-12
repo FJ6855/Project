@@ -21,6 +21,10 @@ public:
     
     ~SystemModule() = default;
     
+    SystemState getState();
+    void setState(SystemState newSystemState);
+
+    static SystemState lastSystemState; 
     static SystemState systemState; 
 };
 

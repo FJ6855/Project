@@ -8,10 +8,11 @@ void WriteNameMenu::buildMenu()
     _buttons.at(_selectedButtonIndex)->setButtonState(SELECTED);
 }
 
-void WriteNameMenu::handleInput(InputHandler* input, SystemState& systemState)
+void WriteNameMenu::handleInput(InputHandler* input, SystemState& systemState, SystemState& lastSystemState)
 {
     if (input->getPressed(SDL_SCANCODE_RETURN) && _name.size() > 0)
     {
+	lastSystemState = systemState;
 	systemState = _buttons.at(_selectedButtonIndex)->getSystemState();
 	_selectedButtonIndex = 0;
 	_highscore->setCurrentName(_name);

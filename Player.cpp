@@ -22,10 +22,12 @@ void Player::reset()
     _health = 100;
     _currentDifficulty = 1;
 
-    if (_highscore < _score)
+    if (_highscore < _score && _saveHighScore)
 	_highscore = _score;
+    
+    if (_saveHighScore)
+	_lastScore = _score;
 
-    _lastScore = _score;
     _score = 0;
     _scoreOffset = 0;
     _healthLossFactor = 0.05f;

@@ -35,7 +35,7 @@ void MenuRenderer::render(Menu* menu, SDL_Renderer* renderer)
     }
     else if (dynamic_cast<PauseMenu*>(menu))
     {
-	_pausedText->render(renderer, 896 / 2 - _pausedText->getWidth() / 2, 100, _pausedText->getWidth(), _pausedText->getHeight());
+	_pausedText->render(renderer, 896 / 2 - _pausedText->getWidth() / 2, 50, _pausedText->getWidth(), _pausedText->getHeight());
     }
     else if (dynamic_cast<WriteNameMenu*>(menu))
     {

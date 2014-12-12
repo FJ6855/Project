@@ -8,11 +8,11 @@ void MenuSystem::run()
 
 void MenuSystem::handleInput()
 {
-    if (systemState == STARTMENU) _startMenu->handleInput(_input, systemState);
-    else if (systemState == HIGHSCORE) _highscoreMenu->handleInput(_input, systemState);
-    else if (systemState == PAUSE) _pauseMenu->handleInput(_input, systemState);
-    else if (systemState == HELP) _helpMenu->handleInput(_input, systemState);
-    else if (systemState == WRITENAMEMENU) _writeNameMenu->handleInput(_input, systemState);
+    if (systemState == STARTMENU) _startMenu->handleInput(_input, systemState, lastSystemState);
+    else if (systemState == HIGHSCORE) _highscoreMenu->handleInput(_input, systemState, lastSystemState);
+    else if (systemState == PAUSE) _pauseMenu->handleInput(_input, systemState, lastSystemState);
+    else if (systemState == HELP) _helpMenu->handleInput(_input, systemState, lastSystemState);
+    else if (systemState == WRITENAMEMENU) _writeNameMenu->handleInput(_input, systemState, lastSystemState);
 }
 
 void MenuSystem::render()
@@ -22,11 +22,6 @@ void MenuSystem::render()
     else if (systemState == PAUSE) _menuRenderer->render(_pauseMenu, _renderer);
     else if (systemState == HELP) _menuRenderer->render(_helpMenu, _renderer);
     else if (systemState == WRITENAMEMENU) _menuRenderer->render(_writeNameMenu, _renderer);
-}
-
-SystemState MenuSystem::getState()
-{
-    return systemState;
 }
 
 

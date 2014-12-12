@@ -41,7 +41,6 @@ public:
     }
 
     void run();
-    SystemState getState();
     void handleInput();
     void render();
 

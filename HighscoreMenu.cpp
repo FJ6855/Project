@@ -7,13 +7,14 @@ void HighscoreMenu::buildMenu()
     _buttons.at(_selectedButtonIndex)->setButtonState(SELECTED);
 }
 
-void HighscoreMenu::handleInput(InputHandler* input, SystemState& systemState)
+void HighscoreMenu::handleInput(InputHandler* input, SystemState& systemState, SystemState& lastSystemState)
 {
-    if (input->getPressed(SDL_SCANCODE_RETURN) || input->getPressed(SDL_SCANCODE_SPACE))
+    Menu::updateButtons(input, systemState, lastSystemState);
+    /* if (input->getPressed(SDL_SCANCODE_RETURN) || input->getPressed(SDL_SCANCODE_SPACE))
     {
 	systemState = _buttons.at(_selectedButtonIndex)->getSystemState();
 	_selectedButtonIndex = 0;
-    }
+	}*/
 }
 
 std::vector<Score*> HighscoreMenu::getScores()

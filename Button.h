@@ -31,6 +31,7 @@ public:
     void setButtonState(ButtonState buttonState);
 
     SystemState getSystemState();
+    void setSystemState(SystemState systemState);
 	
 private:
     std::string _text;

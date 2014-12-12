@@ -23,7 +23,6 @@ public:
     }
   
     void run();
-    SystemState getState();
 
 private:
     InputHandler* _input;

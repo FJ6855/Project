@@ -39,3 +39,8 @@ SystemState Button::getSystemState()
 {
     return _systemState;
 }
+
+void Button::setSystemState(SystemState systemState)
+{
+    _systemState = systemState;
+}

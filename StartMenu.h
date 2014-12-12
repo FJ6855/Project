@@ -13,7 +13,7 @@ public:
 
     ~StartMenu() = default;
 
-    void handleInput(InputHandler* input, SystemState& systemState) override;
+    void handleInput(InputHandler* input, SystemState& systemState, SystemState& lastSystemState) override;
 
 private:
     void buildMenu() override;

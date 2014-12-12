@@ -14,11 +14,14 @@ public:
     ~Menu()
     {
 	for (Button* b : _buttons)
+	{
 	    delete b;
+	    b = nullptr;
+	}
     }
 
-    virtual void handleInput(InputHandler* input, SystemState& systemState) = 0;
-    void updateButtons(InputHandler* input, SystemState& systemState);
+    virtual void handleInput(InputHandler* input, SystemState& systemState, SystemState& lastSystemState) = 0;
+    void updateButtons(InputHandler* input, SystemState& systemState, SystemState& lastSystemState);
 
     std::vector<Button*> getButtons();
 

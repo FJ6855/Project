@@ -18,7 +18,7 @@ public:
     ~WriteNameMenu() = default;
 
     std::string getName();
-    void handleInput(InputHandler* input, SystemState& systemState) override;
+    void handleInput(InputHandler* input, SystemState& systemState, SystemState& lastSystemState) override;
 
 private:
     HighScore* _highscore;
